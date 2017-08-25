@@ -5,11 +5,11 @@ const generatePassword = require('password-generator');
 // const cookieParser = require('cookie-parser');
 // const bodyParser = require('body-parser');
 // const cookieSession = require('cookie-session')
+require('dotenv').config()
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
-
 
 const app = express();
 
@@ -31,7 +31,22 @@ app.get('/api/passwords', (req, res) => {
   console.log(`Sent ${count} passwords`);
 });
 
-app.get('/auth/fitbit', passport.authenticate('fitbit'));
+//passport-fitbit-oauth2 routing
+passport.use(new FitbitStrategy({
+    clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
+    clientSecret: process.env.FITBIT_OAUTH2_CLIENT_SECRET,
+    callbackURL: "https://serene-express-server.herokuapp.com/auth/fitbit/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ fitbitId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+app.get('/auth/fitbit',
+  passport.authenticate('fitbit', { scope: ['activity','heartrate','location','profile'] }
+));
 
 // app.get('/auth/fitbit/callback', passport.authenticate('fitbit', {
 //     successRedirect: '/',
@@ -46,7 +61,7 @@ app.get('/auth/fitbit/callback', (req,res)=> {
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
   // res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  console.log('welcome');
+  res.send('welcome');
 });
 
 const port = process.env.PORT || 5000;
