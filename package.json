@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "express": "^4.15.4",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-fitbit-oauth2": "^1.0.2",
+    "passport-google-oauth": "^1.0.0",
     "password-generator": "^2.1.0"
   },
   "name": "serene-mvp",
