@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 passport.use(new FitbitStrategy({
     clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
     clientSecret: process.env.FITBIT_OAUTH2_CLIENT_SECRET,
-    callbackURL: "https://serene-express-server.herokuapp.com/auth/fitbit/callback"
+    callbackURL: "https://serene-green.herokuapp.com/auth/fitbit/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     User.findOrCreate({ fitbitId: profile.id }, function (err, user) {
