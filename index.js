@@ -49,15 +49,15 @@ app.get('/auth/fitbit/success', function(req, res, next) {
   res.send('Successful login!')
 });
 
-// app.get('/auth/fitbit',
-//   passport.authenticate('fitbit', {
-//     scope: ['activity','heartrate','location','profile']
-//    }
-// ));
+app.get('/auth/fitbit',
+  passport.authenticate('fitbit', {
+    scope: ['activity','heartrate','location','profile']
+   }
+));
 
-app.get('/auth/fitbit', (req,res)=> {
-  res.send('auth!');
-});
+// app.get('/auth/fitbit', (req,res)=> {
+//   res.send('auth!');
+// });
 
 app.get('/auth/fitbit/callback', (req,res)=> {
   res.send('Fitbit callback reached!');
