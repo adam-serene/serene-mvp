@@ -23,7 +23,7 @@ app.use(passport.session({
 app.use(passport.initialize());
 
 // Serve static files from the React app
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 
@@ -72,8 +72,8 @@ app.get('/auth/fitbit/callback',
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
-  // res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  res.send('welcome');
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  // res.send('welcome');
 });
 
 const port = process.env.PORT || 5000;
