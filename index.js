@@ -1,19 +1,30 @@
 const express = require('express');
 const path = require('path');
-// const logger = require('morgan');
-// const cookieParser = require('cookie-parser');
-// const bodyParser = require('body-parser');
-// const cookieSession = require('cookie-session')
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 require('dotenv').config()
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
+// const GoogleStrnpm trategy = require('passport-facebook').Strategy;
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 
 const app = express();
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(session({ secret: process.env.PASSPORT_SECRET }));
+
+app.use(passport.initialize());
+app.use(passport.session({
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
 
 // Serve static files from the React app
 // app.use(express.static(path.join(__dirname, 'client/build')));
+
 
 
 //passport-fitbit-oauth2 routing
@@ -29,18 +40,34 @@ passport.use(new FitbitStrategy({
   }
 ));
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+app.get('/auth/fitbit/success', function(req, res, next) {
+  res.send(req.user);
+});
+
 app.get('/auth/fitbit',
-  passport.authenticate('fitbit', { scope: ['activity','heartrate','location','profile'] }
+  passport.authenticate('fitbit', {
+    scope: ['activity','heartrate','location','profile']
+   }
 ));
 
-// app.get('/auth/fitbit/callback', passport.authenticate('fitbit', {
-//     successRedirect: '/',
-//     failureRedirect: '/login' })
-// );
+// app.get('/auth/fitbit/callback', (req,res)=> {
+//   res.send('Fitbit callback reached!');
+// })
 
-app.get('/auth/fitbit/callback', (req,res)=> {
-  res.send('Fitbit callback reached!');
-})
+app.get('/auth/fitbit/callback',
+  passport.authenticate('fitbit', {
+    successRedirect: '/auth/fitbit/success',
+    failureRedirect: '/auth/fitbit/failure'
+   }
+));
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

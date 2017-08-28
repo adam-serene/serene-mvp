@@ -8,9 +8,8 @@ import './Router.css';
 import Map from './Map'
 
 const Home = () => (
-  <div className="Home-header">
+  <div>
     <Map />
-    <h2 className="Home-name">Serene</h2>
   </div>
 )
 

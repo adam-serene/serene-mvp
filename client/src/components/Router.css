@@ -7,6 +7,8 @@
 
 .Home-name{
   animation: 4s linear 0s infinite alternate move_eye;
+  background-color: #c2c2c2;
+  margin-bottom: 0;
 }
 
 .Home-router {
