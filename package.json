@@ -5,7 +5,10 @@
     "passport-facebook": "^2.1.1",
     "passport-fitbit-oauth2": "^1.0.2",
     "passport-google-oauth": "^1.0.0",
-    "password-generator": "^2.1.0"
+    "password-generator": "^2.1.0",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express-session": "^1.15.5"
   },
   "name": "serene-mvp",
   "version": "1.0.0",
