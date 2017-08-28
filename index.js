@@ -59,14 +59,14 @@ app.get('/auth/fitbit',
 ));
 
 // app.get('/auth/fitbit/callback', (req,res)=> {
-//   res.send('Fitbit callback reached!');
 // })
 
 app.get('/auth/fitbit/callback',
-  passport.authenticate('fitbit', {
-    successRedirect: '/auth/fitbit/success',
-    failureRedirect: '/auth/fitbit/failure'
-   }
+  res.send('Fitbit callback reached!');
+  // passport.authenticate('fitbit', {
+  //   successRedirect: '/auth/fitbit/success',
+  //   failureRedirect: '/auth/fitbit/failure'
+  //  }
 ));
 
 // The "catchall" handler: for any request that doesn't
