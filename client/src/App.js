@@ -13,7 +13,6 @@ class App extends Component {
 
   checkFitbit = () => {
     fetch('/auth/fitbit')
-    .then(res => res.json())
     .then(fitbitToken => this.setState({fitbitToken}));
   }
 
