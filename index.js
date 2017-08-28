@@ -23,7 +23,7 @@ app.use(passport.session({
 app.use(passport.initialize());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+// app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 
@@ -59,16 +59,16 @@ app.get('/auth/fitbit',
    }
 ));
 
-// app.get('/auth/fitbit/callback', (req,res)=> {
-//   res.send('Fitbit callback reached!');
-// });
+app.get('/auth/fitbit/callback', (req,res)=> {
+  res.send('Fitbit callback reached!');
+});
 
-app.get('/auth/fitbit/callback',
-  passport.authenticate('fitbit', {
-    successRedirect: '/auth/fitbit/success',
-    failureRedirect: '/auth/fitbit/failure'
-   }
-));
+// app.get('/auth/fitbit/callback',
+//   passport.authenticate('fitbit', {
+//     successRedirect: '/auth/fitbit/success',
+//     failureRedirect: '/auth/fitbit/failure'
+//    }
+// ));
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
