@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 require('dotenv').config()
 const passport = require('passport');
-// const GoogleStrnpm trategy = require('passport-facebook').Strategy;
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 
 const app = express();
@@ -20,10 +19,8 @@ app.use(passport.session({
   saveUninitialized: true
 }));
 
-app.use(passport.initialize());
-
 // Serve static files from the React app
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 
@@ -59,22 +56,22 @@ app.get('/auth/fitbit',
    }
 ));
 
-app.get('/auth/fitbit/callback', (req,res)=> {
-  res.send('Fitbit callback reached!');
-});
+// app.get('/auth/fitbit/callback', (req,res)=> {
+//   res.send('Fitbit callback reached!');
+// });
 
-// app.get('/auth/fitbit/callback',
-//   passport.authenticate('fitbit', {
-//     successRedirect: '/auth/fitbit/success',
-//     failureRedirect: '/auth/fitbit/failure'
-//    }
-// ));
+app.get('/auth/fitbit/callback',
+  passport.authenticate('fitbit', {
+    successRedirect: '/auth/fitbit/success',
+    failureRedirect: '/auth/fitbit/failure'
+   }
+));
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
-  // res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  res.send('welcome');
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  // res.send('welcome');
 });
 
 const port = process.env.PORT || 5000;
