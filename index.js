@@ -3,20 +3,20 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-require('dotenv').config()
 const passport = require('passport');
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
-
 const app = express();
-// app.use(cookieParser());
-// app.use(bodyParser());
-// app.use(session({ secret: process.env.PASSPORT_SECRET }));
-//
-// app.use(passport.initialize());
-// app.use(passport.session({
-//   resave: false,
-//   saveUninitialized: true
-// }));
+require('dotenv').config()
+
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(session({ secret: process.env.PASSPORT_SECRET }));
+
+app.use(passport.initialize());
+app.use(passport.session({
+  resave: false,
+  saveUninitialized: true
+}));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -24,25 +24,25 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 //passport-fitbit-oauth2 routing
-// passport.use(new FitbitStrategy({
-//     clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
-//     clientSecret: process.env.FITBIT_OAUTH2_CLIENT_SECRET,
-//     callbackURL: "https://serene-express-server.herokuapp.com/auth/fitbit/callback"
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     User.findOrCreate({ fitbitId: profile.id }, function (err, user) {
-//       return done(err, user);
-//     });
-//   }
-// ));
-//
-// passport.serializeUser(function(user, done) {
-//   done(null, user);
-// });
-//
-// passport.deserializeUser(function(obj, done) {
-//   done(null, obj);
-// });
+passport.use(new FitbitStrategy({
+    clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
+    clientSecret: process.env.FITBIT_OAUTH2_CLIENT_SECRET,
+    callbackURL: "https://serene-express-server.herokuapp.com/auth/fitbit/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ fitbitId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 app.get('/auth/fitbit/success', function(req, res, next) {
   // res.send(req.user);
@@ -59,16 +59,16 @@ app.get('/auth/fitbit',
 //   res.send('auth!');
 // });
 
-app.get('/auth/fitbit/callback', (req,res)=> {
-  res.send('Fitbit callback reached!');
-});
+// app.get('/auth/fitbit/callback', (req,res)=> {
+//   res.send('Fitbit callback reached!');
+// });
 
-// app.get('/auth/fitbit/callback',
-//   passport.authenticate('fitbit', {
-//     successRedirect: '/auth/fitbit/success',
-//     failureRedirect: '/auth/fitbit/failure'
-//    }
-// ));
+app.get('/auth/fitbit/callback',
+  passport.authenticate('fitbit', {
+    successRedirect: '/auth/fitbit/success',
+    failureRedirect: '/auth/fitbit/failure'
+   }
+));
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
