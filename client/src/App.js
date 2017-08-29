@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
-import './App.css';
-import Map from './components/Map.js'
+import Routing from './components/Router.js';
+// import Map from './components/Map.js';
+
 
 class App extends Component {
+  state = {
+    fitbitToken: ''
+  }
+  componentDidMount(){
+    this.checkFitbit();
+  }
+
+  checkFitbit = () => {
+    fetch('/auth/fitbit')
+    .then(res => res.json())
+    .then(fitbitToken => this.setState({fitbitToken}));
+  }
+
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src="https://scontent-dft4-1.cdninstagram.com/t51.2885-19/s320x320/17438844_398287633860003_5443105418219880448_a.jpg" className="App-logo" alt="logo" />
-          <h2 className="App-name">Serene</h2>
-        </div>
-        <Map />
+        <p> Fitbit Token: {this.state.fitbitToken} </p>
       </div>
     );
   }

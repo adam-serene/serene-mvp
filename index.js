@@ -8,7 +8,6 @@ const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 const app = express();
 require('dotenv').config()
 
-
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -61,6 +60,19 @@ app.get('/auth/fitbit/success', function(req, res, next) {
 app.get('/auth/fitbit/failure', function(req, res, next) {
   // res.send(req.user);
   res.send('Try again...')
+});
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+app.get('/auth/fitbit/success', function(req, res, next) {
+  // res.send(req.user);
+  res.send('Successful login!')
 });
 
 app.get('/auth/fitbit',
