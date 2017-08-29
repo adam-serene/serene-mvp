@@ -13,13 +13,14 @@ class App extends Component {
 
   checkFitbit = () => {
     fetch('/auth/fitbit')
+    .then(res => res.json())
     .then(fitbitToken => this.setState({fitbitToken}));
   }
 
   render() {
     return (
       <div className="App">
-        <Routing />
+        <p> Fitbit Token: {this.state.fitbitToken} </p>
       </div>
     );
   }

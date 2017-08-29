@@ -9,25 +9,26 @@ const app = express();
 require('dotenv').config()
 
 app.use(cookieParser());
-app.use(bodyParser());
-app.use(session({ secret: process.env.PASSPORT_SECRET }));
-
-app.use(passport.initialize());
-app.use(passport.session({
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  secret: process.env.PASSPORT_SECRET,
   resave: false,
   saveUninitialized: true
-}));
+ }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
-
 
 
 //passport-fitbit-oauth2 routing
 passport.use(new FitbitStrategy({
     clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
     clientSecret: process.env.FITBIT_OAUTH2_CLIENT_SECRET,
-    callbackURL: "https://serene-green.herokuapp.com/auth/fitbit/callback"
+    callbackURL: "http://localhost:3000/auth/fitbit/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     User.findOrCreate({ fitbitId: profile.id }, function (err, user) {
@@ -50,25 +51,23 @@ app.get('/auth/fitbit/success', function(req, res, next) {
 });
 
 app.get('/auth/fitbit',
-  passport.authenticate('fitbit', {
-    scope: ['activity','heartrate','location','profile']
-   }
+  passport.authenticate('fitbit', {scope: ['activity','heartrate','location','profile']}
 ));
 
 // app.get('/auth/fitbit', (req,res)=> {
-//   res.send('auth!');
+//   res.json('123abc!');
 // });
 
-// app.get('/auth/fitbit/callback', (req,res)=> {
-//   res.send('Fitbit callback reached!');
-// });
+// app.get('/auth/fitbit/callback',
+//   passport.authenticate('fitbit', {
+//     successRedirect: '/auth/fitbit/success',
+//     failureRedirect: '/auth/fitbit/failure'
+//    }
+// ));
 
-app.get('/auth/fitbit/callback',
-  passport.authenticate('fitbit', {
-    successRedirect: '/auth/fitbit/success',
-    failureRedirect: '/auth/fitbit/failure'
-   }
-));
+app.get('auth/fitbit/callback', (req, res)=>{
+  res.json('123abc!')
+})
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
@@ -92,24 +91,24 @@ app.use(function(req, res, next) {
 
 // error handlers
 
-// // development error handler
-// // will print stacktrace
-// if (app.get('env') === 'development') {
-//   app.use(function(err, req, res, next) {
-//     res.status(err.status || 500);
-//     res.render('error', {
-//       message: err.message,
-//       error: err
-//     });
-//   });
-// }
-//
-// // production error handler
-// // no stacktraces leaked to user
-// app.use(function(err, req, res, next) {
-//   res.status(err.status || 500);
-//   res.render('error', {
-//     message: err.message,
-//     error: {}
-//   });
-// });
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
