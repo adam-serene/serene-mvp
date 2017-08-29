@@ -8,6 +8,7 @@ const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 const app = express();
 require('dotenv').config()
 
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,34 +22,45 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+// app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 //passport-fitbit-oauth2 routing
 passport.use(new FitbitStrategy({
     clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
-    clientSecret: process.env.FITBIT_OAUTH2_CLIENT_SECRET,
+    clientSecret: process.env.FITBIT_OAUTH2_SECRET,
     // callbackURL: "https://serene-green.herokuapp.com/auth/fitbit/callback"
     callbackURL: "http://localhost:5000/auth/fitbit/callback"
   },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ fitbitId: profile.id }, function (err, user) {
-      return done(err, user);
-    });
-  }
-));
+  function onSuccessfulLogin(token, refreshToken, profile, done) {
+
+      // This is a great place to find or create a user in the database
+      // This function happens once after a successful login
+
+      // Whatever you pass to `done` gets passed to `serializeUser`
+      console.log(profile);
+      done(null, {token, profile});
+    }
+  ));
 
 passport.serializeUser(function(user, done) {
+  console.log('serializeUser', user);
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
+  console.log('deserializeUser', obj);
   done(null, obj);
 });
 
 app.get('/auth/fitbit/success', function(req, res, next) {
+  res.send(req.user);
+  // res.send('Successful login!')
+});
+
+app.get('/auth/fitbit/failure', function(req, res, next) {
   // res.send(req.user);
-  res.send('Successful login!')
+  res.send('Try again...')
 });
 
 app.get('/auth/fitbit',
@@ -59,24 +71,24 @@ app.get('/auth/fitbit',
 //   res.json('123abc!');
 // });
 
-// app.get('/auth/fitbit/callback',
-//   passport.authenticate('fitbit', {
-//     successRedirect: '/auth/fitbit/success',
-//     failureRedirect: '/auth/fitbit/failure'
-//    }
-// ));
+app.get('/auth/fitbit/callback',
+  passport.authenticate('fitbit', {
+    successRedirect: '/auth/fitbit/success',
+    failureRedirect: '/auth/fitbit/failure'
+   }
+));
 
-app.get('auth/fitbit/callback', (req, res)=>{
-  res.json('123abc!')
-})
+// app.get('/auth/fitbit/callback', (req, res)=>{
+//   res.send('123abc!')
+// })
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  console.log('catchall');
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  // res.send('welcome');
-});
+// app.get('*', (req, res) => {
+//   console.log('catchall');
+//   // res.sendFile(path.join(__dirname+'/client/build/index.html'));
+//   res.send('welcome');
+// });
 
 const port = process.env.PORT || 5000;
 app.listen(port);
@@ -94,22 +106,22 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
+// if (app.get('env') === 'development') {
+//   app.use(function(err, req, res, next) {
+//     res.status(err.status || 500);
+//     res.render('error', {
+//       message: err.message,
+//       error: err
+//     });
+//   });
+// }
+//
+// // production error handler
+// // no stacktraces leaked to user
+// app.use(function(err, req, res, next) {
+//   res.status(err.status || 500);
+//   res.render('error', {
+//     message: err.message,
+//     error: {}
+//   });
+// });
