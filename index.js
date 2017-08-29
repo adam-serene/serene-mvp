@@ -37,37 +37,29 @@ passport.use(new FitbitStrategy({
       // This function happens once after a successful login
 
       // Whatever you pass to `done` gets passed to `serializeUser`
-      console.log(profile);
+      console.log(profile.displayName);
       done(null, {token, profile});
     }
   ));
 
 passport.serializeUser(function(user, done) {
-  console.log('serializeUser', user);
+  // console.log('serializeUser', user);
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
-  console.log('deserializeUser', obj);
+  // console.log('deserializeUser', obj);
   done(null, obj);
 });
 
 app.get('/auth/fitbit/success', function(req, res, next) {
-  res.send(req.user);
-  // res.send('Successful login!')
+  // res.send(req.user);
+  res.send('Successful login!')
 });
 
 app.get('/auth/fitbit/failure', function(req, res, next) {
   // res.send(req.user);
   res.send('Try again...')
-});
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
 });
 
 app.get('/auth/fitbit/success', function(req, res, next) {
@@ -79,20 +71,12 @@ app.get('/auth/fitbit',
   passport.authenticate('fitbit', {scope: ['activity','heartrate','location','profile']}
 ));
 
-// app.get('/auth/fitbit', (req,res)=> {
-//   res.json('123abc!');
-// });
-
 app.get('/auth/fitbit/callback',
   passport.authenticate('fitbit', {
     successRedirect: '/auth/fitbit/success',
     failureRedirect: '/auth/fitbit/failure'
    }
 ));
-
-// app.get('/auth/fitbit/callback', (req, res)=>{
-//   res.send('123abc!')
-// })
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

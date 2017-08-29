@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import './Router.css';
 import Map from './Map'
+import Progress from './Progress'
 
 const Home = () => (
   <div>
@@ -15,7 +16,7 @@ const Home = () => (
 
 const Fitness = () => (
   <div>
-    <h2>Fitness profile goes here</h2>
+    <Progress />
   </div>
 )
 
