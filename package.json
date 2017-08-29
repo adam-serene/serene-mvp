@@ -11,7 +11,7 @@
     "dotenv": "^4.0.0",
     "express-session": "^1.15.5"
   },
-  "name": "serene-mvp",
+  "name": "serene-server",
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
