@@ -5,17 +5,26 @@
     "passport-facebook": "^2.1.1",
     "passport-fitbit-oauth2": "^1.0.2",
     "passport-google-oauth": "^1.0.0",
-    "password-generator": "^2.1.0"
+    "password-generator": "^2.1.0",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "express-session": "^1.15.5"
   },
   "name": "serene-mvp",
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
-    "dotenv": "^4.0.0"
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "express-session": "^1.15.5",
+    "passport-http-bearer": "^1.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon index.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "repository": {
     "type": "git",

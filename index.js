@@ -1,41 +1,34 @@
 const express = require('express');
 const path = require('path');
-const generatePassword = require('password-generator');
-// const logger = require('morgan');
-// const cookieParser = require('cookie-parser');
-// const bodyParser = require('body-parser');
-// const cookieSession = require('cookie-session')
-require('dotenv').config()
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
-
 const app = express();
+require('dotenv').config()
+
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  secret: process.env.PASSPORT_SECRET,
+  resave: false,
+  saveUninitialized: true
+ }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Serve static files from the React app
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Put all API endpoints under '/api'
-app.get('/api/passwords', (req, res) => {
-  const count = 5;
-
-  // Generate some passwords
-  const passwords = Array.from(Array(count).keys()).map(i =>
-    generatePassword(12, false)
-  )
-
-  // Return them as json
-  res.json(passwords);
-
-  console.log(`Sent ${count} passwords`);
-});
 
 //passport-fitbit-oauth2 routing
 passport.use(new FitbitStrategy({
     clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
     clientSecret: process.env.FITBIT_OAUTH2_CLIENT_SECRET,
-    callbackURL: "https://serene-express-server.herokuapp.com/auth/fitbit/callback"
+    callbackURL: "http://serene-green.herokuapp.com/auth/fitbit/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     User.findOrCreate({ fitbitId: profile.id }, function (err, user) {
@@ -44,24 +37,44 @@ passport.use(new FitbitStrategy({
   }
 ));
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+app.get('/auth/fitbit/success', function(req, res, next) {
+  // res.send(req.user);
+  res.send('Successful login!')
+});
+
 app.get('/auth/fitbit',
-  passport.authenticate('fitbit', { scope: ['activity','heartrate','location','profile'] }
+  passport.authenticate('fitbit', {scope: ['activity','heartrate','location','profile']}
 ));
 
-// app.get('/auth/fitbit/callback', passport.authenticate('fitbit', {
-//     successRedirect: '/',
-//     failureRedirect: '/login' })
-// );
+// app.get('/auth/fitbit', (req,res)=> {
+//   res.json('123abc!');
+// });
 
-app.get('/auth/fitbit/callback', (req,res)=> {
-  res.send('Fitbit callback reached!');
+// app.get('/auth/fitbit/callback',
+//   passport.authenticate('fitbit', {
+//     successRedirect: '/auth/fitbit/success',
+//     failureRedirect: '/auth/fitbit/failure'
+//    }
+// ));
+
+app.get('auth/fitbit/callback', (req, res)=>{
+  res.json('123abc!')
 })
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
-  // res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  res.send('welcome');
+  console.log('catchall');
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  // res.send('welcome');
 });
 
 const port = process.env.PORT || 5000;
