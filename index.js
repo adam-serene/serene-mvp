@@ -6,8 +6,10 @@ const session = require('express-session');
 const passport = require('passport');
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 const app = express();
+const cors = require('cors');
 require('dotenv').config()
 
+app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,8 +30,8 @@ app.use(passport.session());
 passport.use(new FitbitStrategy({
     clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
     clientSecret: process.env.FITBIT_OAUTH2_SECRET,
-    callbackURL: "https://serene-server.herokuapp.com/auth/fitbit/callback"
-    // callbackURL: "http://localhost:5000/auth/fitbit/callback"
+    // callbackURL: "https://serene-server.herokuapp.com/auth/fitbit/callback"
+    callbackURL: "http://localhost:5000/auth/fitbit/callback"
   },
   function onSuccessfulLogin(token, refreshToken, profile, done) {
 
@@ -62,10 +64,6 @@ app.get('/auth/fitbit/failure', function(req, res, next) {
   res.send('Try again...')
 });
 
-app.get('/auth/fitbit/success', function(req, res, next) {
-  // res.send(req.user);
-  res.send('Successful login!')
-});
 
 app.get('/auth/fitbit',
   passport.authenticate('fitbit', {scope: ['activity','heartrate','location','profile']}
