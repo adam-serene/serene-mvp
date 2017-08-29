@@ -1,0 +1,33 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-scale infinite 2s linear alternate;
+  height: 6vh;
+}
+
+.App-name{
+  animation: 4s linear 0s infinite alternate move_eye;
+}
+
+.App-header {
+  background-color: #c2c2c2;
+  height: 13vh;
+  /*padding: .5vh;*/
+  color: #fdb;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-scale {
+  from { transform: scale(.8, .8); }
+  to { transform: scale(1.6, 1.6); }
+}
+
+@keyframes move_eye {
+  from { margin-left: -80%; }
+  to { margin-left: 80%; }
+}
