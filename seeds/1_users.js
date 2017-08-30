@@ -5,12 +5,25 @@ exports.seed = function(knex, Promise) {
     username: 'Shotgun',
     full_name: 'Shannon Rivers',
     email: 'shannon@rivers.com',
-    hashed_password: '$2a$06$PeZWh.HgnrcpySYkgyuQ8OpD/kRQKsuEYqI4HsTsJUuSdHjT0vQk2',
-    admin: true,
     birthday: '01/01/1978',
-    avatar: 'https://media.giphy.com/media/12EU871eV5HSq4/giphy.gif',
+    hashed_password: '$2a$06$PeZWh.HgnrcpySYkgyuQ8OpD/kRQKsuEYqI4HsTsJUuSdHjT0vQk2',
+    score: 10000000,
+    submissions_remaining: 999,
     fitbitToken: ''
-    }
+    admin: true,
+    anonymous: true},
+
+    {id: 2,
+    username: 'that_guy_420',
+    full_name: 'John Jacob Jingleheimerschimdt',
+    email: 'jjj@jjj.org',
+    birthday: '04/20/1992',
+    hashed_password: '$2a$06$PeZWh.HgnrcpySYkgyuQ8OpD/kRQKsuEYqI4HsTsJUuSdHjT0vQk2',
+    score: 100,
+    submissions_remaining: 9,
+    fitbitToken: ''
+    admin: false,
+    anonymous: false},
   ];
 
   return knex('users').del()
