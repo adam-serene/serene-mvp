@@ -37,11 +37,19 @@ passport.use(new FitbitStrategy({
   function onSuccessfulLogin(token, refreshToken, profile, done) {
 
       // This is a great place to find or create a user in the database
-
+      knex.update({
+      fitbitToken: token,
+      })
+      .into('users')
+      .where('id', 1)
+      .returning('fitbitToken')
+      .then(data=>{
+        console.log(data);
+      })
       // This function happens once after a successful login
 
       // Whatever you pass to `done` gets passed to `serializeUser`
-      console.log(profile.displayName);
+      console.log(token);
       done(null, {token, profile});
     }
   ));
@@ -80,7 +88,7 @@ app.get('/auth/fitbit/callback',
 
 app.get('/users', (req, res, next)=>{
   knex('users')
-  .select('users.id', 'users.username')
+  .select('users.id', 'users.fitbitToken')
   .then(result => {
   res.send(result);
   })

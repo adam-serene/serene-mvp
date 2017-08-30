@@ -8,7 +8,8 @@ exports.seed = function(knex, Promise) {
     hashed_password: '$2a$06$PeZWh.HgnrcpySYkgyuQ8OpD/kRQKsuEYqI4HsTsJUuSdHjT0vQk2',
     admin: true,
     birthday: '01/01/1978',
-    avatar: 'https://media.giphy.com/media/12EU871eV5HSq4/giphy.gif'
+    avatar: 'https://media.giphy.com/media/12EU871eV5HSq4/giphy.gif',
+    fitbitToken: ''
     }
   ];
 
