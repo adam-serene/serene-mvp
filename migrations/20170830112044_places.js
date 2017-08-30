@@ -1,7 +1,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('places', (table) => {
     table.increments('id').primary();
-    table.foreign('user_id').references('users.id').notNullable().defaultTo(1);
+    table.integer('user_id').references('id').inTable('users');
     table.string('description').notNullable().defaultTo('');
     table.decimal('lat',18,14).notNullable();
     table.decimal('long',18,14).notNullable();

@@ -2,7 +2,8 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('place-category', (table) => {
     table.increments('id').primary();
     table.foreign('place_id').references('places.id').notNullable();
-    table.foreign('category_id').references('category.id').notNullable();
+    table.integer('place_id').references('id').inTable('places');
+    table.integer('category_id').references('id').inTable('categories');
   });
 };
 

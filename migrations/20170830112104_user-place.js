@@ -1,10 +1,9 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('user-place', (table) => {
     table.increments('id').primary();
-    table.foreign('user_id').references('users.id').notNullable();
-    table.foreign('place_id').references('places.id').notNullable();
+    table.integer('user_id').references('id').inTable('users');
+    table.integer('place_id').references('id').inTable('places');
     table.timestamps(true, true);
-
   });
 };
 
