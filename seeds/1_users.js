@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
     hashed_password: '$2a$06$PeZWh.HgnrcpySYkgyuQ8OpD/kRQKsuEYqI4HsTsJUuSdHjT0vQk2',
     score: 10000000,
     submissions_remaining: 999,
-    fitbitToken: ''
+    fitbitToken: '',
     admin: true,
     anonymous: true},
 
@@ -21,7 +21,7 @@ exports.seed = function(knex, Promise) {
     hashed_password: '$2a$06$PeZWh.HgnrcpySYkgyuQ8OpD/kRQKsuEYqI4HsTsJUuSdHjT0vQk2',
     score: 100,
     submissions_remaining: 9,
-    fitbitToken: ''
+    fitbitToken: '',
     admin: false,
     anonymous: false},
   ];
