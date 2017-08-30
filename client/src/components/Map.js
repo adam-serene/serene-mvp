@@ -14,7 +14,6 @@ render() {
 
         <Marker onClick={this.onMarkerClick}
                 name={'Current location'} />
-
       </Map>
     );
   }
