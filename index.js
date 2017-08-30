@@ -6,6 +6,7 @@ const session = require('express-session');
 const passport = require('passport');
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 const app = express();
+const knex = require('./knex');
 const cors = require('cors');
 require('dotenv').config()
 
@@ -36,7 +37,7 @@ passport.use(new FitbitStrategy({
   function onSuccessfulLogin(token, refreshToken, profile, done) {
 
       // This is a great place to find or create a user in the database
-      knex.
+
       // This function happens once after a successful login
 
       // Whatever you pass to `done` gets passed to `serializeUser`
@@ -76,6 +77,17 @@ app.get('/auth/fitbit/callback',
     failureRedirect: '/auth/fitbit/failure'
    }
 ));
+
+app.get('/users', (req, res, next)=>{
+  knex('users')
+  .select('users.id', 'users.username')
+  .then(result => {
+  res.send(result);
+  })
+  .catch(err => {
+    next(err);
+  });
+})
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
