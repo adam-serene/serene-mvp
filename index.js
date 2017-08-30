@@ -28,7 +28,6 @@ app.get('/users', (req, res, next)=>{
 
 app.post('/register', (req,res,next)=>{
   let body = req.body;
-  console.log(body);
 
   bcrypt.hash(body.password, saltRounds, (err, hash)=>{
     knex.insert({
@@ -50,7 +49,6 @@ app.post('/register', (req,res,next)=>{
 app.post('/login', (req,res,next) => {
   let username = req.body.username;
   let password = req.body.password;
-  console.log(username);
 
   knex('users')
   .select('id', 'username', 'hashed_password', 'score', 'submissions_remaining')
@@ -75,6 +73,34 @@ app.post('/login', (req,res,next) => {
     }
   });
 });
+
+app.get('/', (req,res,next)=>{
+  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+    if (err) {
+      res.clearCookie('token');
+      return next(err);
+    }
+    req.user = decoded;
+    res.send(req.user);
+  });
+});
+
+app.use(function (req,res,next) {
+  if (req.cookies.token) {
+    jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+      if (err) {
+        res.clearCookie('token');
+        return next(err);
+      }
+      req.user = decoded;
+      next();
+    });
+  } else {
+    return res.redirect('/login');
+  }
+});
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 const port = process.env.PORT || 5000;
 app.listen(port);
