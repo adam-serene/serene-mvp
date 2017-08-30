@@ -30,7 +30,7 @@ app.use(passport.session());
 passport.use(new FitbitStrategy({
     clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
     clientSecret: process.env.FITBIT_OAUTH2_SECRET,
-    callbackURL: "https://serene-green.herokuapp.com/auth/fitbit/callback"
+    callbackURL: "http://serene-green.herokuapp.com/auth/fitbit/callback"
     // callbackURL: "http://localhost:5000/auth/fitbit/callback"
   },
   function onSuccessfulLogin(token, refreshToken, profile, done) {

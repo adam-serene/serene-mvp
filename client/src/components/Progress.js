@@ -9,7 +9,7 @@ class Progress extends Component{
   }
 
   checkFitbit = () => {
-    fetch('https://serene-green.herokuapp.com/auth/fitbit/')
+    fetch('http://serene-green.herokuapp.com/auth/fitbit/')
     .then(res => res.json())
     .then(fitbitToken => this.setState({fitbitToken}))
   }
