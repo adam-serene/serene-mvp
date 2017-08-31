@@ -48,12 +48,8 @@ app.post('/register', (req,res,next)=>{
     .returning('*')
     .then((response)=>{
       delete response.hashed_password;
-      res.setHeader({
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      })
-      res.send(response[0]);
+      console.log(`${response[0].username} signed up!`);
+      return res.redirect('http://localhost:3000/mapplaces');
     });
   });
 });
@@ -78,11 +74,6 @@ app.post('/login', (req,res,next) => {
       };
       var token = jwt.sign(user, process.env.JWT_KEY);
       res.cookie('token', token, {httpOnly: true});
-      // res.set({
-      //   "Access-Control-Allow-Origin": "*",
-      //   "Access-Control-Allow-Methods": "POST",
-      //   "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      // });
       console.log(`${data[0].username} logged in.`);
       return res.redirect('http://localhost:3000/mapplaces');
     } else {

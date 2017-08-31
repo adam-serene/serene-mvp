@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import qs from 'qs';
 
 class Signup extends Component{
   constructor(props) {
    super(props);
    this.state = {
      username: '',
-     password: ''
+     password: '',
+     full_name: '',
+     email: '',
+     birthday: new Date((Date.now()-662695446000)).toUTCString()
    };
    this.handleChange = this.handleChange.bind(this);
    this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,16 +27,17 @@ class Signup extends Component{
     alert('Creating new user: ' + this.state.username);
     event.preventDefault();
     // const response = await fetch('http://serene-green.herokuapp.com/login', {
-    const response = await fetch('http://localhost:5000/register', {
+    const response = await fetch('http://localhost:5000/register',
+    {
       method: 'POST',
-      body: JSON.stringify(this.state),
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: qs.stringify(this.state)
     })
-     const json = await response.json();
-     this.setState({token: json})
+    let pathEnd = response.url.slice(22);
+    console.log(pathEnd);
+    this._reactInternalInstance._context.router.history.push(pathEnd, null);
    }
 
   render(){
@@ -58,7 +63,7 @@ class Signup extends Component{
           </label></p>
           <p><label>
             Birthday:
-            <input name="username" type="date" value={this.state.birthday} onChange={this.handleChange} />
+            <input name="username" type="text" value={this.state.birthday} onChange={this.handleChange} />
           </label></p>
           <input type="submit" value="Submit" />
         </form>
