@@ -1,88 +1,111 @@
 const express = require('express');
+const app = express();
+
+app.get('*', (req,res,next)=>{
+  res.redirect('http://serene.green/');
+});
+
+require('dotenv').config();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const passport = require('passport');
-const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
-const app = express();
-const cors = require('cors');
-require('dotenv').config()
-
-app.use(cors());
+const knex = require('./knex');
+const bcrypt = require ('bcrypt');
+const saltRounds = 10;
+const jwt = require('jsonwebtoken');
+const passport = require('./routes/passport')
+app.use('/auth/fitbit', passport);
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({
-  secret: process.env.PASSPORT_SECRET,
-  resave: false,
-  saveUninitialized: true
- }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.get('/users', (req, res, next)=>{
+  knex('users')
+  .select('users.id', 'users.fitbitToken')
+  .then(result => {
+  res.send(result);
+  })
+  .catch(err => {
+    next(err);
+  });
+})
 
-// Serve static files from the React app
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.post('/register', (req,res,next)=>{
+  let body = req.body;
 
+  bcrypt.hash(body.password, saltRounds, (err, hash)=>{
+    knex.insert({
+      username: body.username,
+      full_name: body.full_name,
+      email: body.email,
+      birthday: body.birthday,
+      hashed_password: hash,
+    })
+    .into('users')
+    .returning('*')
+    .then((response)=>{
+      delete response.hashed_password;
+      res.send(response[0]);
+    });
+  });
+});
 
-//passport-fitbit-oauth2 routing
-passport.use(new FitbitStrategy({
-    clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
-    clientSecret: process.env.FITBIT_OAUTH2_SECRET,
-    callbackURL: "http://serene-green.herokuapp.com/auth/fitbit/callback"
-    // callbackURL: "http://localhost:5000/auth/fitbit/callback"
-  },
-  function onSuccessfulLogin(token, refreshToken, profile, done) {
+app.post('/login', (req,res,next) => {
+  let username = req.body.username;
+  let password = req.body.password;
 
-      // This is a great place to find or create a user in the database
-      // This function happens once after a successful login
-
-      // Whatever you pass to `done` gets passed to `serializeUser`
-      console.log(profile.displayName);
-      done(null, {token, profile});
+  knex('users')
+  .select('id', 'username', 'hashed_password', 'score', 'submissions_remaining')
+  .where('username', username)
+  .then((data) => {
+    if(data.length === 0){
+      res.setHeader('content-type', 'text/plain');
+      return res.status(400).send('Bad username or password');
+    } else if (bcrypt.compareSync(password, data[0].hashed_password)){
+      let user = {
+        id: data[0].id,
+        username: data[0].username,
+        score: data[0].score,
+        submissions_remaining: data[0].submissions_remaining
+      };
+      var token = jwt.sign(user, process.env.JWT_KEY);
+      res.cookie('token', token, {httpOnly: true});
+      return res.sendStatus(200);
+    } else {
+      res.setHeader('content-type', 'text/plain');
+      return res.status(400).send('Bad username or password');
     }
-  ));
-
-passport.serializeUser(function(user, done) {
-  // console.log('serializeUser', user);
-  done(null, user);
+  });
 });
 
-passport.deserializeUser(function(obj, done) {
-  // console.log('deserializeUser', obj);
-  done(null, obj);
+app.get('/', (req,res,next)=>{
+  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+    if (err) {
+      res.clearCookie('token');
+      return next(err);
+    }
+    req.user = decoded;
+    res.send(req.user);
+  });
 });
 
-app.get('/auth/fitbit/success', function(req, res, next) {
-  // res.send(req.user);
-  res.send('Successful login!')
+app.use(function (req,res,next) {
+  if (req.cookies.token) {
+    jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+      if (err) {
+        res.clearCookie('token');
+        return next(err);
+      }
+      req.user = decoded;
+      next();
+    });
+  } else {
+    return res.redirect('/login');
+  }
 });
 
-app.get('/auth/fitbit/failure', function(req, res, next) {
-  // res.send(req.user);
-  res.send('Try again...')
-});
-
-
-app.get('/auth/fitbit',
-  passport.authenticate('fitbit', {scope: ['activity','heartrate','location','profile']}
-));
-
-app.get('/auth/fitbit/callback',
-  passport.authenticate('fitbit', {
-    successRedirect: '/auth/fitbit/success',
-    failureRedirect: '/auth/fitbit/failure'
-   }
-));
-
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-// app.get('*', (req, res) => {
-//   console.log('catchall');
-//   // res.sendFile(path.join(__dirname+'/client/build/index.html'));
-//   res.send('welcome');
-// });
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 const port = process.env.PORT || 5000;
 app.listen(port);
@@ -100,22 +123,22 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-// if (app.get('env') === 'development') {
-//   app.use(function(err, req, res, next) {
-//     res.status(err.status || 500);
-//     res.render('error', {
-//       message: err.message,
-//       error: err
-//     });
-//   });
-// }
-//
-// // production error handler
-// // no stacktraces leaked to user
-// app.use(function(err, req, res, next) {
-//   res.status(err.status || 500);
-//   res.render('error', {
-//     message: err.message,
-//     error: {}
-//   });
-// });
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
