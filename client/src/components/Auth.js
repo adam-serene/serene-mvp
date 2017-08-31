@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
+import Signup from './Signup';
+
+// const NewUser = () => {
+//   <div>
+//     <Signup />
+//   </div>
+// }
 
 class Auth extends Component{
   constructor(props) {
@@ -12,7 +23,7 @@ class Auth extends Component{
    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-   handleChange(event) {
+  handleChange(event) {
      const value = event.target.value;
      const name = event.target.name;
      this.setState({
@@ -49,7 +60,15 @@ class Auth extends Component{
           <input name="password" type="text" value={this.state.password} onChange={this.handleChange} />
         </label></p>
         <input type="submit" value="Submit" />
-        <p><Link to="/Register">or... Register here! <i className="fa fa-user-plus fa-2x" aria-hidden="true"></i></Link></p>
+        <Router>
+          <div>
+            <Link to="/newuser">
+            <p>or... Register here!</p>
+            <i className="fa fa-user-plus fa-2x" aria-hidden="true"></i>
+            </Link>
+            <Route path="/newuser" component={Signup}/>
+          </div>
+        </Router>
       </form>
     );
   }

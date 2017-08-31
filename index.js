@@ -1,10 +1,5 @@
 const express = require('express');
 const app = express();
-
-// app.get('*', (req,res,next)=>{
-//   res.redirect('http://serene.green/');
-// });
-
 require('dotenv').config();
 const path = require('path');
 const cookieParser = require('cookie-parser');

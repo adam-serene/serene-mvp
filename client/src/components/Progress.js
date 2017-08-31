@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 
 class Progress extends Component{
-  constructor(props) {
-   super(props);
-   this.state = {
-     fitbitToken: ''
-   };
-   this.checkFitbit = this.checkFitbit.bind(this);
+  state = {
+    fitbitToken: ''
   }
-
   componentDidMount(){
     this.checkFitbit();
   }
 
   checkFitbit = () => {
-    // fetch('http://serene-green.herokuapp.com/auth/fitbit')
-    fetch('http://localhost:5000/auth/fitbit')
+    fetch('http://serene-green.herokuapp.com/auth/fitbit/')
     .then(res => res.json())
     .then(fitbitToken => this.setState({fitbitToken}))
   }
