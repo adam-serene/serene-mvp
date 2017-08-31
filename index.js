@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const path = require('path');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -11,6 +12,7 @@ const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const passport = require('./routes/passport')
 app.use('/auth/fitbit', passport);
+app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,7 +21,12 @@ app.get('/users', (req, res, next)=>{
   knex('users')
   .select('users.id', 'users.fitbitToken')
   .then(result => {
-  res.send(result);
+    res.setHeader({
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization"
+    })
+    res.send(result);
   })
   .catch(err => {
     next(err);
@@ -41,6 +48,11 @@ app.post('/register', (req,res,next)=>{
     .returning('*')
     .then((response)=>{
       delete response.hashed_password;
+      res.setHeader({
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      })
       res.send(response[0]);
     });
   });
@@ -66,7 +78,13 @@ app.post('/login', (req,res,next) => {
       };
       var token = jwt.sign(user, process.env.JWT_KEY);
       res.cookie('token', token, {httpOnly: true});
-      return res.sendStatus(200);
+      // res.set({
+      //   "Access-Control-Allow-Origin": "*",
+      //   "Access-Control-Allow-Methods": "POST",
+      //   "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      // });
+      console.log(`${data[0].username} logged in.`);
+      return res.redirect('http://localhost:3000/mapplaces');
     } else {
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
@@ -81,6 +99,11 @@ app.get('/', (req,res,next)=>{
       return next(err);
     }
     req.user = decoded;
+    res.setHeader({
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization"
+    });
     res.send(req.user);
   });
 });
@@ -93,14 +116,17 @@ app.use(function (req,res,next) {
         return next(err);
       }
       req.user = decoded;
+      console.log('token good');
       next();
     });
   } else {
-    return res.redirect('/login');
+    // return res.redirect('/login');
+    return res.send('invalid login');
+
   }
 });
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+// app.use(express.static(path.join(__dirname, 'client/build')));
 
 const port = process.env.PORT || 5000;
 app.listen(port);

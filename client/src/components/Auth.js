@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom';
-import Signup from './Signup';
-
-// const NewUser = () => {
-//   <div>
-//     <Signup />
-//   </div>
-// }
+import qs from 'qs';
 
 class Auth extends Component{
   constructor(props) {
@@ -31,45 +20,39 @@ class Auth extends Component{
      });
    }
 
-   async handleSubmit(event) {
+    async handleSubmit(event) {
     alert('Attempting to login: ' + this.state.username);
     event.preventDefault();
     // const response = await fetch('http://serene-green.herokuapp.com/login', {
-    const response = await fetch('http://localhost:5000/login', {
+    const response = await fetch('http://localhost:5000/login',
+    {
       method: 'POST',
-      body: JSON.stringify(this.state),
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: qs.stringify(this.state)
     })
-     const json = await response.json();
-
+    let pathEnd = response.url.slice(22);
+    console.log(pathEnd);
+    this._reactInternalInstance._context.router.history.push(pathEnd, null);
    }
 
   render(){
     return(
-      <form onSubmit={this.handleSubmit}>
-        <h2>Login</h2>
-        <p><label>
-          Username:
-          <input name="username" type="text" value={this.state.username} onChange={this.handleChange} />
-        </label></p>
-        <p><label>
-          Password:
-          <input name="password" type="text" value={this.state.password} onChange={this.handleChange} />
-        </label></p>
-        <input type="submit" value="Submit" />
-        <Router>
-          <div>
-            <Link to="/newuser">
-            <p>or... Register here!</p>
-            <i className="fa fa-user-plus fa-2x" aria-hidden="true"></i>
-            </Link>
-            <Route path="/newuser" component={Signup}/>
-          </div>
-        </Router>
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <h2>Login</h2>
+          <p><label>
+            Username:
+            <input name="username" type="text" value={this.state.username} onChange={this.handleChange} />
+          </label></p>
+          <p><label>
+            Password:
+            <input name="password" type="text" value={this.state.password} onChange={this.handleChange} />
+          </label></p>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
     );
   }
 }
