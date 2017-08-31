@@ -2,7 +2,27 @@ import React, { Component } from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 export class MapContainer extends Component {
-render() {
+  constructor(props) {
+   super(props);
+   this.state = {
+     places: []
+   };
+   this.fetchPlaces = this.fetchPlaces.bind(this);
+  }
+
+  componentWillMount() {
+    // fetchPlaces().then(response => {
+    //   this.setState({
+    //     places: response.places
+    //   });
+    // });
+  }
+
+  fetchPlaces() {
+
+  }
+
+  render() {
     return (
       <Map google={this.props.google}
       initialCenter={{
@@ -20,5 +40,6 @@ render() {
 }
 
 export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  // apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  apiKey: 'AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8'
 })(MapContainer)

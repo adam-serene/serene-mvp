@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
 
-class Form extends Component{
+class Signup extends Component{
   constructor(props) {
    super(props);
    this.state = {
@@ -38,10 +37,9 @@ class Form extends Component{
           <input name="password" type="text" value={this.state.password} onChange={this.handleChange} />
         </label></p>
         <input type="submit" value="Submit" />
-        <p><Link to="/Register">or... Register here! <i className="fa fa-user-plus fa-2x" aria-hidden="true"></i></Link></p>
       </form>
     );
   }
 }
 
-export default Form;
+export default Signup;
