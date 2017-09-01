@@ -12,80 +12,76 @@ export class MapContainer extends Component {
       },
       places: []
     }
-    this.fetchPlaces = this.fetchPlaces.bind(this);
-    this.loadMap = this.loadMap.bind(this);
-    this.renderChildren = this.renderChildren.bind(this);
+    // this.fetchPlaces = this.fetchPlaces.bind(this);
+    // this.loadMap = this.loadMap.bind(this);
+    // this.renderChildren = this.renderChildren.bind(this);
   }
 
-  renderChildren() {
-    const {children} = this.props;
+  // renderChildren() {
+  //   const {children} = this.props;
+  //
+  //   if (!children) return;
+  //
+  //   return React.Children.map(children, c => {
+  //     return React.cloneElement(c, {
+  //       map: this.map,
+  //       google: this.props.google,
+  //       mapCenter: this.state.currentLocation
+  //     });
+  //   })
+  // }
+  //
+  // componentDidMount() {
+  //   if (this.props.centerAroundCurrentLocation) {
+  //       if (navigator && navigator.geolocation) {
+  //           navigator.geolocation.getCurrentPosition((pos) => {
+  //               const coords = pos.coords;
+  //               this.setState({
+  //                   currentLocation: {
+  //                       lat: coords.latitude,
+  //                       lng: coords.longitude
+  //                   }
+  //               })
+  //           })
+  //       }
+  //   }
+  //   this.loadMap();
+  // }
+  //
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.google !== this.props.google) {
+  //     this.loadMap();
+  //   }
+  // }
+  //
+  // loadMap(){
+  //   if (this.props && this.props.google) {
+  //     // google is available
+  //     const {google} = this.props;
+  //     const maps = google.maps;
+  //
+  //     const mapRef = this.refs.map;
+  //     const node = ReactDOM.findDOMNode(mapRef);
+  //
+  //     let zoom = 14;
+  //     const {lat, lng} = this.state.currentLocation;
+  //     // let lat = 37.774929;
+  //     // let lng = -122.419416;
+  //     const center = new maps.LatLng(lat, lng);
+  //     const mapConfig = Object.assign({}, {
+  //       center: center,
+  //       zoom: zoom
+  //     })
+  //     this.map = new maps.Map(node, mapConfig);
+  //   }
+  // }
 
-    if (!children) return;
-
-    return React.Children.map(children, c => {
-      return React.cloneElement(c, {
-        map: this.map,
-        google: this.props.google,
-        mapCenter: this.state.currentLocation
+  async componentDidMount() {
+    const response = await fetch('http://localhost:5000/places');
+    const places = await response.json()
+      this.setState({
+        places: places
       });
-    })
-  }
-
-  componentDidMount() {
-    if (this.props.centerAroundCurrentLocation) {
-        if (navigator && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((pos) => {
-                const coords = pos.coords;
-                this.setState({
-                    currentLocation: {
-                        lat: coords.latitude,
-                        lng: coords.longitude
-                    }
-                })
-            })
-        }
-    }
-    this.loadMap();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.google !== this.props.google) {
-      this.loadMap();
-    }
-  }
-
-  loadMap(){
-    if (this.props && this.props.google) {
-      // google is available
-      const {google} = this.props;
-      const maps = google.maps;
-
-      const mapRef = this.refs.map;
-      const node = ReactDOM.findDOMNode(mapRef);
-
-      let zoom = 14;
-      const {lat, lng} = this.state.currentLocation;
-      // let lat = 37.774929;
-      // let lng = -122.419416;
-      const center = new maps.LatLng(lat, lng);
-      const mapConfig = Object.assign({}, {
-        center: center,
-        zoom: zoom
-      })
-      this.map = new maps.Map(node, mapConfig);
-    }
-  }
-
-  componentWillMount() {
-    // fetchPlaces().then(response => {
-    //   this.setState({
-    //     places: response.places
-    //   });
-    // });
-  }
-
-  fetchPlaces() {
-
   }
 
   render() {
@@ -103,9 +99,6 @@ export class MapContainer extends Component {
             }}
         zoom={14}
         >
-
-          <Marker onClick={this.onMarkerClick}
-                  name={'Current location'} />
         </Map>
       </div>
     );
