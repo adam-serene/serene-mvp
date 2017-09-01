@@ -21,16 +21,16 @@ app.get('/places', (req, res, next)=>{
   res.send({places: ['place1', 'place2']});
 })
 
-// app.get('/places', (req, res, next)=>{
-//   knex('places')
-//   .select('*')
-//   .then(result => {
-//     res.send(result);
-//   })
-//   .catch(err => {
-//     next(err);
-//   });
-// })
+app.get('/placesknex', (req, res, next)=>{
+  knex('places')
+  .select('*')
+  .then(result => {
+    res.send(result);
+  })
+  .catch(err => {
+    next(err);
+  });
+})
 
 app.get('/users', (req, res, next)=>{
   knex('users')
