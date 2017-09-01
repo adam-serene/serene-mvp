@@ -6,7 +6,8 @@
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
-    "express-session": "^1.15.5"
+    "express-session": "^1.15.5",
+    "pg": "^7.2.0"
   },
   "name": "serene-server",
   "version": "1.0.0",
@@ -19,8 +20,8 @@
     "dotenv": "^4.0.0",
     "express-session": "^1.15.5",
     "jsonwebtoken": "^7.4.3",
-    "passport-http-bearer": "^1.0.1",
     "knex": "^0.13.0",
+    "passport-http-bearer": "^1.0.1",
     "pg": "^7.2.0"
   },
   "scripts": {
