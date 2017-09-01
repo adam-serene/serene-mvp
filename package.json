@@ -2,17 +2,11 @@
   "dependencies": {
     "express": "^4.15.4",
     "passport": "^0.4.0",
-    "passport-facebook": "^2.1.1",
     "passport-fitbit-oauth2": "^1.0.2",
-    "passport-google-oauth": "^1.0.0",
-    "password-generator": "^2.1.0",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
-    "dotenv": "^4.0.0",
-    "express-session": "^1.15.5",
-    "knex": "^0.13.0",
-    "pg": "^7.2.0"
+    "express-session": "^1.15.5"
   },
   "name": "serene-server",
   "version": "1.0.0",
