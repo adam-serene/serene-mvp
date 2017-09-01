@@ -7,7 +7,6 @@
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
-    "express-session": "^1.15.5",
     "jsonwebtoken": "^7.4.3",
     "knex": "^0.13.0",
     "passport": "^0.4.0",
@@ -32,6 +31,6 @@
   "bugs": {
     "url": "https://github.com/adam-serene/serene-mvp/issues"
   },
-  "homepage": "https://github.com/adam-serene/serene-mvp#readme",
-  "description": ""
+  "homepage": "http://serene.green/",
+  "description": "Social network designed to encourage a healthy & active lifestyle alongside cannabis consumption."
 }

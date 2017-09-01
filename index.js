@@ -5,7 +5,6 @@ const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const knex = require('./knex');
 const bcrypt = require ('bcrypt');
 const saltRounds = 10;
