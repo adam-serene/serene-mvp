@@ -111,23 +111,23 @@ app.get('/', (req,res,next)=>{
   });
 });
 
-app.use(function (req,res,next) {
-  if (req.cookies.token) {
-    jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-      if (err) {
-        res.clearCookie('token');
-        return next(err);
-      }
-      req.user = decoded;
-      console.log('token good');
-      next();
-    });
-  } else {
-    // return res.redirect('/login');
-    return res.send('invalid login');
-
-  }
-});
+// app.use(function (req,res,next) {
+//   if (req.cookies.token) {
+//     jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+//       if (err) {
+//         res.clearCookie('token');
+//         return next(err);
+//       }
+//       req.user = decoded;
+//       console.log('token good');
+//       next();
+//     });
+//   } else {
+//     // return res.redirect('/login');
+//     return res.send('invalid login');
+//
+//   }
+// });
 
 // app.use(express.static(path.join(__dirname, 'client/build')));
 
