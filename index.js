@@ -102,11 +102,6 @@ app.get('/', (req,res,next)=>{
       return next(err);
     }
     req.user = decoded;
-    res.setHeader({
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization"
-    });
     res.send(req.user);
   });
 });
