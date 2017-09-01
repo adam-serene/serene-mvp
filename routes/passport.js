@@ -28,7 +28,7 @@ router.use(passport.session());
 //passport-fitbit-oauth2 routing
 passport.use(new FitbitStrategy({
     clientID: '228QJJ',
-    clientSecret: '743b00ca7fc644e5469cbb5deee23c44',
+    clientSecret: process.env.FITBIT_OAUTH2_SECRET,
     callbackURL: "http://serene-green.herokuapp.com/auth/fitbit/callback"
     // callbackURL: "http://localhost:5000/auth/fitbit/callback"
   },
