@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const passport = require('passport');
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 const knex = require('../knex');
@@ -12,14 +12,12 @@ require('dotenv').config()
 router.use(cookieParser());
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
-router.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
+router.use(cookieSession({
+  secret: 'keyboard cat'
  }));
 
 router.use(passport.initialize());
-router.use(passport.session());
+router.use(passport.cookieSession());
 
 // Serve static files from the React app
 // app.use(express.static(path.join(__dirname, 'client/build')));
