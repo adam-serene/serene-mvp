@@ -13,7 +13,7 @@ router.use(cookieParser());
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(session({
-  secret: process.env.PASSPORT_SECRET,
+  secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true
  }));
