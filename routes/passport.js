@@ -17,7 +17,7 @@ router.use(cookieSession({
  }));
 
 router.use(passport.initialize());
-router.use(passport.cookieSession());
+router.use(passport.session());
 
 // Serve static files from the React app
 // app.use(express.static(path.join(__dirname, 'client/build')));
