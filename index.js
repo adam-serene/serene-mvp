@@ -33,11 +33,6 @@ app.get('/users', (req, res, next)=>{
   knex('users')
   .select('users.id', 'users.fitbitToken')
   .then(result => {
-    res.setHeader({
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization"
-    })
     res.send(result);
   })
   .catch(err => {
@@ -96,14 +91,15 @@ app.post('/login', (req,res,next) => {
 });
 
 app.get('/', (req,res,next)=>{
-  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-    if (err) {
-      res.clearCookie('token');
-      return next(err);
-    }
-    req.user = decoded;
-    res.send(req.user);
-  });
+  // jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+  //   if (err) {
+  //     res.clearCookie('token');
+  //     return next(err);
+  //   }
+  //   req.user = decoded;
+  //   res.send(req.user);
+  // });
+  res.send('hi!')
 });
 
 // app.use(function (req,res,next) {
