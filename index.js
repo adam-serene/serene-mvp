@@ -21,8 +21,8 @@ app.get('/places', (req, res, next)=>{
   knex('places')
   .select('*')
   .then(result => {
-    // res.send({places: ['place1', 'place2']});
-    res.send(result);
+    res.send({places: ['place1', 'place2']});
+    // res.send(result);
   })
   .catch(err => {
     next(err);
