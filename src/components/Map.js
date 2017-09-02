@@ -1,8 +1,25 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+require('dotenv').config()
 
 export class MapContainer extends Component {
+<<<<<<< Updated upstream:src/components/Map.js
+render() {
+    return (
+      <Map google={this.props.google}
+      initialCenter={{
+            lat: 40.0150,
+            lng: -105.2705
+          }}
+      zoom={14}
+      >
+
+        <Marker onClick={this.onMarkerClick}
+                name={'Current location'} />
+
+      </Map>
+=======
   constructor(props) {
     super(props);
     this.state = {
@@ -108,12 +125,12 @@ export class MapContainer extends Component {
                   name={'Current location'} />
         </Map>
       </div>
+>>>>>>> Stashed changes:client/src/components/GoogleMap.js
     );
   }
 }
 
 
 export default GoogleApiWrapper({
-  // apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-  apiKey: 'AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8'
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 })(MapContainer)
