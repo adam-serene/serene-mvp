@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const passport = require('passport');
 const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 const knex = require('../knex');
@@ -12,10 +12,8 @@ require('dotenv').config()
 router.use(cookieParser());
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
-router.use(session({
-  secret: process.env.PASSPORT_SECRET,
-  resave: false,
-  saveUninitialized: true
+router.use(cookieSession({
+  secret: 'keyboard cat'
  }));
 
 router.use(passport.initialize());
@@ -27,10 +25,10 @@ router.use(passport.session());
 
 //passport-fitbit-oauth2 routing
 passport.use(new FitbitStrategy({
-    clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
+    clientID: '228QJJ',
     clientSecret: process.env.FITBIT_OAUTH2_SECRET,
-    // callbackURL: "http://serene-green.herokuapp.com/auth/fitbit/callback"
-    callbackURL: "http://localhost:5000/auth/fitbit/callback"
+    callbackURL: "http://serene-green.herokuapp.com/auth/fitbit/callback"
+    // callbackURL: "http://localhost:5000/auth/fitbit/callback"
   },
   function onSuccessfulLogin(token, refreshToken, profile, done) {
 
