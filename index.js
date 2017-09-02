@@ -1,17 +1,18 @@
-const express = require('express'),
-   env = process.env.NODE_ENV || 'development';
+const express = require('express');
+  //  env = process.env.NODE_ENV || 'development';
 const app = express();
-const forceSsl = function (req, res, next) {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  }
-  return next();
-};
-app.configure(function () {
-  if (env === 'production') {
-    app.use(forceSsl);
-  }
-}
+// const forceSsl = function (req, res, next) {
+//   if (req.headers['x-forwarded-proto'] !== 'https') {
+//     return res.redirect(['https://', req.get('Host'), req.url].join(''));
+//   }
+//   return next();
+// };
+// app.configure(function () {
+//   if (env === 'production') {
+//     app.use(forceSsl);
+//   }
+// };
+
 require('dotenv').config();
 const path = require('path');
 const cors = require('cors');
