@@ -15,6 +15,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/places', (req, res, next)=>{
   res.send({places: ['place1', 'place2']});
@@ -92,36 +93,39 @@ app.post('/login', (req,res,next) => {
   });
 });
 
-app.get('/', (req,res,next)=>{
-  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-    if (err) {
-      res.clearCookie('token');
-      return next(err);
-    }
-    req.user = decoded;
-    res.send(req.user);
-  });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
-app.use(function (req,res,next) {
-  if (req.cookies.token) {
-    jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-      if (err) {
-        res.clearCookie('token');
-        return next(err);
-      }
-      req.user = decoded;
-      console.log('token good');
-      next();
-    });
-  } else {
-    // return res.redirect('/login');
-    return res.send('invalid login');
+// app.get('/', (req,res,next)=>{
+//   jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+//     if (err) {
+//       res.clearCookie('token');
+//       return next(err);
+//     }
+//     req.user = decoded;
+//     res.send(req.user);
+//   });
+// });
 
-  }
-});
+// app.use(function (req,res,next) {
+//   if (req.cookies.token) {
+//     jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+//       if (err) {
+//         res.clearCookie('token');
+//         return next(err);
+//       }
+//       req.user = decoded;
+//       console.log('token good');
+//       next();
+//     });
+//   } else {
+//     // return res.redirect('/login');
+//     return res.send('invalid login');
+//
+//   }
+// });
 
-app.use(express.static(path.join(__dirname, 'client/build')));
 
 const port = process.env.PORT || 5000;
 app.listen(port);
