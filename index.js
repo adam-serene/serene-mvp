@@ -94,9 +94,9 @@ app.post('/login', (req,res,next) => {
   });
 });
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname+'/client/build/index.html'));
-// });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 app.get('/', (req,res,next)=>{
   jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
