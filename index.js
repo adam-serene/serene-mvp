@@ -82,7 +82,7 @@ app.post('/login', (req,res,next) => {
         score: data[0].score,
         submissions_remaining: data[0].submissions_remaining
       };
-      var token = jwt.sign(user, process.env.JWT_KEY);
+      var token = jwt.sign(user, 'gw8ND52W2A8AMQ3eHA2xXB9+go2xD0OAQe9ihrFipwuWznfKiAP1YD2aO4/lKvVJifGmP7DcamRa4outWihfjA');
       res.cookie('token', token, {httpOnly: true});
       console.log(`${data[0].username} logged in.`);
       return res.redirect('http://localhost:3000/mapplaces');
@@ -98,7 +98,7 @@ app.post('/login', (req,res,next) => {
 // });
 
 app.get('/', (req,res,next)=>{
-  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+  jwt.verify(req.cookies.token, 'gw8ND52W2A8AMQ3eHA2xXB9+go2xD0OAQe9ihrFipwuWznfKiAP1YD2aO4/lKvVJifGmP7DcamRa4outWihfjA', function (err,decoded) {
     if (err) {
       res.clearCookie('token');
       return next(err);
