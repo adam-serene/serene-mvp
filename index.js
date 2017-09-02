@@ -28,6 +28,7 @@ app.get('/placesknex', (req, res, next)=>{
     res.send(result);
   })
   .catch(err => {
+    console.log('error');
     next(err);
   });
 })
