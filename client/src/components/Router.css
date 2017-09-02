@@ -1,0 +1,38 @@
+.Home-logo {
+  animation: Home-logo-scale infinite 2s linear alternate;
+  height: 6vh;
+  padding-left: 12vh;
+  padding-right: 12vh;
+}
+
+.Home-name{
+  animation: 4s linear 0s infinite alternate move_eye;
+  background-color: #c2c2c2;
+  margin-bottom: 0;
+}
+
+.Home-router {
+  background-color: #c2c2c2;
+  justify-content: space-between;
+}
+
+.fa-2x {
+  color: #fdb
+}
+
+.Home-header {
+  background-color: #c2c2c2;
+  height: 13vh;
+  color: #fdb;
+  text-align: center;
+}
+
+@keyframes Home-logo-scale {
+  from { transform: scale(.8, .8); }
+  to { transform: scale(1.5, 1.5); }
+}
+
+@keyframes move_eye {
+  from { margin-left: -80%; }
+  to { margin-left: 80%; }
+}
