@@ -23,7 +23,7 @@ class Auth extends Component{
     async handleSubmit(event) {
     alert('Attempting to login: ' + this.state.username);
     event.preventDefault();
-    const response = await fetch('http://serene-green.herokuapp.com/login', 
+    const response = await fetch('https://serene-green.herokuapp.com/login', 
     // const response = await fetch('http://localhost:5000/login',
     {
       method: 'POST',
