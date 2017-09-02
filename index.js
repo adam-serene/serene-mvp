@@ -1,5 +1,17 @@
-const express = require('express');
+const express = require('express'),
+   env = process.env.NODE_ENV || 'development';
 const app = express();
+const forceSsl = function (req, res, next) {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+};
+app.configure(function () {
+  if (env === 'production') {
+    app.use(forceSsl);
+  }
+}
 require('dotenv').config();
 const path = require('path');
 const cors = require('cors');
@@ -16,6 +28,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, 'client/build')));
+
+
 
 app.get('/places', (req, res, next)=>{
   res.send({places: ['place1', 'place2']});
