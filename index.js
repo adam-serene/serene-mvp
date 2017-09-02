@@ -110,7 +110,7 @@ app.get('/', (req,res,next)=>{
 
 app.use(function (req,res,next) {
   if (req.cookies.token) {
-    jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+    jwt.verify(req.cookies.token, 'gw8ND52W2A8AMQ3eHA2xXB9+go2xD0OAQe9ihrFipwuWznfKiAP1YD2aO4/lKvVJifGmP7DcamRa4outWihfjA', function (err,decoded) {
       if (err) {
         res.clearCookie('token');
         return next(err);
