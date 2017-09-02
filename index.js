@@ -113,34 +113,34 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
-app.get('/', (req,res,next)=>{
-  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-    if (err) {
-      res.clearCookie('token');
-      return next(err);
-    }
-    req.user = decoded;
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  });
-});
+// app.get('/', (req,res,next)=>{
+//   jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+//     if (err) {
+//       res.clearCookie('token');
+//       return next(err);
+//     }
+//     req.user = decoded;
+//     res.sendFile(path.join(__dirname+'/client/build/index.html'));
+//   });
+// });
 
-app.use(function (req,res,next) {
-  if (req.cookies.token) {
-    jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-      if (err) {
-        res.clearCookie('token');
-        return next(err);
-      }
-      req.user = decoded;
-      console.log('token good');
-      next();
-    });
-  } else {
-    return res.redirect('https://serene-green.herokuapp.com/login');
-    // return res.send('invalid login');
-
-  }
-});
+// app.use(function (req,res,next) {
+//   if (req.cookies.token) {
+//     jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+//       if (err) {
+//         res.clearCookie('token');
+//         return next(err);
+//       }
+//       req.user = decoded;
+//       console.log('token good');
+//       next();
+//     });
+//   } else {
+//     return res.redirect('https://serene-green.herokuapp.com/login');
+//     // return res.send('invalid login');
+//
+//   }
+// });
 
 
 const port = process.env.PORT || 5000;
