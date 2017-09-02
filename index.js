@@ -15,7 +15,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'client/build')));
+// app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/places', (req, res, next)=>{
   res.send({places: ['place1', 'place2']});
