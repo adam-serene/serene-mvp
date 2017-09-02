@@ -93,36 +93,35 @@ app.post('/login', (req,res,next) => {
 });
 
 app.get('/', (req,res,next)=>{
-  // jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-  //   if (err) {
-  //     res.clearCookie('token');
-  //     return next(err);
-  //   }
-  //   req.user = decoded;
-  //   res.send(req.user);
-  // });
-  res.send('hi!')
+  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+    if (err) {
+      res.clearCookie('token');
+      return next(err);
+    }
+    req.user = decoded;
+    res.send(req.user);
+  });
 });
 
-// app.use(function (req,res,next) {
-//   if (req.cookies.token) {
-//     jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-//       if (err) {
-//         res.clearCookie('token');
-//         return next(err);
-//       }
-//       req.user = decoded;
-//       console.log('token good');
-//       next();
-//     });
-//   } else {
-//     // return res.redirect('/login');
-//     return res.send('invalid login');
-//
-//   }
-// });
+app.use(function (req,res,next) {
+  if (req.cookies.token) {
+    jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+      if (err) {
+        res.clearCookie('token');
+        return next(err);
+      }
+      req.user = decoded;
+      console.log('token good');
+      next();
+    });
+  } else {
+    // return res.redirect('/login');
+    return res.send('invalid login');
 
-// app.use(express.static(path.join(__dirname, 'client/build')));
+  }
+});
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 const port = process.env.PORT || 5000;
 app.listen(port);
