@@ -53,10 +53,12 @@ const App = () => (
   <div className="Home-header">
     <img src="https://scontent-dft4-1.cdninstagram.com/t51.2885-19/s320x320/17438844_398287633860003_5443105418219880448_a.jpg" className="Home-logo" alt="logo" />
     <h2 className="Home-name">Serene</h2>
-    <Route exact path="/" component={Login}/>
-    <Route path="/mapplaces" component={MapPlaces}/>
-    <Route path="/fitness" component={Fitness}/>
-    <Route path="/newuser" component={NewUser}/>
+    <div id="React-body">
+      <Route exact path="/" component={Login}/>
+      <Route path="/mapplaces" component={MapPlaces}/>
+      <Route path="/fitness" component={Fitness}/>
+      <Route path="/newuser" component={NewUser}/>
+    </div>
   </div>
 )
 
