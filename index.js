@@ -30,13 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, 'client/build')));
 
-
-
 app.get('/places', (req, res, next)=>{
-  res.send({places: ['place1', 'place2']});
-})
-
-app.get('/placesknex', (req, res, next)=>{
   knex('places')
   .select('*')
   .then(data => {
