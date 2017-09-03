@@ -24,6 +24,7 @@ class Auth extends Component{
     alert('Attempting to login: ' + this.state.username);
     event.preventDefault();
     const response = await fetch('https://serene-green.herokuapp.com/login',
+    // const response = await fetch('http://localhost:5000/login',
     {
       method: 'POST',
       headers: {
@@ -32,8 +33,8 @@ class Auth extends Component{
       body: qs.stringify(this.state)
     })
     // let pathEnd = response.url.slice(22);
-    // console.log(pathEnd);
-    this._reactInternalInstance._context.router.history.push(response, null);
+    console.log(response.url);
+    this._reactInternalInstance._context.router.history.push(response.url, null);
    }
 
   render(){
