@@ -39,7 +39,16 @@ app.get('/places', (req, res, next)=>{
 app.get('/placesknex', (req, res, next)=>{
   knex('places')
   .select('*')
-  .then(result => {
+  .then(data => {
+    console.log(data[0]);
+    let result = [...data];
+    console.log(result);
+    data.map((place, index) =>{
+      result[index].position = {};
+      result[index].position.lat = place.lat;
+      result[index].position.lng = place.lng;
+    })
+    console.log(result);
     res.send(result);
   })
   .catch(err => {
