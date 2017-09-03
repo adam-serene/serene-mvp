@@ -101,7 +101,9 @@ app.post('/login', (req,res,next) => {
       var token = jwt.sign(user, process.env.JWT_KEY);
       res.cookie('token', token, {httpOnly: true});
       console.log(`${data[0].username} logged in.`);
-      return res.redirect('/mapplaces');
+      res.redirect('/mapplaces');
+      return console.log(res);
+      // return res.redirect('/mapplaces');
     } else {
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
