@@ -1,20 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
-export class MapContainer extends Component {
+export class MapContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentLocation: {
-        lat: 40.0150,
-        lng: -105.2705
-      },
-      places: []
-    }
-    // this.fetchPlaces = this.fetchPlaces.bind(this);
-    // this.loadMap = this.loadMap.bind(this);
-    // this.renderChildren = this.renderChildren.bind(this);
+  //   this.state = {
+  //     currentLocation: {
+  //       lat: 40.0150,
+  //       lng: -105.2705
+  //     },
+  //     places: []
+  //   }
+    this.fetchPlaces = this.fetchPlaces.bind(this);
+    this.mapClicked = this.mapClicked.bind(this);
+    this.centerMoved = this.centerMoved.bind(this);
+  //   this.renderChildren = this.renderChildren.bind(this);
   }
 
   // renderChildren() {
@@ -31,57 +32,23 @@ export class MapContainer extends Component {
   //   })
   // }
   //
-  // componentDidMount() {
-  //   if (this.props.centerAroundCurrentLocation) {
-  //       if (navigator && navigator.geolocation) {
-  //           navigator.geolocation.getCurrentPosition((pos) => {
-  //               const coords = pos.coords;
-  //               this.setState({
-  //                   currentLocation: {
-  //                       lat: coords.latitude,
-  //                       lng: coords.longitude
-  //                   }
-  //               })
-  //           })
-  //       }
-  //   }
-  //   this.loadMap();
-  // }
-  //
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.google !== this.props.google) {
-  //     this.loadMap();
-  //   }
-  // }
-  //
-  // loadMap(){
-  //   if (this.props && this.props.google) {
-  //     // google is available
-  //     const {google} = this.props;
-  //     const maps = google.maps;
-  //
-  //     const mapRef = this.refs.map;
-  //     const node = ReactDOM.findDOMNode(mapRef);
-  //
-  //     let zoom = 14;
-  //     const {lat, lng} = this.state.currentLocation;
-  //     // let lat = 37.774929;
-  //     // let lng = -122.419416;
-  //     const center = new maps.LatLng(lat, lng);
-  //     const mapConfig = Object.assign({}, {
-  //       center: center,
-  //       zoom: zoom
-  //     })
-  //     this.map = new maps.Map(node, mapConfig);
-  //   }
-  // }
-
-  async componentDidMount() {
+  async fetchPlaces(mapProps, map) {
+    // const {google} = mapProps;
+    // const service = new google.maps.places.PlacesService(map);
+    console.log('fetchPlaces');
     const response = await fetch('https://serene-green.herokuapp.com/places');
     const places = await response.json()
       this.setState({
         places: places
       });
+  }
+
+  mapClicked(mapProps, map, clickEvent) {
+    // ...
+  }
+
+  centerMoved(mapProps, map) {
+    // ...
   }
 
   render() {
@@ -90,22 +57,56 @@ export class MapContainer extends Component {
       height: '100vh'
     }
 
+    const places = [
+      {id: 1,
+      user_id: 1,
+      description: 'Postcard Point',
+      position: {
+        lat: 39.938945153644035,
+        lng: -105.23653507232666
+      },
+      visits_this_month: 2},
+
+      {id: 2,
+      user_id: 1,
+      description: 'Eldorado Spring Resort & Pool',
+      position: {
+        lat: 39.93183522069995,
+        lng: -105.27945578098297
+      },
+      visits_this_month: 20}
+    ];
+
     return (
       <div style={style}>
         <Map google={this.props.google}
-        initialCenter={{
-              lat: 40.0150,
-              lng: -105.2705
-            }}
-        zoom={14}
+          onReady={this.fetchPlaces}
+          onClick={this.mapClicked}
+          onDragend={this.centerMoved}
+          style={style}
+          initialCenter={{
+            lat: 40.0150,
+            lng: -105.2705
+          }}
+          zoom={13}
         >
+
+        {places.map(place =>
+          <Marker
+            key={place.id}
+            title={place.description}
+            name={place.description}
+            position={place.position}
+          />
+        )}
+
         </Map>
       </div>
     );
   }
-}
-
+} //closes MapContainer
 
 export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  // apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  apiKey: 'AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8'
 })(MapContainer)

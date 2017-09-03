@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import qs from 'qs';
 
-class Auth extends Component{
+export default class Auth extends React.Component{
   constructor(props) {
    super(props);
    this.state = {
@@ -56,5 +56,3 @@ class Auth extends Component{
     );
   }
 }
-
-export default Auth;
