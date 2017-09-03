@@ -34,15 +34,12 @@ app.get('/places', (req, res, next)=>{
   knex('places')
   .select('*')
   .then(data => {
-    console.log(data[0]);
     let result = [...data];
-    console.log(result);
     data.map((place, index) =>{
       result[index].position = {};
       result[index].position.lat = place.lat;
       (place.lng) ? result[index].position.lng = place.lng : result[index].position.lng = place.long;
     })
-    console.log(result);
     res.send(result);
   })
   .catch(err => {
