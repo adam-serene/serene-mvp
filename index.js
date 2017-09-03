@@ -75,7 +75,7 @@ app.post('/register', (req,res,next)=>{
     .then((response)=>{
       delete response.hashed_password;
       console.log(`${response[0].username} signed up!`);
-      return res.redirect('http://localhost:3000/mapplaces');
+      return res.redirect('/mapplaces');
     });
   });
 });
@@ -101,7 +101,7 @@ app.post('/login', (req,res,next) => {
       var token = jwt.sign(user, process.env.JWT_KEY);
       res.cookie('token', token, {httpOnly: true});
       console.log(`${data[0].username} logged in.`);
-      return res.redirect('http://localhost:3000/mapplaces');
+      return res.redirect('/mapplaces');
     } else {
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');

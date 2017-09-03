@@ -31,9 +31,9 @@ class Auth extends Component{
       },
       body: qs.stringify(this.state)
     })
-    let pathEnd = response.url.slice(22);
-    console.log(pathEnd);
-    this._reactInternalInstance._context.router.history.push(pathEnd, null);
+    // let pathEnd = response.url.slice(22);
+    // console.log(pathEnd);
+    this._reactInternalInstance._context.router.history.push(response, null);
    }
 
   render(){
