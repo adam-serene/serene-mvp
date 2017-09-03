@@ -46,7 +46,7 @@ app.get('/placesknex', (req, res, next)=>{
     data.map((place, index) =>{
       result[index].position = {};
       result[index].position.lat = place.lat;
-      result[index].position.lng = place.lng;
+      (place.lng) ? result[index].position.lng = place.lng : result[index].position.lng = place.long;
     })
     console.log(result);
     res.send(result);
