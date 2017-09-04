@@ -54,8 +54,8 @@ export class MapContainer extends React.Component {
     // const {google} = mapProps;
     // const service = new google.maps.places.PlacesService(map);
     console.log('fetchPlaces');
-    // const response = await fetch('https://serene-green.herokuapp.com/places');
-    const response = await fetch('http://localhost:5000/places');
+    const response = await fetch('https://serene-green.herokuapp.com/places');
+    // const response = await fetch('http://localhost:5000/places');
     const places = await response.json()
       this.setState({
         places: places
