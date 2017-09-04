@@ -48,6 +48,20 @@ app.get('/places', (req, res, next)=>{
   });
 })
 
+app.post('/places', (req, res, next)=>{
+  let body = req.body;
+  knex.insert(body)
+  .into('places')
+  .returning('*')
+  .then(response => {
+    res.send(`${response[0]} added!`);
+  })
+  .catch(err => {
+    console.log('error');
+    next(err);
+  });
+})
+
 app.get('/users', (req, res, next)=>{
   knex('users')
   .select('users.id', 'users.fitbitToken')

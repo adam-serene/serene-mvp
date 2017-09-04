@@ -20,7 +20,7 @@ export default class Auth extends React.Component{
      });
    }
 
-    async handleSubmit(event) {
+  async handleSubmit(event) {
     alert('Attempting to login: ' + this.state.username);
     event.preventDefault();
     const response = await fetch('https://serene-green.herokuapp.com/login',
@@ -35,7 +35,7 @@ export default class Auth extends React.Component{
     let pathEnd = response.url.slice(34);
     console.log(pathEnd);
     this._reactInternalInstance._context.router.history.push(pathEnd, null);
-   }
+  }
 
   render(){
     return(
