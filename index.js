@@ -1,17 +1,15 @@
 const express = require('express');
-  //  env = process.env.NODE_ENV || 'development';
+const https = require('https');
+const fs = require('fs');
+const HTTPS_PORT = 3443;
 const app = express();
-// const forceSsl = function (req, res, next) {
-//   if (req.headers['x-forwarded-proto'] !== 'https') {
-//     return res.redirect(['https://', req.get('Host'), req.url].join(''));
-//   }
-//   return next();
-// };
-// app.configure(function () {
-//   if (env === 'production') {
-//     app.use(forceSsl);
-//   }
-// };
+const secureServer = https.createServer({
+  key: fs.readFileSync('https-keys/private.key'),
+  cert: fs.readFileSync('https-keys/certificate.pem')
+}, app)
+.listen(HTTPS_PORT, function () {
+  console.log('Secure Server listening on port ' + HTTPS_PORT);
+});
 
 require('dotenv').config();
 const path = require('path');
@@ -23,6 +21,14 @@ const bcrypt = require ('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const passport = require('./routes/passport')
+
+app.all('*', function(req, res, next){
+  if (req.secure) {
+    return next();
+  };
+  // res.redirect('https://localhost:'+HTTPS_PORT+req.url);
+  res.redirect(`https://${req.hostname}:${HTTPS_PORT}${req.url}`);
+});
 app.use('/auth/fitbit', passport);
 app.use(cors());
 app.use(cookieParser());
@@ -161,12 +167,6 @@ app.get('/', (req, res) => {
 //
 //   }
 // });
-
-
-const port = process.env.PORT || 5000;
-app.listen(port);
-
-console.log(`Listening on ${port}`);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

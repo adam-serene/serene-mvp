@@ -47,8 +47,6 @@ export class MapContainer extends React.Component {
     }
     this.fetchPlaces = this.fetchPlaces.bind(this);
     this.mapClicked = this.mapClicked.bind(this);
-    this.navGCPSuccess = this.navGCPSuccess.bind(this);
-    this.navGCPError = this.navGCPError.bind(this);
     this.centerMoved = this.centerMoved.bind(this);
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.dropPin = this.dropPin.bind(this);
@@ -87,23 +85,25 @@ export class MapContainer extends React.Component {
     }
   }
 
-  navGCPSuccess(pos){
-    let crd = pos.coords;
-    console.log(crd);
-    this.setState({
-      currentLocation: {
-        lat: crd.latitude,
-        lng: crd.longitude
-      }
-    });
-  };
 
-  navGCPError(err){
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-  };
 
   centerMoved(mapProps, map) {
-    return navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
+    function navGCPSuccess(pos){
+      let crd = pos.coords;
+      console.log('crd', crd);
+      this.setState({
+        currentLocation: {
+          lat: crd.latitude,
+          lng: crd.longitude
+        }
+      });
+    };
+
+    function navGCPError(err){
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    };
+
+    navigator.geolocation.getCurrentPosition(navGCPSuccess, navGCPError, navGCPOptions);
   }
 
   onMarkerClick(mapProps, marker, e){

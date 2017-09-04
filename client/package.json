@@ -1,6 +1,6 @@
 {
   "name": "serene-client",
-  "proxy": "http://localhost:5000",
+  "proxy": "https://localhost:3443",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
