@@ -75,7 +75,10 @@ app.post('/register', (req,res,next)=>{
     .then((response)=>{
       delete response.hashed_password;
       console.log(`${response[0].username} signed up!`);
-      return res.redirect('/mapplaces');
+      return res.redirect('https://serene-green.herokuapp.com/mapplaces');
+    })
+    .catch(function (err) {
+      return next(err);
     });
   });
 });
@@ -106,7 +109,10 @@ app.post('/login', (req,res,next) => {
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
     }
-  });
+  })
+  .catch(function (err) {
+      return next(err);
+    });
 });
 
 app.get('/', (req, res) => {
@@ -150,14 +156,14 @@ console.log(`Listening on ${port}`);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.log('404 error', err);
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handlers
-
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.send('error');
+  res.status(err.status || 500)
+  .send(err.constraint);
 });

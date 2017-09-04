@@ -28,11 +28,15 @@ export class MapContainer extends React.Component {
           lng: -105.27945578098297
         },
         visits_this_month: 20}
-      ]
+      ],
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {}
     }
     this.fetchPlaces = this.fetchPlaces.bind(this);
     this.mapClicked = this.mapClicked.bind(this);
     this.centerMoved = this.centerMoved.bind(this);
+    this.onMarkerClick = this.onMarkerClick.bind(this);
   //   this.renderChildren = this.renderChildren.bind(this);
   }
 
@@ -51,11 +55,8 @@ export class MapContainer extends React.Component {
   // }
   //
   async fetchPlaces(mapProps, map) {
-    // const {google} = mapProps;
-    // const service = new google.maps.places.PlacesService(map);
-    console.log('fetchPlaces');
-    const response = await fetch('https://serene-green.herokuapp.com/places');
-    // const response = await fetch('http://localhost:5000/places');
+    // const response = await fetch('https://serene-green.herokuapp.com/places');
+    const response = await fetch('http://localhost:5000/places');
     const places = await response.json()
       this.setState({
         places: places
@@ -63,11 +64,24 @@ export class MapContainer extends React.Component {
   }
 
   mapClicked(mapProps, map, clickEvent) {
-    // ...
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      })
+    }
   }
 
   centerMoved(mapProps, map) {
     // ...
+  }
+
+  onMarkerClick(mapProps, marker, e){
+    this.setState({
+      selectedPlace: mapProps,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
   }
 
   render() {
@@ -93,8 +107,18 @@ export class MapContainer extends React.Component {
             title={place.description}
             name={place.description}
             position={place.position}
+            onClick={this.onMarkerClick}
           />
         )}
+
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}>
+            <div>
+              <h1>{this.state.selectedPlace.title}</h1>
+              
+            </div>
+        </InfoWindow>
 
         </Map>
       </div>

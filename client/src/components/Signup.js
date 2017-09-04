@@ -26,8 +26,8 @@ class Signup extends Component{
    async handleSubmit(event) {
     alert('Creating new user: ' + this.state.username);
     event.preventDefault();
-    const response = await fetch('https://serene-green.herokuapp.com/register',
-    // const response = await fetch('http://localhost:5000/register',
+    // const response = await fetch('https://serene-green.herokuapp.com/register',
+    const response = await fetch('http://localhost:5000/register',
     {
       method: 'POST',
       headers: {
@@ -35,9 +35,10 @@ class Signup extends Component{
       },
       body: qs.stringify(this.state)
     })
-    // let pathEnd = response.url.slice(22);
-    // console.log(pathEnd);
-    this._reactInternalInstance._context.router.history.push(response, null);
+    // if (response.status !== 200) return alert('Could not create user: ' + this.state.username);
+    let pathEnd = response.url.slice(34);
+    console.log(pathEnd);
+    this._reactInternalInstance._context.router.history.push(pathEnd, null);
    }
 
   render(){
