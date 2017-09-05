@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import NewPlaceForm from './SubmitPlace.js'
 import qs from 'qs';
 
 const navGCPOptions = {
@@ -17,27 +17,7 @@ export class MapContainer extends React.Component {
         lat: 40.0150,
         lng: -105.2705
       },
-      places: [
-        {id: 1,
-        user_id: 1,
-        description: 'Postcard Point',
-        position: {
-          lat: 39.938945153644035,
-          lng: -105.23653507232666
-        },
-        visits_this_month: 2,
-        url: 'https://preview.ibb.co/dyXQUF/postcard_point.jpg'},
-
-        {id: 2,
-        user_id: 1,
-        description: 'Eldorado Spring Resort & Pool',
-        position: {
-          lat: 39.93183522069995,
-          lng: -105.27945578098297
-        },
-        visits_this_month: 20,
-        url: 'http://cdn.onlyinyourstate.com/wp-content/uploads/2016/07/7903904278_ba823d7e02_b.jpg'}
-      ],
+      places: [],
       showingDPInfoWindow: false,
       droppedPlace: {},
       droppedPin: {},
@@ -68,12 +48,12 @@ export class MapContainer extends React.Component {
   // }
   //
   async fetchPlaces(mapProps, map) {
-    // const response = await fetch('https://serene-green.herokuapp.com/places');
-    const response = await fetch('http://localhost:5000/places');
+    const response = await fetch('https://serene-green.herokuapp.com/places');
+    // const response = await fetch('http://localhost:5000/places');
     const places = await response.json()
-      this.setState({
-        // places: places
-      });
+    this.setState({
+      places: places
+    });
   }
 
   mapClicked(mapProps, map, clickEvent) {
@@ -84,8 +64,6 @@ export class MapContainer extends React.Component {
       })
     }
   }
-
-
 
   centerMoved(mapProps, map) {
     function navGCPSuccess(pos){
@@ -115,17 +93,17 @@ export class MapContainer extends React.Component {
   }
 
   dropPin(mapProps, marker, e){
-    console.log(mapProps);
     this.setState({
       droppedPlace: mapProps,
       droppedPin: marker,
       showingDPInfoWindow: true
     });
+    console.log(this.state.droppedPlace);
   }
 
   handleSubmitPin(event){
-    alert('Adding: ' + this.state.droppedPin.title);
     event.preventDefault();
+    alert('Adding: ' + this.state.droppedPin.title);
     console.log(this.state.droppedPin);
 
     // const response = await fetch('https://serene-green.herokuapp.com/places',
@@ -156,6 +134,7 @@ export class MapContainer extends React.Component {
           style={style}
           initialCenter={this.state.currentLocation}
           zoom={13}
+          clickableIcons={false}
         >
 
         <Marker
@@ -167,13 +146,9 @@ export class MapContainer extends React.Component {
         <InfoWindow
           marker={this.state.droppedPin}
           visible={this.state.showingDPInfoWindow}>
-            <form onSubmit={this.handleSubmitPin}>
-              <label>Title/Description:
-                <input type="text" value={this.state.droppedPlace.title}></input>
-              </label>
-              <input type="text" value={this.state.droppedPin.position}/>
-              <input type="submit" value="Submit"/>
-            </form>
+            <NewPlaceForm
+              droppedPin={this.state.droppedPin} droppedPlace={this.state.droppedPlace}
+            />
         </InfoWindow>
 
         {this.state.places.map(place =>
