@@ -3,11 +3,6 @@ import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import NewPlaceForm from './SubmitPlace.js'
 import qs from 'qs';
 
-const navGCPOptions = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
 
 export class MapContainer extends React.Component {
   constructor(props) {
@@ -19,7 +14,9 @@ export class MapContainer extends React.Component {
       },
       places: [],
       showingDPInfoWindow: false,
-      droppedPlace: {},
+      droppedPlace: {
+        title: ''
+      },
       droppedPin: {},
       showingInfoWindow: false,
       activeMarker: {},
@@ -30,23 +27,9 @@ export class MapContainer extends React.Component {
     this.centerMoved = this.centerMoved.bind(this);
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.dropPin = this.dropPin.bind(this);
-  //   this.renderChildren = this.renderChildren.bind(this);
+    this.handleSubmitPin = this.handleSubmitPin.bind(this);
   }
 
-  // renderChildren() {
-  //   const {children} = this.props;
-  //
-  //   if (!children) return;
-  //
-  //   return React.Children.map(children, c => {
-  //     return React.cloneElement(c, {
-  //       map: this.map,
-  //       google: this.props.google,
-  //       mapCenter: this.state.currentLocation
-  //     });
-  //   })
-  // }
-  //
   async fetchPlaces(mapProps, map) {
     const response = await fetch('https://serene-green.herokuapp.com/places');
     // const response = await fetch('http://localhost:5000/places');
@@ -65,23 +48,30 @@ export class MapContainer extends React.Component {
     }
   }
 
-  centerMoved(mapProps, map) {
+  centerMoved() {
+    let that = this;
     function navGCPSuccess(pos){
       let crd = pos.coords;
-      console.log('crd', crd);
-      this.setState({
+      that.setState({
         currentLocation: {
           lat: crd.latitude,
           lng: crd.longitude
         }
-      });
-    };
+      }, ()=>{console.log(that.state);});
+    }
 
     function navGCPError(err){
       console.warn(`ERROR(${err.code}): ${err.message}`);
     };
 
+    const navGCPOptions = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
     navigator.geolocation.getCurrentPosition(navGCPSuccess, navGCPError, navGCPOptions);
+    // this.setState({currentLocation: newCL});
   }
 
   onMarkerClick(mapProps, marker, e){
@@ -146,9 +136,11 @@ export class MapContainer extends React.Component {
         <InfoWindow
           marker={this.state.droppedPin}
           visible={this.state.showingDPInfoWindow}>
-            <NewPlaceForm
-              droppedPin={this.state.droppedPin} droppedPlace={this.state.droppedPlace}
-            />
+          <NewPlaceForm
+            droppedPin={this.state.droppedPin}
+            droppedPlace={this.state.droppedPlace}
+            handleSubmitPin={this.handleSubmitPin}
+          />
         </InfoWindow>
 
         {this.state.places.map(place =>

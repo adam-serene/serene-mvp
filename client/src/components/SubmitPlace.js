@@ -6,12 +6,14 @@ export default class NewPlaceForm extends React.Component {
     super(props);
     this.state = {
       droppedPin: this.props.droppedPin,
-      droppedPlace: this.props.droppedPlace
+      droppedPlace: this.props.droppedPlace,
+      handleSubmitPin: this.props.handleSubmitPin
     };
     this.handleSubmitPin = this.handleSubmitPin.bind(this);
   }
 
   handleSubmitPin(event){
+    console.log(event);
     event.preventDefault();
     alert('Adding: ' + this.state.droppedPin.title);
     console.log(this.state.droppedPin);
@@ -30,16 +32,15 @@ export default class NewPlaceForm extends React.Component {
 
 
   render() {
-
     return (
       <div>
-        <form id="newPlaceForm" onSubmit={this.handleSubmitPin}>
+        <form onSubmit={this.handleSubmitPin}>
           <label>Title/Description:
             <input type="text" value={this.state.droppedPlace.title}></input>
           </label>
           <input type="hidden" value={this.state.droppedPin.position}/>
-          <input type="submit" value="Submit"/>
         </form>
+        <button onClick={this.state.handleSubmitPin}>Add This</button>
       </div>
     );
   }
