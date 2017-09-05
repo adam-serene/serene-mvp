@@ -21,7 +21,7 @@ export class MapContainer extends React.Component {
         position: {
           lat: 39.938945153644035,
           lng: -105.23653507232666
-        }
+        },
         visits_this_month: 2},
 
         {id: 2,
@@ -32,7 +32,7 @@ export class MapContainer extends React.Component {
         position {
           lat: 39.93183522069995,
           lng: -105.27945578098297
-        }
+        },
         visits_this_month: 20},
       ];,
       showingDPInfoWindow: false,
