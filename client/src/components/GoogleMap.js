@@ -29,7 +29,7 @@ export class MapContainer extends React.Component {
         description: 'Eldorado Spring Resort & Pool',
         lat: 39.93183522069995,
         lng: -105.27945578098297,
-        position {
+        position: {
           lat: 39.93183522069995,
           lng: -105.27945578098297
         },
