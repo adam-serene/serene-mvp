@@ -71,7 +71,6 @@ export class MapContainer extends React.Component {
     };
 
     navigator.geolocation.getCurrentPosition(navGCPSuccess, navGCPError, navGCPOptions);
-    // this.setState({currentLocation: newCL});
   }
 
   onMarkerClick(mapProps, marker, e){
@@ -80,6 +79,10 @@ export class MapContainer extends React.Component {
       activeMarker: marker,
       showingInfoWindow: true
     });
+  }
+
+  windowHasOpened(mapProps, marker, e){
+    console.log('wHO', this.props);
   }
 
   dropPin(mapProps, marker, e){
@@ -135,7 +138,9 @@ export class MapContainer extends React.Component {
 
         <InfoWindow
           marker={this.state.droppedPin}
-          visible={this.state.showingDPInfoWindow}>
+          visible={this.state.showingDPInfoWindow}
+          onOpen={this.windowHasOpened}
+        >
           <NewPlaceForm
             droppedPin={this.state.droppedPin}
             droppedPlace={this.state.droppedPlace}
