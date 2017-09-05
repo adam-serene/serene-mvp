@@ -1,180 +1,282 @@
 import React from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+// import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import NewPlaceForm from './SubmitPlace.js'
 import qs from 'qs';
 
+const googleMapURL = `https://maps.googleapis.com/maps/api/js?v=3.27&libraries=places,geometry&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
 
-export class MapContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentLocation: {
-        lat: 40.0150,
-        lng: -105.2705
+const GettingStartedGoogleMap = withGoogleMap(props => (
+  <GoogleMap
+    ref={props.onMapLoad}
+    defaultZoom={3}
+    defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+    onClick={props.onMapClick}
+  >
+    {props.markers.map((marker, index) => (
+      <Marker
+        {...marker}
+        onRightClick={() => props.onMarkerRightClick(index)}
+      />
+    ))}
+  </GoogleMap>
+));
+
+export default class GettingStartedExample extends Component {
+
+  state = {
+    markers: [{
+      position: {
+        lat: 25.0112183,
+        lng: 121.52067570000001,
       },
-      places: [],
-      showingDPInfoWindow: false,
-      droppedPlace: {
-        title: ''
-      },
-      droppedPin: {},
-      showingInfoWindow: false,
-      activeMarker: {},
-      selectedPlace: {}
-    }
-    this.fetchPlaces = this.fetchPlaces.bind(this);
-    this.mapClicked = this.mapClicked.bind(this);
-    this.centerMoved = this.centerMoved.bind(this);
-    this.onMarkerClick = this.onMarkerClick.bind(this);
-    this.dropPin = this.dropPin.bind(this);
-    this.handleSubmitPin = this.handleSubmitPin.bind(this);
-  }
+      key: `Taiwan`,
+      defaultAnimation: 2,
+    }],
+  };
 
-  async fetchPlaces(mapProps, map) {
-    const response = await fetch('https://serene-green.herokuapp.com/places');
-    // const response = await fetch('http://localhost:5000/places');
-    const places = await response.json()
-    this.setState({
-      places: places
-    });
-  }
+  handleMapLoad = this.handleMapLoad.bind(this);
+  handleMapClick = this.handleMapClick.bind(this);
+  handleMarkerRightClick = this.handleMarkerRightClick.bind(this);
 
-  mapClicked(mapProps, map, clickEvent) {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
-      })
+  handleMapLoad(map) {
+    this._mapComponent = map;
+    if (map) {
+      console.log(map.getZoom());
     }
   }
 
-  centerMoved() {
-    let that = this;
-    function navGCPSuccess(pos){
-      let crd = pos.coords;
-      that.setState({
-        currentLocation: {
-          lat: crd.latitude,
-          lng: crd.longitude
-        }
-      }, ()=>{console.log(that.state);});
-    }
-
-    function navGCPError(err){
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    };
-
-    const navGCPOptions = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    };
-
-    navigator.geolocation.getCurrentPosition(navGCPSuccess, navGCPError, navGCPOptions);
-  }
-
-  onMarkerClick(mapProps, marker, e){
-    this.setState({
-      selectedPlace: mapProps,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
-  }
-
-  windowHasOpened(mapProps, marker, e){
-    console.log('wHO', this.props);
-  }
-
-  dropPin(mapProps, marker, e){
-    this.setState({
-      droppedPlace: mapProps,
-      droppedPin: marker,
-      showingDPInfoWindow: true
-    });
-    console.log(this.state.droppedPlace);
-  }
-
-  handleSubmitPin(event){
-    event.preventDefault();
-    alert('Adding: ' + this.state.droppedPin.title);
-    console.log(this.state.droppedPin);
-
-    // const response = await fetch('https://serene-green.herokuapp.com/places',
-    const response = fetch('http://localhost:5000/places',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+  /*
+   * This is called when you click on the map.
+   * Go and try click now.
+   */
+  handleMapClick(event) {
+    const nextMarkers = [
+      ...this.state.markers,
+      {
+        position: event.latLng,
+        defaultAnimation: 2,
+        key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
       },
-      body: qs.stringify(this.state.droppedPin)
-    })
-    alert(response);
+    ];
+    this.setState({
+      markers: nextMarkers,
+    });
+
+    if (nextMarkers.length === 3) {
+      this.props.toast(
+        `Right click on the marker to remove it`,
+        `Also check the code!`
+      );
+    }
   }
 
+  handleMarkerRightClick(targetMarker) {
+    /*
+     * All you modify is data, and the view is driven by data.
+     * This is so called data-driven-development. (And yes, it's now in
+     * web front end and even with google maps API.)
+     */
+    const nextMarkers = this.state.markers.filter(marker => marker !== targetMarker);
+    this.setState({
+      markers: nextMarkers,
+    });
+  }
 
   render() {
-    const style = {
-      width: '100vw',
-      height: '80vh'
-    }
-
     return (
-      <div style={style}>
-        <Map google={this.props.google}
-          onReady={this.fetchPlaces}
-          onClick={this.mapClicked}
-          onDragend={this.centerMoved}
-          style={style}
-          initialCenter={this.state.currentLocation}
-          zoom={13}
-          clickableIcons={false}
-        >
-
-        <Marker
-          name="youAreHere"
-          position={this.state.currentLocation}
-          onClick={this.dropPin}
+      <div style={{height: `100%`}}>
+        <Helmet
+          title="Getting Started"
         />
-
-        <InfoWindow
-          marker={this.state.droppedPin}
-          visible={this.state.showingDPInfoWindow}
-          onOpen={this.windowHasOpened}
-        >
-          <NewPlaceForm
-            droppedPin={this.state.droppedPin}
-            droppedPlace={this.state.droppedPlace}
-            handleSubmitPin={this.handleSubmitPin}
-          />
-        </InfoWindow>
-
-        {this.state.places.map(place =>
-          <Marker
-            key={place.id}
-            title={place.description}
-            name={place.description}
-            position={place.position}
-            url={place.url}
-            onClick={this.onMarkerClick}
-          />
-        )}
-
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}>
-            <div>
-              <h1>{this.state.selectedPlace.title}</h1>
-              <img src={this.state.selectedPlace.url} alt=""/>
-            </div>
-        </InfoWindow>
-
-        </Map>
+        <GettingStartedGoogleMap
+          containerElement={
+            <div style={{ height: `100%` }} />
+          }
+          mapElement={
+            <div style={{ height: `100%` }} />
+          }
+          onMapLoad={this.handleMapLoad}
+          onMapClick={this.handleMapClick}
+          markers={this.state.markers}
+          onMarkerRightClick={this.handleMarkerRightClick}
+        />
       </div>
     );
   }
-} //closes MapContainer
-
-export default GoogleApiWrapper({
-  // apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-  apiKey: 'AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8'
-})(MapContainer)
+}
+//
+// export class MapContainer extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       currentLocation: {
+//         lat: 40.0150,
+//         lng: -105.2705
+//       },
+//       places: [],
+//       showingDPInfoWindow: false,
+//       droppedPlace: {
+//         title: ''
+//       },
+//       droppedPin: {},
+//       showingInfoWindow: false,
+//       activeMarker: {},
+//       selectedPlace: {}
+//     }
+//     this.fetchPlaces = this.fetchPlaces.bind(this);
+//     this.mapClicked = this.mapClicked.bind(this);
+//     this.centerMoved = this.centerMoved.bind(this);
+//     this.onMarkerClick = this.onMarkerClick.bind(this);
+//     this.dropPin = this.dropPin.bind(this);
+//     this.handleSubmitPin = this.handleSubmitPin.bind(this);
+//   }
+//
+//   async fetchPlaces(mapProps, map) {
+//     const response = await fetch('https://serene-green.herokuapp.com/places');
+//     // const response = await fetch('http://localhost:5000/places');
+//     const places = await response.json()
+//     this.setState({
+//       places: places
+//     });
+//   }
+//
+//   mapClicked(mapProps, map, clickEvent) {
+//     if (this.state.showingInfoWindow) {
+//       this.setState({
+//         showingInfoWindow: false,
+//         activeMarker: null
+//       })
+//     }
+//   }
+//
+//   centerMoved() {
+//     let that = this;
+//     function navGCPSuccess(pos){
+//       let crd = pos.coords;
+//       that.setState({
+//         currentLocation: {
+//           lat: crd.latitude,
+//           lng: crd.longitude
+//         }
+//       }, ()=>{console.log(that.state);});
+//     }
+//
+//     function navGCPError(err){
+//       console.warn(`ERROR(${err.code}): ${err.message}`);
+//     };
+//
+//     const navGCPOptions = {
+//       enableHighAccuracy: true,
+//       timeout: 5000,
+//       maximumAge: 0
+//     };
+//
+//     navigator.geolocation.getCurrentPosition(navGCPSuccess, navGCPError, navGCPOptions);
+//   }
+//
+//   onMarkerClick(mapProps, marker, e){
+//     this.setState({
+//       selectedPlace: mapProps,
+//       activeMarker: marker,
+//       showingInfoWindow: true
+//     });
+//   }
+//
+//   windowHasOpened(mapProps, marker, e){
+//     console.log('wHO', this.props);
+//   }
+//
+//   dropPin(mapProps, marker, e){
+//     this.setState({
+//       droppedPlace: mapProps,
+//       droppedPin: marker,
+//       showingDPInfoWindow: true
+//     });
+//     console.log(this.state.droppedPlace);
+//   }
+//
+//   handleSubmitPin(event){
+//     event.preventDefault();
+//     alert('Adding: ' + this.state.droppedPin.title);
+//     console.log(this.state.droppedPin);
+//
+//     // const response = await fetch('https://serene-green.herokuapp.com/places',
+//     const response = fetch('http://localhost:5000/places',
+//     {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+//       },
+//       body: qs.stringify(this.state.droppedPin)
+//     })
+//     alert(response);
+//   }
+//
+//
+//   render() {
+//     const style = {
+//       width: '100vw',
+//       height: '80vh'
+//     }
+//
+//     return (
+//       <div style={style}>
+//         <Map google={this.props.google}
+//           onReady={this.fetchPlaces}
+//           onClick={this.mapClicked}
+//           onDragend={this.centerMoved}
+//           style={style}
+//           initialCenter={this.state.currentLocation}
+//           zoom={13}
+//           clickableIcons={false}
+//         >
+//
+//         <Marker
+//           name="youAreHere"
+//           position={this.state.currentLocation}
+//           onClick={this.dropPin}
+//         />
+//
+//         <InfoWindow
+//           marker={this.state.droppedPin}
+//           visible={this.state.showingDPInfoWindow}
+//           onOpen={this.windowHasOpened}
+//         >
+//           <NewPlaceForm
+//             droppedPin={this.state.droppedPin}
+//             droppedPlace={this.state.droppedPlace}
+//             handleSubmitPin={this.handleSubmitPin}
+//           />
+//         </InfoWindow>
+//
+//         {this.state.places.map(place =>
+//           <Marker
+//             key={place.id}
+//             title={place.description}
+//             name={place.description}
+//             position={place.position}
+//             url={place.url}
+//             onClick={this.onMarkerClick}
+//           />
+//         )}
+//
+//         <InfoWindow
+//           marker={this.state.activeMarker}
+//           visible={this.state.showingInfoWindow}>
+//             <div>
+//               <h1>{this.state.selectedPlace.title}</h1>
+//               <img src={this.state.selectedPlace.url} alt=""/>
+//             </div>
+//         </InfoWindow>
+//
+//         </Map>
+//       </div>
+//     );
+//   }
+// } //closes MapContainer
+//
+// export default GoogleApiWrapper({
+//   // apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+//   apiKey: 'AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8'
+// })(MapContainer)
