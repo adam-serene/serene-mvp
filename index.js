@@ -1,15 +1,15 @@
 const express = require('express');
-// const https = require('https');
-// const fs = require('fs');
-// const HTTPS_PORT = 3443;
+const https = require('https');
+const fs = require('fs');
+const HTTPS_PORT = 3443;
 const app = express();
-// const secureServer = https.createServer({
-//   key: fs.readFileSync('https-keys/private.key'),
-//   cert: fs.readFileSync('https-keys/certificate.pem')
-// }, app)
-// .listen(HTTPS_PORT, function () {
-//   console.log('Secure Server listening on port ' + HTTPS_PORT);
-// });
+const secureServer = https.createServer({
+  key: fs.readFileSync('https-keys/private.key'),
+  cert: fs.readFileSync('https-keys/certificate.pem')
+}, app)
+.listen(HTTPS_PORT, function () {
+  console.log('Secure Server listening on port ' + HTTPS_PORT);
+});
 
 require('dotenv').config();
 const path = require('path');
@@ -25,17 +25,17 @@ app.use(cors({
   allowedOrigins: ["localhost:*", "serene-green.herokuapp.com"]
 }));
 
-// app.all('*', function(req, res, next){
-//   if (req.secure) {
-//     return next();
-//   };
-//   res.redirect(`https://${req.hostname}:${HTTPS_PORT}${req.url}`);
-// });
+app.all('*', function(req, res, next){
+  if (req.secure) {
+    return next();
+  };
+  res.redirect(`https://${req.hostname}:${HTTPS_PORT}${req.url}`);
+});
 app.use('/auth/fitbit', passport);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/places', (req, res, next)=>{
   console.log('places req', req.headers);
@@ -137,20 +137,20 @@ app.post('/login', (req,res,next) => {
     });
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
-
-// app.get('/', (req,res,next)=>{
-//   jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-//     if (err) {
-//       res.clearCookie('token');
-//       return next(err);
-//     }
-//     req.user = decoded;
-//     res.sendFile(path.join(__dirname+'/client/build/index.html'));
-//   });
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 // });
+
+app.get('/', (req,res,next)=>{
+  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+    if (err) {
+      res.clearCookie('token');
+      return next(err);
+    }
+    req.user = decoded;
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  });
+});
 
 // app.use(function (req,res,next) {
 //   if (req.cookies.token) {
@@ -170,10 +170,10 @@ app.get('/', (req, res) => {
 //   }
 // });
 
-const port = process.env.PORT || 5000;
-app.listen(port);
-
-console.log(`Listening on ${port}`);
+// const port = process.env.PORT || 5000;
+// app.listen(port);
+//
+// console.log(`Listening on ${port}`);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
