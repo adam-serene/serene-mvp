@@ -43,7 +43,7 @@ export class MapContainer extends React.Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {}
-    }
+    };
     this.fetchPlaces = this.fetchPlaces.bind(this);
     this.mapClicked = this.mapClicked.bind(this);
     this.centerMoved = this.centerMoved.bind(this);
