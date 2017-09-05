@@ -12,8 +12,7 @@ export class MapContainer extends React.Component {
         lat: 40.0150,
         lng: -105.2705
       },
-      places: [],
-      placess: [
+      places: [
         {id: 1,
         user_id: 1,
         description: 'Postcard Point',
@@ -54,12 +53,12 @@ export class MapContainer extends React.Component {
   }
 
   async fetchPlaces(mapProps, map) {
-    const response = await fetch('https://serene-green.herokuapp.com/places');
-    // const response = await fetch('http://localhost:5000/places');
-    const places = await response.json()
-    this.setState({
-      places: places
-    });
+    // const response = await fetch('https://serene-green.herokuapp.com/places');
+    // // const response = await fetch('http://localhost:5000/places');
+    // const places = await response.json()
+    // this.setState({
+    //   places: places
+    // });
   }
 
   mapClicked(mapProps, map, clickEvent) {
@@ -167,8 +166,8 @@ export class MapContainer extends React.Component {
           <NewPlaceForm
             droppedPin={this.state.droppedPin}
             droppedPlace={this.state.droppedPlace}
-            handleSubmitPin={this.handleSubmitPin}
           />
+          <button onClick={this.handleSubmitPin}>Add Place!</button>
         </InfoWindow>
 
         {this.state.places.map(place =>
