@@ -12,7 +12,7 @@ export default class NewPlaceForm extends React.Component {
     this.handleSubmitPin = this.handleSubmitPin.bind(this);
   }
 
-  handleSubmitPin(event){
+  async handleSubmitPin(event){
     console.log(event);
     event.preventDefault();
     alert('Adding: ' + this.state.droppedPin.title);

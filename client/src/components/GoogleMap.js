@@ -94,13 +94,13 @@ export class MapContainer extends React.Component {
     console.log(this.state.droppedPlace);
   }
 
-  handleSubmitPin(event){
+  async handleSubmitPin(event){
     event.preventDefault();
     alert('Adding: ' + this.state.droppedPin.title);
     console.log(this.state.droppedPin);
 
-    // const response = await fetch('https://serene-green.herokuapp.com/places',
-    const response = fetch('http://localhost:5000/places',
+    const response = await fetch('https://serene-green.herokuapp.com/places',
+    // const response = fetch('http://localhost:5000/places',
     {
       method: 'POST',
       headers: {
