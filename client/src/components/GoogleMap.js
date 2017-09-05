@@ -12,7 +12,29 @@ export class MapContainer extends React.Component {
         lat: 40.0150,
         lng: -105.2705
       },
-      places: [],
+      places: [
+        {id: 1,
+        user_id: 1,
+        description: 'Postcard Point',
+        lat: 39.938945153644035,
+        lng: -105.23653507232666,
+        position: {
+          lat: 39.938945153644035,
+          lng: -105.23653507232666
+        }
+        visits_this_month: 2},
+
+        {id: 2,
+        user_id: 1,
+        description: 'Eldorado Spring Resort & Pool',
+        lat: 39.93183522069995,
+        lng: -105.27945578098297,
+        position {
+          lat: 39.93183522069995,
+          lng: -105.27945578098297
+        }
+        visits_this_month: 20},
+      ];,
       showingDPInfoWindow: false,
       droppedPlace: {
         title: ''
@@ -30,14 +52,14 @@ export class MapContainer extends React.Component {
     this.handleSubmitPin = this.handleSubmitPin.bind(this);
   }
 
-  async fetchPlaces(mapProps, map) {
-    const response = await fetch('https://serene-green.herokuapp.com/places');
-    // const response = await fetch('http://localhost:5000/places');
-    const places = await response.json()
-    this.setState({
-      places: places
-    });
-  }
+  // async fetchPlaces(mapProps, map) {
+  //   const response = await fetch('https://serene-green.herokuapp.com/places');
+  //   // const response = await fetch('http://localhost:5000/places');
+  //   const places = await response.json()
+  //   this.setState({
+  //     places: places
+  //   });
+  // }
 
   mapClicked(mapProps, map, clickEvent) {
     if (this.state.showingInfoWindow) {
