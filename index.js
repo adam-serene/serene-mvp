@@ -1,15 +1,15 @@
 const express = require('express');
-const https = require('https');
-const fs = require('fs');
-const HTTPS_PORT = 3443;
+// const https = require('https');
+// const fs = require('fs');
+// const HTTPS_PORT = 3443;
 const app = express();
-const secureServer = https.createServer({
-  key: fs.readFileSync('https-keys/private.key'),
-  cert: fs.readFileSync('https-keys/certificate.pem')
-}, app)
-.listen(HTTPS_PORT, function () {
-  console.log('Secure Server listening on port ' + HTTPS_PORT);
-});
+// const secureServer = https.createServer({
+//   key: fs.readFileSync('https-keys/private.key'),
+//   cert: fs.readFileSync('https-keys/certificate.pem')
+// }, app)
+// .listen(HTTPS_PORT, function () {
+//   console.log('Secure Server listening on port ' + HTTPS_PORT);
+// });
 
 require('dotenv').config();
 const path = require('path');
@@ -25,12 +25,12 @@ app.use(cors({
   allowedOrigins: ["localhost:*", "serene-green.herokuapp.com"]
 }));
 
-app.all('*', function(req, res, next){
-  if (req.secure) {
-    return next();
-  };
-  res.redirect(`https://${req.hostname}:${HTTPS_PORT}${req.url}`);
-});
+// app.all('*', function(req, res, next){
+//   if (req.secure) {
+//     return next();
+//   };
+//   res.redirect(`https://${req.hostname}:${HTTPS_PORT}${req.url}`);
+// });
 app.use('/auth/fitbit', passport);
 app.use(cookieParser());
 app.use(bodyParser.json());
