@@ -23,8 +23,8 @@ export default class Auth extends React.Component{
   async handleSubmit(event) {
     alert('Attempting to login: ' + this.state.username);
     event.preventDefault();
-    // const response = await fetch('https://serene-green.herokuapp.com/login',
-    const response = await fetch('https://localhost:3443/login',
+    const response = await fetch('https://serene-green.herokuapp.com/login',
+    // const response = await fetch('https://localhost:3443/login',
     {
       method: 'POST',
       headers: {
