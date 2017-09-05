@@ -34,7 +34,7 @@ export class MapContainer extends React.Component {
           lng: -105.27945578098297
         },
         visits_this_month: 20},
-      ];,
+      ],
       showingDPInfoWindow: false,
       droppedPlace: {
         title: ''
