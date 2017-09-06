@@ -139,7 +139,7 @@ app.post('/login', (req,res,next) => {
       var token = jwt.sign(user, process.env.JWT_KEY);
       res.cookie('token', token, {httpOnly: true});
       console.log(`${data[0].username} logged in.`);
-      return res.redirect('https://serene-green.herokuapp.com/mapplaces');
+      return res.send(data[0]);
     } else {
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');

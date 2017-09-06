@@ -31,9 +31,10 @@ export default class Auth extends React.Component{
       },
       body: qs.stringify(this.state)
     })
-    let pathEnd = response.url.slice(34);
-    console.log(pathEnd);
-    this._reactInternalInstance._context.router.history.push(pathEnd, null);
+    const data = await response.json()
+    console.log(data);
+    // let pathEnd = data.url.slice(34);
+    // this._reactInternalInstance._context.router.history.push(pathEnd, null);
   }
 
   render(){
