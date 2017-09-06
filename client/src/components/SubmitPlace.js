@@ -39,7 +39,8 @@ export default class NewPlaceForm extends React.Component {
    }
 
   async handleSubmit(event){
-    alert('Attempting to create: ' + this.state.newPlace.title);
+    alert('Attempting to create: ' + this.state.title);
+    console.log(this.state);
     event.preventDefault();
     const response = await fetch('https://serene-green.herokuapp.com/places',
     // const response = await fetch('https://localhost:3443/login',
@@ -50,9 +51,10 @@ export default class NewPlaceForm extends React.Component {
         },
         body: qs.stringify(this.state)
       })
-    let pathEnd = response.url.slice(34);
-    console.log(pathEnd);
-    this._reactInternalInstance._context.router.history.push(pathEnd, null);
+    const data = await response.json()
+    console.log(data);
+    // let pathEnd = response.url.slice(34);
+    // this._reactInternalInstance._context.router.history.push(pathEnd, null);
   }
 
   navGCPSuccess=(pos)=>{
@@ -70,28 +72,29 @@ export default class NewPlaceForm extends React.Component {
   componentWillMount(){
     this.fetchCategories();
     navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
+    console.log(this.state);
   }
 
   render() {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-
           <p><label>
             What should we call this New Place?
             <input name="title" type="text" value={this.state.title} onChange={this.handleChange} />
           </label></p>
-
           <p><label>
             Categorize your New Place:
-            <select id="categorySelect">
-            {this.state.categories.map(e=>{
-              console.log(e);
-              <option value={e.category}>{e.category}</option>
-            })}
+            <select name="category" onChange={this.handleChange}>
+            {this.state.categories.map(e=>
+              <option
+                key={e.id}
+                value={e.category}>
+              {e.category}
+              </option>
+            )}
             </select>
           </label></p>
-
           <input type="submit" value="Submit" />
         </form>
       </div>

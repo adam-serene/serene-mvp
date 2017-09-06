@@ -70,16 +70,17 @@ app.get('/categories', (req,res,next)=>{
 
 app.post('/places', (req, res, next)=>{
   let body = req.body;
-  knex.insert(body)
-  .into('places')
-  .returning('*')
-  .then(response => {
-    res.send(`${response[0]} added!`);
-  })
-  .catch(err => {
-    console.log('error');
-    next(err);
-  });
+  // knex.insert(body)
+  // .into('places')
+  // .returning('*')
+  // .then(response => {
+  //   res.send(`${response[0]} added!`);
+  // })
+  // .catch(err => {
+  //   console.log('error');
+  //   next(err);
+  // });
+  res.send(req.body)
 })
 
 app.get('/users', (req, res, next)=>{
