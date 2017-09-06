@@ -64,7 +64,7 @@ class Signup extends Component{
           </label></p>
           <p><label>
             Birthday:
-            <input name="username" type="text" value={this.state.birthday} onChange={this.handleChange} />
+            <input name="username" type="date" value={this.state.birthday} onChange={this.handleChange} />
           </label></p>
           <input type="submit" value="Submit" />
         </form>

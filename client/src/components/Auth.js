@@ -8,11 +8,10 @@ export default class Auth extends React.Component{
      username: '',
      password: ''
    };
-   this.handleChange = this.handleChange.bind(this);
    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange=(event)=>{
      const value = event.target.value;
      const name = event.target.name;
      this.setState({
@@ -48,7 +47,7 @@ export default class Auth extends React.Component{
           </label></p>
           <p><label>
             Password:
-            <input name="password" type="text" value={this.state.password} onChange={this.handleChange} />
+            <input name="password" type="password" value={this.state.password} onChange={this.handleChange} />
           </label></p>
           <input type="submit" value="Submit" />
         </form>

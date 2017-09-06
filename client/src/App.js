@@ -8,6 +8,8 @@ import Auth from './components/Auth';
 import GoogleMap from './components/GoogleMap';
 import Progress from './components/Progress';
 import Signup from './components/Signup';
+import NewPlaceForm from './components/SubmitPlace.js'
+
 
 const Login = ({match}) => (
   <div>
@@ -32,8 +34,9 @@ const NewUser = () => (
 const MapPlaces = () => (
   <div>
     <nav>
-      <Link to="/mapplaces"><i className="fa fa-map-o fa-2x" aria-hidden="true"></i></Link>
+      <Link to="/mapplaces"><i className="fa fa-map-o fa-3x" aria-hidden="true"></i></Link>
       <Link to="/fitness"><i className="fa fa-trophy fa-2x" aria-hidden="true"></i></Link>
+      <Link to="/addpoint"><i className="fa fa-map-marker fa-2x" aria-hidden="true"></i></Link>
     </nav>
     <GoogleMap />
   </div>
@@ -43,9 +46,21 @@ const Fitness = () => (
   <div>
     <nav>
       <Link to="/mapplaces"><i className="fa fa-map-o fa-2x" aria-hidden="true"></i></Link>
-      <Link to="/fitness"><i className="fa fa-trophy fa-2x" aria-hidden="true"></i></Link>
+      <Link to="/fitness"><i className="fa fa-trophy fa-3x" aria-hidden="true"></i></Link>
+      <Link to="/addpoint"><i className="fa fa-map-marker fa-2x" aria-hidden="true"></i></Link>
     </nav>
     <Progress />
+  </div>
+)
+
+const AddPoint = () => (
+  <div>
+    <nav>
+      <Link to="/mapplaces"><i className="fa fa-map-o fa-2x" aria-hidden="true"></i></Link>
+      <Link to="/fitness"><i className="fa fa-trophy fa-2x" aria-hidden="true"></i></Link>
+      <Link to="/addpoint"><i className="fa fa-map-marker fa-3x" aria-hidden="true"></i></Link>
+    </nav>
+    <NewPlaceForm />
   </div>
 )
 
@@ -57,6 +72,7 @@ const App = () => (
       <Route exact path="/" component={Login}/>
       <Route path="/mapplaces" component={MapPlaces}/>
       <Route path="/fitness" component={Fitness}/>
+      <Route path="/addpoint" component={AddPoint}/>
       <Route path="/newuser" component={NewUser}/>
     </div>
   </div>

@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/places', (req, res, next)=>{
-  console.log('places req', req.headers);
+  // console.log('places req', req.headers);
   knex('places')
   .select('*')
   .then(data => {
@@ -49,6 +49,18 @@ app.get('/places', (req, res, next)=>{
       (place.lng) ? result[index].position.lng = place.lng : result[index].position.lng = place.long;
     })
     res.send(result);
+  })
+  .catch(err => {
+    console.log('error');
+    next(err);
+  });
+})
+
+app.get('/categories', (req,res,next)=>{
+  knex('categories')
+  .select('*')
+  .then(data => {
+    res.send(data);
   })
   .catch(err => {
     console.log('error');
