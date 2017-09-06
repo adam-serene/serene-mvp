@@ -38,7 +38,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/places', (req, res, next)=>{
-  // console.log('places req', req.headers);
   knex('places')
   .select('*')
   .then(data => {
@@ -70,18 +69,28 @@ app.get('/categories', (req,res,next)=>{
 
 app.post('/places', (req, res, next)=>{
   let body = req.body;
-  // knex.insert(body)
-  // .into('places')
-  // .returning('*')
-  // .then(response => {
-  //   res.send(`${response[0]} added!`);
-  // })
-  // .catch(err => {
-  //   console.log('error');
-  //   next(err);
-  // });
-  res.send(req.body)
+  console.log(req.cookie.token);
+  jwt.verify(req.cookie.token, process.env.JWT_KEY, function (err,decoded) {
+    if (err) {
+      res.clearCookie('token');
+      console.log('token cleared');
+      return next(err);
+    }
+    req.user = decoded;
+    console.log('JWT verified!');
+  });
+  knex.insert(body)
+  .into('places')
+  .returning('*')
+  .then(response => {
+    res.send(`${response[0]} added!`);
+  })
+  .catch(err => {
+    console.log('error in post /places');
+    next(err);
+  });
 })
+
 
 app.get('/users', (req, res, next)=>{
   knex('users')
@@ -108,9 +117,18 @@ app.post('/register', (req,res,next)=>{
     .into('users')
     .returning('*')
     .then((response)=>{
-      delete response.hashed_password;
+      delete response[0].hashed_password;
+      let user = {
+        id: response[0].id,
+        username: response[0].username,
+        score: response[0].score,
+        submissions_remaining: response[0].submissions_remaining
+      };
+      var token = jwt.sign(user, process.env.JWT_KEY);
+      res.cookie('token', token, {httpOnly: true});
       console.log(`${response[0].username} signed up!`);
-      return res.redirect('https://serene-green.herokuapp.com/mapplaces');
+      response[0].url = '/mapplaces'
+      return res.send(response[0]);
     })
     .catch(function (err) {
       return next(err);
@@ -138,9 +156,9 @@ app.post('/login', (req,res,next) => {
       };
       var token = jwt.sign(user, process.env.JWT_KEY);
       res.cookie('token', token, {httpOnly: true});
-      delete data[0].hashed_password
-      data[0].url = '/mapplaces'
-      
+      delete data[0].hashed_password;
+      data[0].url = '/mapplaces';
+      console.log(res.cookies.token);
       console.log(`${data[0].username} logged in.`);
       return res.send(data[0]);
     } else {

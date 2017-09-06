@@ -1,5 +1,7 @@
 import React from 'react';
 import qs from 'qs';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const navGCPOptions = {
   enableHighAccuracy: true,
@@ -13,7 +15,7 @@ export default class NewPlaceForm extends React.Component {
     this.state = {
       categories: [],
       title: '',
-      category: '',
+      category: 'GO BIG',
       lat: 0,
       lng: 0
     };
@@ -38,12 +40,13 @@ export default class NewPlaceForm extends React.Component {
      });
    }
 
+  notify=(message)=>toast(message);
+
   async handleSubmit(event){
-    alert('Attempting to create: ' + this.state.title);
-    console.log(this.state);
     event.preventDefault();
-    const response = await fetch('https://serene-green.herokuapp.com/places',
-    // const response = await fetch('https://localhost:3443/login',
+    this.notify(`Noice! Let's add ${this.state.title} to the map.`);
+    // const response = await fetch('https://serene-green.herokuapp.com/places',
+    const response = await fetch('http://localhost:5000/places',
       {
         method: 'POST',
         headers: {
@@ -53,8 +56,11 @@ export default class NewPlaceForm extends React.Component {
       })
     const data = await response.json()
     console.log(data);
-    // let pathEnd = response.url.slice(34);
-    // this._reactInternalInstance._context.router.history.push(pathEnd, null);
+    this.notify(`Thanks! Others are really gonna enjoy ${data.title}!`);
+    let pathEnd = data.url;
+    setTimeout(()=>{
+      this._reactInternalInstance._context.router.history.push(pathEnd, null);}
+      , 1500);
   }
 
   navGCPSuccess=(pos)=>{
@@ -78,6 +84,15 @@ export default class NewPlaceForm extends React.Component {
   render() {
     return (
       <div>
+        <ToastContainer
+          position="top-right"
+          type="default"
+          autoClose={5000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+        />
         <form onSubmit={this.handleSubmit}>
           <p><label>
             What should we call this New Place?
@@ -86,7 +101,7 @@ export default class NewPlaceForm extends React.Component {
           <p><label>
             Categorize your New Place:
             <select name="category" onChange={this.handleChange}>
-            {this.state.categories.map(e=>
+            {this.state.categories.map(e =>
               <option
                 key={e.id}
                 value={e.category}>

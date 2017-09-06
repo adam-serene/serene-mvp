@@ -1,5 +1,7 @@
 import React from 'react';
 import qs from 'qs';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 export default class Auth extends React.Component{
   constructor(props) {
@@ -19,9 +21,11 @@ export default class Auth extends React.Component{
      });
    }
 
+  notify=(message)=>toast(message);
+
   async handleSubmit(event) {
-    alert('Attempting to login: ' + this.state.username);
     event.preventDefault();
+    this.notify(`Hey, ${this.state.username}. You down? We'll see....`);
     const response = await fetch('https://serene-green.herokuapp.com/login',
     // const response = await fetch('https://localhost:3443/login',
     {
@@ -32,14 +36,25 @@ export default class Auth extends React.Component{
       body: qs.stringify(this.state)
     })
     const data = await response.json()
-    console.log(data);
+    this.notify(`Righteous. ${data.username}, welcome to the fun!`);
     let pathEnd = data.url;
-    // this._reactInternalInstance._context.router.history.push(pathEnd, null);
+    setTimeout(()=>{
+      this._reactInternalInstance._context.router.history.push(pathEnd, null);}
+      , 1500);
   }
 
   render(){
     return(
       <div>
+        <ToastContainer
+          position="top-right"
+          type="default"
+          autoClose={5000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+        />
         <form onSubmit={this.handleSubmit}>
           <h2>Login</h2>
           <p><label>
