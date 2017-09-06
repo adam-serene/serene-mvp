@@ -33,7 +33,7 @@ export default class Auth extends React.Component{
     })
     const data = await response.json()
     console.log(data);
-    // let pathEnd = data.url.slice(34);
+    let pathEnd = data.url;
     // this._reactInternalInstance._context.router.history.push(pathEnd, null);
   }
 
