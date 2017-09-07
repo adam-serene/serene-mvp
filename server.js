@@ -149,18 +149,15 @@ app.post('/login', (req,res,next) => {
       return res.status(400).send('Bad username or password');
     } else if (bcrypt.compareSync(password, data[0].hashed_password)){
       let tokenUser = data[0];
-      let token;
-      jwt.sign(tokenUser, process.env.JWT_KEY, (err, cookieToken)=>{
+      jwt.sign(tokenUser, process.env.JWT_KEY, (err, token)=>{
         if(err) {
           console.log('err');
           return next(err);
         }
-        console.log(cookieToken);
-        return cookieToken;
+        console.log('token', token);
+        res.cookie('token', token, {httpOnly: true});
+        console.log(res.cookies);
       });
-      console.log(cookieToken);
-      console.log('cookieToken');        
-      res.cookies('token', token, {httpOnly: true});
       delete data[0].hashed_password;
       data[0].url = '/mapplaces';
       console.log(`${data[0].username} logged in.`);

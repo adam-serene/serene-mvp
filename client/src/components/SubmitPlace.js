@@ -45,8 +45,8 @@ export default class NewPlaceForm extends React.Component {
   async handleSubmit(event){
     event.preventDefault();
     this.notify(`Noice! Let's add ${this.state.title} to the map.`);
-    // const response = await fetch('https://serene-green.herokuapp.com/places',
-    const response = await fetch('http://localhost:5000/places',
+    const response = await fetch('https://serene-green.herokuapp.com/places',
+    // const response = await fetch('http://localhost:5000/places',
       {
         method: 'POST',
         headers: {
