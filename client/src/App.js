@@ -61,7 +61,7 @@ const AddPoint = () => (
   </div>
 )
 
-export default const App = () => (
+const App = () => (
   <div className="Home-header">
     <Link to="/"><img src="https://scontent-dft4-1.cdninstagram.com/t51.2885-19/s320x320/17438844_398287633860003_5443105418219880448_a.jpg" className="Home-logo" alt="logo" /></Link>
     <h2 className="Home-name">Serene</h2>
@@ -74,3 +74,5 @@ export default const App = () => (
     </div>
   </div>
 )
+
+export default App;
