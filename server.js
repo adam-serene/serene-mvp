@@ -67,10 +67,11 @@ app.get('/categories', (req,res,next)=>{
   });
 })
 
-app.post('/places', (req, res, next)=>{
+app.post('/places', (req,res,next)=>{
   let body = req.body;
-  console.log(req.cookie.token);
-  jwt.verify(req.cookie.token, process.env.JWT_KEY, function (err,decoded) {
+
+  console.log(req.cookies);
+  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
     if (err) {
       res.clearCookie('token');
       console.log('token cleared');
@@ -79,16 +80,16 @@ app.post('/places', (req, res, next)=>{
     req.user = decoded;
     console.log('JWT verified!');
   });
-  knex.insert(body)
-  .into('places')
-  .returning('*')
-  .then(response => {
-    res.send(`${response[0]} added!`);
-  })
-  .catch(err => {
-    console.log('error in post /places');
-    next(err);
-  });
+  // knex.insert(body)
+  // .into('places')
+  // .returning('*')
+  // .then(response => {
+  //   res.send(`${response[0]} added!`);
+  // })
+  // .catch(err => {
+  //   console.log('error in post /places');
+  //   next(err);
+  // });
 })
 
 
@@ -139,7 +140,6 @@ app.post('/register', (req,res,next)=>{
 app.post('/login', (req,res,next) => {
   let username = req.body.username;
   let password = req.body.password;
-
   knex('users')
   .select('id', 'username', 'hashed_password', 'score', 'submissions_remaining')
   .where('username', username)
@@ -148,18 +148,21 @@ app.post('/login', (req,res,next) => {
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
     } else if (bcrypt.compareSync(password, data[0].hashed_password)){
-      let user = {
-        id: data[0].id,
-        username: data[0].username,
-        score: data[0].score,
-        submissions_remaining: data[0].submissions_remaining
-      };
-      var token = jwt.sign(user, process.env.JWT_KEY);
-      res.cookie('token', token, {httpOnly: true});
+      let tokenUser = data[0];
+      let token;
+      jwt.sign(tokenUser, process.env.JWT_KEY, (err, cookieToken)=>{
+        if(err) {
+          console.log('err');
+          return next(err);
+        }
+        console.log(cookieToken);
+        return cookieToken;
+      });
+      console.log(cookieToken);
+      console.log('cookieToken');        
+      res.cookies('token', token, {httpOnly: true});
       delete data[0].hashed_password;
       data[0].url = '/mapplaces';
-      console.log(data[0])
-      console.log(res);
       console.log(`${data[0].username} logged in.`);
       return res.send(data[0]);
     } else {

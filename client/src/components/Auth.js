@@ -26,8 +26,8 @@ export default class Auth extends React.Component{
   async handleSubmit(event) {
     event.preventDefault();
     this.notify(`Hey, ${this.state.username}. You down? We'll see....`);
-    const response = await fetch('https://serene-green.herokuapp.com/login',
-    // const response = await fetch('http://localhost:5000/login',
+    // const response = await fetch('https://serene-green.herokuapp.com/login',
+    const response = await fetch('http://localhost:5000/login',
     {
       method: 'POST',
       headers: {
@@ -35,9 +35,9 @@ export default class Auth extends React.Component{
       },
       body: qs.stringify(this.state)
     })
+    if (response.status !== 200) return this.notify(`Could not login: ${this.state.username}`);
     const data = await response.json();
-    console.log(data);
-    if(response.status === 200) this.notify(`Righteous. ${data.username}, welcome to the fun!`);
+    this.notify(`Righteous. ${data.username}, welcome to the fun!`);
     let pathEnd = data.url;
     setTimeout(()=>{
       this._reactInternalInstance._context.router.history.push(pathEnd, null);}

@@ -39,7 +39,7 @@ export default class Signup extends Component{
       },
       body: qs.stringify(this.state)
     })
-    if (response.status !== 200) return alert('Could not create user: ' + this.state.username);
+    if (response.status !== 200) return this.notify(`Could not create user: ${this.state.username}`);
     const data = await response.json()
     this.notify(`Righteous. ${data.username}, welcome to the fun!`);
     let pathEnd = data.url;
