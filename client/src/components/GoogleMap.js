@@ -1,8 +1,13 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
-export class MapContainer extends Component {
+const navGCPOptions = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+export class MapContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,102 +15,108 @@ export class MapContainer extends Component {
         lat: 40.0150,
         lng: -105.2705
       },
-      places: []
-    }
-    // this.fetchPlaces = this.fetchPlaces.bind(this);
-    // this.loadMap = this.loadMap.bind(this);
-    // this.renderChildren = this.renderChildren.bind(this);
+      places: [],
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {}
+    };
+    this.fetchPlaces = this.fetchPlaces.bind(this);
   }
 
-  // renderChildren() {
-  //   const {children} = this.props;
-  //
-  //   if (!children) return;
-  //
-  //   return React.Children.map(children, c => {
-  //     return React.cloneElement(c, {
-  //       map: this.map,
-  //       google: this.props.google,
-  //       mapCenter: this.state.currentLocation
-  //     });
-  //   })
-  // }
-  //
-  // componentDidMount() {
-  //   if (this.props.centerAroundCurrentLocation) {
-  //       if (navigator && navigator.geolocation) {
-  //           navigator.geolocation.getCurrentPosition((pos) => {
-  //               const coords = pos.coords;
-  //               this.setState({
-  //                   currentLocation: {
-  //                       lat: coords.latitude,
-  //                       lng: coords.longitude
-  //                   }
-  //               })
-  //           })
-  //       }
-  //   }
-  //   this.loadMap();
-  // }
-  //
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.google !== this.props.google) {
-  //     this.loadMap();
-  //   }
-  // }
-  //
-  // loadMap(){
-  //   if (this.props && this.props.google) {
-  //     // google is available
-  //     const {google} = this.props;
-  //     const maps = google.maps;
-  //
-  //     const mapRef = this.refs.map;
-  //     const node = ReactDOM.findDOMNode(mapRef);
-  //
-  //     let zoom = 14;
-  //     const {lat, lng} = this.state.currentLocation;
-  //     // let lat = 37.774929;
-  //     // let lng = -122.419416;
-  //     const center = new maps.LatLng(lat, lng);
-  //     const mapConfig = Object.assign({}, {
-  //       center: center,
-  //       zoom: zoom
-  //     })
-  //     this.map = new maps.Map(node, mapConfig);
-  //   }
-  // }
+  navGCPSuccess=(pos)=>{
+    let crd = pos.coords;
+    this.setState({
+      currentLocation: {
+        lat: crd.latitude,
+        lng: crd.longitude
+      }
+    });
+  }
 
-  async componentDidMount() {
-    const response = await fetch('http://localhost:5000/places');
+  navGCPError=(err)=>{
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  }
+
+  async fetchPlaces(mapProps, map){
+    const response = await fetch('https://serene-green.herokuapp.com/places');
+    // const response = await fetch('http://localhost:5000/places');
     const places = await response.json()
+    this.setState({
+      places: places
+    });
+  }
+
+  mapClicked=(mapProps, map, clickEvent)=>{
+    if (this.state.showingInfoWindow) {
       this.setState({
-        places: places
-      });
+        showingInfoWindow: false,
+        activeMarker: null
+      })
+    }
+    console.log(this.state.currentLocation);
+  }
+
+  centerMoved=()=>{
+    navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
+  }
+
+  onMarkerClick=(mapProps, marker, e)=>{
+    this.setState({
+      selectedPlace: mapProps,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+  }
+
+  componentWillMount(){
+    navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
   }
 
   render() {
     const style = {
       width: '100vw',
-      height: '100vh'
-    }
+      height: '80vh'
+    };
 
     return (
       <div style={style}>
         <Map google={this.props.google}
-        initialCenter={{
-              lat: 40.0150,
-              lng: -105.2705
-            }}
-        zoom={14}
+          onReady={this.fetchPlaces}
+          onClick={this.mapClicked}
+          onDragend={this.centerMoved}
+          style={style}
+          initialCenter={this.state.currentLocation}
+          zoom={13}
+          clickableIcons={false}
         >
+
+        {this.state.places.map(place =>
+          <Marker
+            key={place.id}
+            title={place.description}
+            name={place.description}
+            position={place.position}
+            url={place.url}
+            onClick={this.onMarkerClick}
+          />
+        )}
+
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}>
+            <div>
+              <h1>{this.state.selectedPlace.title}</h1>
+              <img src={this.state.selectedPlace.url} alt=""/>
+            </div>
+        </InfoWindow>
+
         </Map>
       </div>
     );
   }
-}
-
+} //closes MapContainer
 
 export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8'
+
 })(MapContainer)

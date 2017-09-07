@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import qs from 'qs';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
-class Signup extends Component{
+export default class Signup extends Component{
   constructor(props) {
    super(props);
    this.state = {
@@ -23,11 +25,13 @@ class Signup extends Component{
      });
    }
 
-   async handleSubmit(event) {
-    alert('Creating new user: ' + this.state.username);
+  notify=(message)=>toast(message);
+
+  async handleSubmit(event) {
+    this.notify(`Creating new user: ${this.state.username}...`);
     event.preventDefault();
-    // const response = await fetch('http://serene-green.herokuapp.com/login', {
-    const response = await fetch('http://localhost:5000/register',
+    const response = await fetch('https://serene-green.herokuapp.com/register',
+    // const response = await fetch('http://localhost:5000/register',
     {
       method: 'POST',
       headers: {
@@ -35,14 +39,27 @@ class Signup extends Component{
       },
       body: qs.stringify(this.state)
     })
-    let pathEnd = response.url.slice(22);
-    console.log(pathEnd);
-    this._reactInternalInstance._context.router.history.push(pathEnd, null);
+    if (response.status !== 200) return this.notify(`Could not create user: ${this.state.username}`);
+    const data = await response.json()
+    this.notify(`Righteous. ${data.username}, welcome to the fun!`);
+    let pathEnd = data.url;
+    setTimeout(()=>{
+      this._reactInternalInstance._context.router.history.push(pathEnd, null);}
+      , 1500);
    }
 
   render(){
     return(
       <div>
+        <ToastContainer
+          position="top-right"
+          type="default"
+          autoClose={5000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+        />
         <form onSubmit={this.handleSubmit}>
           <h2>Register</h2>
           <p><label>
@@ -71,5 +88,3 @@ class Signup extends Component{
     );
   }
 }
-
-export default Signup;

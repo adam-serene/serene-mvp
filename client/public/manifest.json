@@ -1,9 +1,10 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Serene",
+  "name": "Serene",
+  "permissions": [ "http://localhost:3000","https://localhost:3000", "https://serene-green.herokuapp.com"],
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "serene.ico",
       "sizes": "192x192",
       "type": "image/png"
     }

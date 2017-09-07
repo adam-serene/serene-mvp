@@ -1,12 +1,10 @@
 exports.seed = function(knex, Promise) {
 
   let data = [
-    {
-    place_id: 1,
+    {place_id: 1,
     category_id: 2},
 
-    {
-    place_id: 2,
+    {place_id: 2,
     category_id: 2},
   ];
 
