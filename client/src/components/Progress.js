@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-class Progress extends Component{
+export default class Progress extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -46,5 +46,3 @@ class Progress extends Component{
     );
   }
 }
-
-export default Progress;

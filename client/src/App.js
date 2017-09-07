@@ -1,9 +1,6 @@
 import React from 'react';
 import './App.css';
-import {
-  Route,
-  Link
-} from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import Auth from './components/Auth';
 import GoogleMap from './components/GoogleMap';
 import Progress from './components/Progress';
@@ -64,7 +61,7 @@ const AddPoint = () => (
   </div>
 )
 
-const App = () => (
+export default const App = () => (
   <div className="Home-header">
     <Link to="/"><img src="https://scontent-dft4-1.cdninstagram.com/t51.2885-19/s320x320/17438844_398287633860003_5443105418219880448_a.jpg" className="Home-logo" alt="logo" /></Link>
     <h2 className="Home-name">Serene</h2>
@@ -77,5 +74,3 @@ const App = () => (
     </div>
   </div>
 )
-
-export default App;
