@@ -158,7 +158,8 @@ app.post('/login', (req,res,next) => {
       res.cookie('token', token, {httpOnly: true});
       delete data[0].hashed_password;
       data[0].url = '/mapplaces';
-      console.log(res.cookies.token);
+      console.log(data[0])
+      console.log(res);
       console.log(`${data[0].username} logged in.`);
       return res.send(data[0]);
     } else {
