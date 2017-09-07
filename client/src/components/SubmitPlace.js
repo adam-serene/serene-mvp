@@ -56,8 +56,7 @@ export default class NewPlaceForm extends React.Component {
       })
     if (response.status !== 200) return this.notify(`Could not add: ${this.state.title} to the map...`);
     const data = await response.json()
-    console.log(data);
-    this.notify(`Thanks! Others are really gonna enjoy ${data.title}!`);
+    this.notify(`Thanks! Others are really gonna enjoy ${data.description}!`);
     let pathEnd = data.url;
     setTimeout(()=>{
       this._reactInternalInstance._context.router.history.push(pathEnd, null);}
@@ -79,7 +78,6 @@ export default class NewPlaceForm extends React.Component {
   componentWillMount(){
     this.fetchCategories();
     navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
-    console.log(this.state);
   }
 
   render() {

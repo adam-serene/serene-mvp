@@ -69,6 +69,43 @@ app.get('/categories', (req,res,next)=>{
 
 app.post('/places', (req,res,next)=>{
   let body = req.body;
+  console.log(body);
+  let addPlaces = {
+    description: body.title,
+    user_id: 1,
+    //^^replace with user_id: req.cookies.sgUserId,
+    lat: body.lat,
+    lng: body.lng,
+    visits_this_month: 1
+  };
+
+  let catId;
+  body.categories.forEach(catObj=>{
+    if (body.category === catObj.category) return catId = catObj.id;
+  })
+  knex.insert(addPlaces)
+  .into('places')
+  .returning('*')
+  .then(response => {
+    let addPlaceCategory = {
+      place_id: response[0].id,
+      category_id: catId
+    }
+    knex.insert(addPlaceCategory)
+    .into('place-category')
+    .then(throwaway=>{
+      response[0].url = '/mapplaces'
+      res.send(response[0]);
+    })
+    .catch(err => {
+      console.log('error in post /place-category', err);
+      next(err);
+    });
+  })
+  .catch(err => {
+    console.log('error in post /places', err);
+    next(err);
+  });
 
   // console.log(req.cookies);
   // jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
@@ -80,16 +117,17 @@ app.post('/places', (req,res,next)=>{
   //   req.user = decoded;
   //   console.log('JWT verified!');
   // });
-  knex.insert(body)
-  .into('places')
-  .returning('*')
-  .then(response => {
-    res.send(`${response[0]} added!`);
-  })
-  .catch(err => {
-    console.log('error in post /places');
-    next(err);
-  });
+
+  // knex.insert(body)
+  // .into('places')
+  // .returning('*')
+  // .then(response => {
+  //   res.send(`${response[0]} added!`);
+  // })
+  // .catch(err => {
+  //   console.log('error in post /places');
+  //   next(err);
+  // });
 })
 
 
