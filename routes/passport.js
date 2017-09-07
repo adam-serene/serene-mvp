@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const cors = require('express-cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -9,11 +10,15 @@ const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 const knex = require('../knex');
 require('dotenv').config()
 
+
 router.use(cookieParser());
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(cookieSession({
   secret: 'keyboard cat'
+ }));
+ router.use(cors({
+   allowedOrigins: ["localhost:*", "serene-green.herokuapp.com", "fitbit.com"]
  }));
 
 router.use(passport.initialize());
@@ -61,13 +66,13 @@ passport.deserializeUser(function(obj, done) {
 });
 
 router.get('/success', function(req, res, next) {
-  // res.send(req.user);
-  res.send('Successful login!')
+  res.send(req.user);
+  // res.send('Successful login!')
 });
 
 router.get('/failure', function(req, res, next) {
-  // res.send(req.user);
-  res.send('Try again...')
+  res.send(req.user);
+  // res.send('Try again...')
 });
 
 

@@ -17,7 +17,8 @@ export default class Progress extends Component{
   notify=(message)=>toast(message);
 
   async checkFitbit(){
-    const response = await fetch('https://serene-green.herokuapp.com/auth/fitbit/');
+    // const response = await fetch('https://serene-green.herokuapp.com/auth/fitbit/');
+    const response = await fetch('http://localhost:5000/auth/fitbit/');
     const data = await response.json();
     this.notify(`ROCK ON, ${data.username.toUpperCase()}!! Let's get FIT`);
     this.setState({

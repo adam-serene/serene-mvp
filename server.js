@@ -22,7 +22,7 @@ const saltRounds = 10;
 // const jwt = require('jsonwebtoken');
 const passport = require('./routes/passport')
 app.use(cors({
-  allowedOrigins: ["localhost:*", "serene-green.herokuapp.com"]
+  allowedOrigins: ["localhost:*", "serene-green.herokuapp.com", "fitbit.com"]
 }));
 
 // app.all('*', function(req, res, next){
