@@ -24,8 +24,8 @@ export default class NewPlaceForm extends React.Component {
   }
 
   async fetchCategories(){
-    // const response = await fetch('https://serene-green.herokuapp.com/categories');
-    const response = await fetch('http://localhost:5000/categories');
+    const response = await fetch('https://serene-green.herokuapp.com/categories');
+    // const response = await fetch('http://localhost:5000/categories');
     const categories = await response.json()
     this.setState({
       categories: categories

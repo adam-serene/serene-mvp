@@ -19,7 +19,7 @@ const bodyParser = require('body-parser');
 const knex = require('./knex');
 const bcrypt = require ('bcrypt');
 const saltRounds = 10;
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const passport = require('./routes/passport')
 app.use(cors({
   allowedOrigins: ["localhost:*", "serene-green.herokuapp.com"]
@@ -70,26 +70,26 @@ app.get('/categories', (req,res,next)=>{
 app.post('/places', (req,res,next)=>{
   let body = req.body;
 
-  console.log(req.cookies);
-  jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
-    if (err) {
-      res.clearCookie('token');
-      console.log('token cleared');
-      return next(err);
-    }
-    req.user = decoded;
-    console.log('JWT verified!');
-  });
-  // knex.insert(body)
-  // .into('places')
-  // .returning('*')
-  // .then(response => {
-  //   res.send(`${response[0]} added!`);
-  // })
-  // .catch(err => {
-  //   console.log('error in post /places');
-  //   next(err);
+  // console.log(req.cookies);
+  // jwt.verify(req.cookies.token, process.env.JWT_KEY, function (err,decoded) {
+  //   if (err) {
+  //     res.clearCookie('token');
+  //     console.log('token cleared');
+  //     return next(err);
+  //   }
+  //   req.user = decoded;
+  //   console.log('JWT verified!');
   // });
+  knex.insert(body)
+  .into('places')
+  .returning('*')
+  .then(response => {
+    res.send(`${response[0]} added!`);
+  })
+  .catch(err => {
+    console.log('error in post /places');
+    next(err);
+  });
 })
 
 
@@ -125,8 +125,8 @@ app.post('/register', (req,res,next)=>{
         score: response[0].score,
         submissions_remaining: response[0].submissions_remaining
       };
-      var token = jwt.sign(user, process.env.JWT_KEY);
-      res.cookie('token', token, {httpOnly: true});
+      // var token = jwt.sign(user, process.env.JWT_KEY);
+      // res.cookie('token', token, {httpOnly: true});
       console.log(`${response[0].username} signed up!`);
       response[0].url = '/mapplaces'
       return res.send(response[0]);
@@ -148,16 +148,18 @@ app.post('/login', (req,res,next) => {
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
     } else if (bcrypt.compareSync(password, data[0].hashed_password)){
-      let tokenUser = data[0];
-      jwt.sign(tokenUser, process.env.JWT_KEY, (err, token)=>{
-        if(err) {
-          console.log('err');
-          return next(err);
-        }
-        console.log('token', token);
-        res.cookie('token', token, {httpOnly: true});
-        console.log(res.cookies);
-      });
+      // let tokenUser = data[0];
+      // jwt.sign(tokenUser, process.env.JWT_KEY, (err, token)=>{
+      //   if(err) {
+      //     console.log('err');
+      //     return next(err);
+      //   }
+      //   console.log('token', token);
+      //   res.cookie('token', token, {httpOnly: true});
+      //   console.log(res.cookies);
+      // });
+      let sgUserId = data[0].id
+      res.cookie('sgUserId', sgUserId, {httpOnly: true});
       delete data[0].hashed_password;
       data[0].url = '/mapplaces';
       console.log(`${data[0].username} logged in.`);
