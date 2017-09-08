@@ -13,7 +13,7 @@ const Login = ({match}) => (
     <Auth />
     <Link to="/newuser">
       <i className="fa fa-user-plus fa-2x" aria-hidden="true"></i>
-      <p>or... Signup here!</p>
+      <p className="signup">or... Signup here!</p>
     </Link>
     <Route
       path={match.url + '/newuser'}

@@ -5,7 +5,6 @@
 nav i {
   margin: 0px 15px;
   animation: Home-logo-scale2 infinite 4s ease-in alternate;
-
 }
 
 .Home-logo {
@@ -16,7 +15,7 @@ nav i {
 }
 
 .Home-name{
-  animation: 7s ease-out 0s infinite alternate Home-logo-scale;
+  animation: Home-logo-scale infinite 7s ease-out alternate ;
   background-color: #c2c2c2;
   margin-bottom: 0;
 }
@@ -30,6 +29,15 @@ nav i {
   height: 13vh;
   color: #fdb;
   text-align: center;
+}
+
+.fa-user-plus {
+  animation: Home-logo-scale2 infinite 4s linear alternate ;
+
+}
+
+.signup {
+  animation: Home-logo-scale1 infinite 9s ease-in-out alternate ;
 }
 
 @keyframes Home-logo-scale {
