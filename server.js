@@ -132,7 +132,7 @@ app.post('/places', (req,res,next)=>{
 
 app.get('/fitness', (req, res, next)=>{
   let fitness = {
-    username: 'Shotgun'
+    username: 'Shotgun',
     currentSteps: 8756,
     currentGoal: 12500
   }
