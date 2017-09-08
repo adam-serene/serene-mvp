@@ -12,42 +12,42 @@ exports.seed = function(knex, Promise) {
     place_id: 2},
 
     {id: 3,
-    url: 'http://preview.ibb.co/giKO4F/sanitas.jpg',
+    url: 'https://preview.ibb.co/giKO4F/sanitas.jpg',
     user_id: 1,
     place_id: 3},
 
     {id: 4,
-    url: 'http://preview.ibb.co/emHCWv/bearpeak.jpg',
+    url: 'https://preview.ibb.co/emHCWv/bearpeak.jpg',
     user_id: 1,
     place_id: 4},
 
     {id: 5,
-    url: 'http://preview.ibb.co/bKmHya/valmontbike.jpg',
+    url: 'https://preview.ibb.co/bKmHya/valmontbike.jpg',
     user_id: 1,
     place_id: 5},
 
     {id: 6,
-    url: 'http://image.ibb.co/b4GNWv/valmontdog.jpg',
+    url: 'https://image.ibb.co/b4GNWv/valmontdog.jpg',
     user_id: 1,
     place_id: 6},
 
     {id: 7,
-    url: 'http://preview.ibb.co/fzOKBv/betasso.jpg',
+    url: 'https://preview.ibb.co/fzOKBv/betasso.jpg',
     user_id: 1,
     place_id: 7},
 
     {id: 8,
-    url: 'http://preview.ibb.co/f5ebrv/egf.jpg',
+    url: 'https://preview.ibb.co/f5ebrv/egf.jpg',
     user_id: 1,
     place_id: 8},
 
     {id: 9,
-    url: 'http://image.ibb.co/nxJKBv/scrocket.jpg',
+    url: 'https://image.ibb.co/nxJKBv/scrocket.jpg',
     user_id: 1,
     place_id: 9},
 
     {id: 10,
-    url: 'http://image.ibb.co/dVuLJa/amph.jpg',
+    url: 'https://image.ibb.co/dVuLJa/amph.jpg',
     user_id: 1,
     place_id: 10},
   ];
