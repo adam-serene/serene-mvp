@@ -20,7 +20,7 @@ const knex = require('./knex');
 const bcrypt = require ('bcrypt');
 const saltRounds = 10;
 // const jwt = require('jsonwebtoken');
-const passport = require('./routes/passport')
+const passport = require('./routes/passport.js')
 app.use(cors({
   allowedOrigins: ["localhost:*", "serene-green.herokuapp.com", "fitbit.com"]
 }));
