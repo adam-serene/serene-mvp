@@ -39,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/places', (req, res, next)=>{
   knex('places')
+  .join('photos', 'places.id', 'photos.place_id')
   .select('*')
   .then(data => {
     let result = [...data];
