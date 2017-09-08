@@ -40,7 +40,6 @@ export class MapContainer extends React.Component {
 
   async fetchPlaces(mapProps, map){
     const response = await fetch('https://serene-green.herokuapp.com/places');
-    // const response = await fetch('http://localhost:5000/places');
     const places = await response.json()
     this.setState({
       places: places

@@ -26,7 +26,6 @@ export default class NewPlaceForm extends React.Component {
 
   async fetchCategories(){
     const response = await fetch('https://serene-green.herokuapp.com/categories');
-    // const response = await fetch('http://localhost:5000/categories');
     const categories = await response.json()
     this.setState({
       categories: categories
@@ -47,7 +46,6 @@ export default class NewPlaceForm extends React.Component {
     event.preventDefault();
     this.notify(`Noice! Let's add ${this.state.title} to the map.`);
     const response = await fetch('https://serene-green.herokuapp.com/places',
-    // const response = await fetch('http://localhost:5000/places',
       {
         method: 'POST',
         headers: {

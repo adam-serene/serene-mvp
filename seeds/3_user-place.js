@@ -1,3 +1,5 @@
+//these are user-place interactions, i.e. "check-ins"
+
 exports.seed = function(knex, Promise) {
 
   let data = [
