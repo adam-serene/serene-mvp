@@ -20,9 +20,9 @@ const knex = require('./knex');
 const bcrypt = require ('bcrypt');
 const saltRounds = 10;
 // const jwt = require('jsonwebtoken');
-const passport = require('./routes/passport')
+const passport = require('./routes/passport.js')
 app.use(cors({
-  allowedOrigins: ["localhost:*", "serene-green.herokuapp.com"]
+  allowedOrigins: ["localhost:*", "serene-green.herokuapp.com", "fitbit.com"]
 }));
 
 // app.all('*', function(req, res, next){
@@ -39,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/places', (req, res, next)=>{
   knex('places')
+  .join('photos', 'places.id', 'photos.place_id')
   .select('*')
   .then(data => {
     let result = [...data];
@@ -130,6 +131,14 @@ app.post('/places', (req,res,next)=>{
   // });
 })
 
+app.get('/fitness', (req, res, next)=>{
+  let fitness = {
+    username: 'Shotgun',
+    currentSteps: 8756,
+    currentGoal: 12500
+  }
+  res.send(fitness)
+})
 
 app.get('/users', (req, res, next)=>{
   knex('users')

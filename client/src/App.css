@@ -2,6 +2,21 @@
   background-color: #c2c2c2;
 }
 
+.chicken {
+  max-width: 80px;
+  max-height: 80px;
+}
+
+nav i {
+  margin: 0px 15px;
+  animation: Home-logo-scale2 infinite 4s ease-in alternate;
+}
+
+nav img {
+  margin: 0px 15px;
+  animation: Home-logo-scale2 infinite 4s ease-in alternate;
+}
+
 .Home-logo {
   animation: Home-logo-scale infinite 2s linear alternate;
   height: 6vh;
@@ -10,7 +25,7 @@
 }
 
 .Home-name{
-  animation: 4s linear 0s infinite alternate move_eye;
+  animation: Home-logo-scale infinite 7s ease-out alternate ;
   background-color: #c2c2c2;
   margin-bottom: 0;
 }
@@ -26,12 +41,26 @@
   text-align: center;
 }
 
+.fa-user-plus {
+  animation: Home-logo-scale2 infinite 4s linear alternate ;
+
+}
+
+.signup {
+  animation: Home-logo-scale1 infinite 9s ease-in-out alternate ;
+}
+
+@keyframes move_eye {
+  from { margin-left: -10%; }
+  to { margin-left: 10%; }
+}
+
 @keyframes Home-logo-scale {
   from { transform: scale(1.5, 1.5); }
   to { transform: scale(1.2, 1.2); }
 }
 
-@keyframes move_eye {
-  from { margin-left: -80%; }
-  to { margin-left: 80%; }
+@keyframes Home-logo-scale2 {
+  from { transform: scale(.8, .8); }
+  to { transform: scale(1, 1); }
 }

@@ -35,5 +35,6 @@
     "url": "https://github.com/adam-serene/serene-mvp/issues"
   },
   "homepage": "http://serene.green/",
-  "description": "Wellness platform designed to increase productivity in the workplace by incentivising a healthy lifestyle."
+  "description": "Wellness platform designed to increase productivity in the workplace by incentivising a healthy lifestyle.",
+  "devDependencies": {}
 }

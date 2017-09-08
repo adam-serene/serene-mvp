@@ -2,6 +2,7 @@ import React from 'react';
 import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import './styles/SubmitPlace.css'
 
 const navGCPOptions = {
   enableHighAccuracy: true,
@@ -93,13 +94,10 @@ export default class NewPlaceForm extends React.Component {
           pauseOnHover
         />
         <form onSubmit={this.handleSubmit}>
-          <p><label>
-            What should we call this New Place?
-            <input name="title" type="text" value={this.state.title} onChange={this.handleChange} />
-          </label></p>
-          <p><label>
-            Categorize your New Place:
-            <select name="category" onChange={this.handleChange}>
+          <label>What should we call this New Place?</label>
+          <p><input name="title" type="text" value={this.state.title} onChange={this.handleChange} /></p>
+          <label>Categorize your New Place:</label>
+          <p><select name="category" onChange={this.handleChange}>
             {this.state.categories.map(e =>
               <option
                 key={e.id}
@@ -107,9 +105,8 @@ export default class NewPlaceForm extends React.Component {
               {e.category}
               </option>
             )}
-            </select>
-          </label></p>
-          <input type="submit" value="Submit" />
+          </select></p>
+          <p><input type="submit" value="Submit" /></p>
         </form>
       </div>
     );

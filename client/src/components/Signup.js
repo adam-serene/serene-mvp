@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import './styles/Signup.css'
 
 export default class Signup extends Component{
   constructor(props) {
@@ -65,7 +66,7 @@ export default class Signup extends Component{
           <p><label>
             Username:
             <input name="username" type="text" value={this.state.username} onChange={this.handleChange} />
-          </label>
+            </label>
           <label>
             Password:
             <input name="password" type="text" value={this.state.password} onChange={this.handleChange} />

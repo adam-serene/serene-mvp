@@ -2,6 +2,7 @@ import React from 'react';
 import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import './styles/Auth.css'
 
 export default class Auth extends React.Component{
   constructor(props) {
@@ -58,15 +59,11 @@ export default class Auth extends React.Component{
         />
         <form onSubmit={this.handleSubmit}>
           <h2>Login</h2>
-          <p><label>
-            Username:
-            <input name="username" type="text" value={this.state.username} onChange={this.handleChange} />
-          </label></p>
-          <p><label>
-            Password:
-            <input name="password" type="password" value={this.state.password} onChange={this.handleChange} />
-          </label></p>
-          <input type="submit" value="Submit" />
+          <label>Username:</label>
+            <p><input name="username" type="text" value={this.state.username} onChange={this.handleChange} /></p>
+          <label>Password:</label>
+            <p><input name="password" type="password" value={this.state.password} onChange={this.handleChange} /></p>
+          <p><input type="submit" value="Submit" /></p>
         </form>
       </div>
     );

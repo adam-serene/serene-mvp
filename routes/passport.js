@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const https = require('https');
+const cors = require('express-cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -9,16 +11,26 @@ const FitbitStrategy = require( 'passport-fitbit-oauth2' ).FitbitOAuth2Strategy;
 const knex = require('../knex');
 require('dotenv').config()
 
+let resData;
+
 router.use(cookieParser());
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(cookieSession({
   secret: 'keyboard cat'
  }));
+ router.use(cors({
+   allowedOrigins: ["localhost:*", "serene-green.herokuapp.com", "fitbit.com"]
+ }));
 
 router.use(passport.initialize());
 router.use(passport.session());
 
+// router.use(function(req, res, next) {
+//       res.header("Access-Control-Allow-Origin", "*");
+//       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//       next();
+// });
 // Serve static files from the React app
 // app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -27,7 +39,7 @@ router.use(passport.session());
 passport.use(new FitbitStrategy({
     clientID: process.env.FITBIT_OAUTH2_CLIENT_ID,
     clientSecret: process.env.FITBIT_OAUTH2_SECRET,
-    callbackURL: "http://serene-green.herokuapp.com/auth/fitbit/callback"
+    callbackURL: "https://serene-green.herokuapp.com/auth/fitbit/callback"
     // callbackURL: "http://localhost:5000/auth/fitbit/callback"
   },
   function onSuccessfulLogin(token, refreshToken, profile, done) {
@@ -38,47 +50,48 @@ passport.use(new FitbitStrategy({
       })
       .into('users')
       .where('id', 1)
+      //^^replace with 'id', req.cookies.sgUserId,
       .returning('fitbitToken')
       .then(data=>{
-        console.log(data);
+        console.log('fitbitToken', data[0]);
       })
       // This function happens once after a successful login
-
-      // Whatever you pass to `done` gets passed to `serializeUser`
-      console.log(token);
+      // // Whatever you pass to `done` gets passed to `serializeUser`
       done(null, {token, profile});
     }
   ));
 
 passport.serializeUser(function(user, done) {
-  // console.log('serializeUser', user);
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
-  // console.log('deserializeUser', obj);
   done(null, obj);
 });
 
 router.get('/success', function(req, res, next) {
-  // res.send(req.user);
-  res.send('Successful login!')
+  console.log('Successful login!');
+  res.send(req.user);
+  // res.send('Successful login!')
 });
 
 router.get('/failure', function(req, res, next) {
-  // res.send(req.user);
-  res.send('Try again...')
+  res.send(req.user);
+  // res.send('Try again...')
 });
 
-
 router.get('/',
-  passport.authenticate('fitbit', {scope: ['activity','heartrate','location','profile']}
-));
+  passport.authenticate('fitbit', {scope: ['activity','location','profile']})
+);
+
+// router.get('/callback', (req, res, next)=>{
+//   console.log('callback hit');
+// })
 
 router.get('/callback',
   passport.authenticate('fitbit', {
-    successRedirect: '/success',
-    failureRedirect: '/failure'
+    successRedirect: 'auth/fitbit/success',
+    failureRedirect: 'auth/fitbit/failure'
    }
 ));
 
