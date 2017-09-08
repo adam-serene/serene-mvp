@@ -1,5 +1,6 @@
 import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import './styles/Map.css';
 
 const navGCPOptions = {
   enableHighAccuracy: true,
@@ -106,7 +107,7 @@ export class MapContainer extends React.Component {
           visible={this.state.showingInfoWindow}>
             <div>
               <h1>{this.state.selectedPlace.title}</h1>
-              <img src={this.state.selectedPlace.url} alt=""/>
+              <img className="infoWindowImg" src={this.state.selectedPlace.url} alt=""/>
             </div>
         </InfoWindow>
 
