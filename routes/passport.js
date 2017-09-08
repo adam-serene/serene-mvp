@@ -42,7 +42,7 @@ passport.use(new FitbitStrategy({
     // callbackURL: "https://serene-green.herokuapp.com/auth/fitbit/callback"
     callbackURL: "http://localhost:5000/auth/fitbit/callback"
   },
-  async function onSuccessfulLogin(token, refreshToken, profile, done) {
+  function onSuccessfulLogin(token, refreshToken, profile, done) {
 
       // This is a great place to find or create a user in the database
       knex.update({
