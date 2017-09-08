@@ -17,7 +17,7 @@ export default class Progress extends Component{
       currentSteps: 0,
       currentGoal: 1
     }
-    this.checkFitbit = this.checkFitbit.bind(this);
+    this.getResults = this.getResults.bind(this);
   }
   componentDidMount(){
     this.checkFitbit();
@@ -29,24 +29,25 @@ export default class Progress extends Component{
     window.open(path, name, features);
   }
 
+  async getResults(){
+    const response = await fetch('https://serene-green.herokuapp.com/fitness/');
+  // const response = await fetch('http://localhost:5000/auth/fitbit/');
+    const data = await response.json();
+    console.log(data);
+    this.setState({
+      currentSteps: data.currentSteps,
+      currentGoal: data.currentGoal
+    })
+    this.notify(`ROCK ON, ${data.username.toUpperCase()}!! Let's get FIT`);
+  }
+
   checkFitbit(){
     setTimeout(()=>{
       this.openRequestedPopup(urlHerokuCallback, popupName, windowFeatures)
       // this.openRequestedPopup(urlLocalhostCallback, popupName, windowFeatures)
     }, 1500);
 
-    setTimeout(()=>{
-      async function getResults(){
-        const response = await fetch('https://serene-green.herokuapp.com/fitness/');
-      // const response = await fetch('http://localhost:5000/auth/fitbit/');
-        const data = await response.json();
-        this.setState({
-          currentSteps: data.currentSteps,
-          currentGoal: data.currentGoal
-        })
-        this.notify(`ROCK ON, ${data.username.toUpperCase()}!! Let's get FIT`);
-      }
-    }, 6500);
+    setTimeout(()=>{this.getResults()}, 6500);
   }
 
   render(){

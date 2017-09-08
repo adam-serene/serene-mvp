@@ -31,9 +31,9 @@ const NewUser = () => (
 const MapPlaces = () => (
   <div>
     <nav>
+      <Link to="/addpoint"><i className="fa fa-map-marker fa-2x" aria-hidden="true"></i></Link>
       <Link to="/mapplaces"><i className="fa fa-map-o fa-3x" aria-hidden="true"></i></Link>
       <Link to="/fitness"><i className="fa fa-trophy fa-2x" aria-hidden="true"></i></Link>
-      <Link to="/addpoint"><i className="fa fa-map-marker fa-2x" aria-hidden="true"></i></Link>
     </nav>
     <GoogleMap />
   </div>
@@ -42,9 +42,9 @@ const MapPlaces = () => (
 const Fitness = () => (
   <div>
     <nav>
-      <Link to="/mapplaces"><i className="fa fa-map-o fa-2x" aria-hidden="true"></i></Link>
-      <Link to="/fitness"><i className="fa fa-trophy fa-3x" aria-hidden="true"></i></Link>
-      <Link to="/addpoint"><i className="fa fa-map-marker fa-2x" aria-hidden="true"></i></Link>
+    <Link to="/addpoint"><i className="fa fa-map-marker fa-2x" aria-hidden="true"></i></Link>
+    <Link to="/mapplaces"><i className="fa fa-map-o fa-2x" aria-hidden="true"></i></Link>
+    <Link to="/fitness"><i className="fa fa-trophy fa-3x" aria-hidden="true"></i></Link>
     </nav>
     <Progress />
   </div>
@@ -53,9 +53,9 @@ const Fitness = () => (
 const AddPoint = () => (
   <div>
     <nav>
-      <Link to="/mapplaces"><i className="fa fa-map-o fa-2x" aria-hidden="true"></i></Link>
-      <Link to="/fitness"><i className="fa fa-trophy fa-2x" aria-hidden="true"></i></Link>
-      <Link to="/addpoint"><i className="fa fa-map-marker fa-3x" aria-hidden="true"></i></Link>
+    <Link to="/addpoint"><i className="fa fa-map-marker fa-3x" aria-hidden="true"></i></Link>
+    <Link to="/mapplaces"><i className="fa fa-map-o fa-2x" aria-hidden="true"></i></Link>
+    <Link to="/fitness"><i className="fa fa-trophy fa-2x" aria-hidden="true"></i></Link>
     </nav>
     <NewPlaceForm />
   </div>
