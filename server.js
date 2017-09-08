@@ -130,6 +130,14 @@ app.post('/places', (req,res,next)=>{
   // });
 })
 
+app.get('/fitness', (req, res, next)=>{
+  let fitness = {
+    username: 'Shotgun'
+    currentSteps: 8756,
+    currentGoal: 12500
+  }
+  res.send(fitness)
+})
 
 app.get('/users', (req, res, next)=>{
   knex('users')

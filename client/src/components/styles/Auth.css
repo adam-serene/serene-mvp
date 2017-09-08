@@ -1,0 +1,8 @@
+h2 {
+  animation: Home-logo-scale2 infinite 8s ease-out alternate;
+}
+
+@keyframes Home-logo-scale2 {
+  from { transform: scale(.87, .87); }
+  to { transform: scale(1.1, 1.1); }
+}
