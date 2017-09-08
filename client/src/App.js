@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Link } from 'react-router-dom';
 import Auth from './components/Auth';
 import GoogleMap from './components/GoogleMap';
+import ChickenMap from './components/ChickenMap';
 import Progress from './components/Progress';
 import Signup from './components/Signup';
 import NewPlaceForm from './components/SubmitPlace.js'
@@ -32,10 +33,21 @@ const MapPlaces = () => (
   <div>
     <nav>
       <Link to="/addpoint"><i className="fa fa-map-marker fa-2x" aria-hidden="true"></i></Link>
-      <Link to="/mapplaces"><i className="fa fa-map-o fa-3x" aria-hidden="true"></i></Link>
+      <Link to="/chickenplaces"><img src="https://orig09.deviantart.net/c283/f/2014/021/5/2/chicken_caw_animation_by_captaintoog-d7338wq.gif" alt="Chicken" className="chicken"/></Link>
       <Link to="/fitness"><i className="fa fa-trophy fa-2x" aria-hidden="true"></i></Link>
     </nav>
     <GoogleMap />
+  </div>
+)
+
+const ChickenPlaces = () => (
+  <div>
+    <nav>
+      <Link to="/addpoint"><i className="fa fa-map-marker fa-2x" aria-hidden="true"></i></Link>
+      <Link to="/mapplaces"><i className="fa fa-map-o fa-3x" aria-hidden="true"></i></Link>
+      <Link to="/fitness"><i className="fa fa-trophy fa-2x" aria-hidden="true"></i></Link>
+    </nav>
+    <ChickenMap />
   </div>
 )
 
@@ -68,6 +80,7 @@ const App = () => (
     <div id="React-body">
       <Route exact path="/" component={Login}/>
       <Route path="/mapplaces" component={MapPlaces}/>
+      <Route path="/chickenplaces" component={ChickenPlaces}/>
       <Route path="/fitness" component={Fitness}/>
       <Route path="/addpoint" component={AddPoint}/>
       <Route path="/newuser" component={NewUser}/>

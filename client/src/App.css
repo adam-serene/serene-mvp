@@ -2,7 +2,17 @@
   background-color: #c2c2c2;
 }
 
+.chicken {
+  max-width: 80px;
+  max-height: 80px;
+}
+
 nav i {
+  margin: 0px 15px;
+  animation: Home-logo-scale2 infinite 4s ease-in alternate;
+}
+
+nav img {
   margin: 0px 15px;
   animation: Home-logo-scale2 infinite 4s ease-in alternate;
 }
@@ -38,6 +48,11 @@ nav i {
 
 .signup {
   animation: Home-logo-scale1 infinite 9s ease-in-out alternate ;
+}
+
+@keyframes move_eye {
+  from { margin-left: -10%; }
+  to { margin-left: 10%; }
 }
 
 @keyframes Home-logo-scale {
