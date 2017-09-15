@@ -1,6 +1,7 @@
+'use strict';
+
 const express = require('express');
 const app = express();
-require('dotenv').config();
 const path = require('path');
 const cors = require('express-cors')
 const cookieParser = require('cookie-parser');
@@ -9,14 +10,30 @@ const knex = require('./knex');
 const bcrypt = require ('bcrypt');
 const saltRounds = 10;
 const passport = require('./routes/passport.js')
+const port = process.env.PORT || 5000;
+require('dotenv').config();
+
 app.use(cors({
   allowedOrigins: ["localhost:*", "serene-green.herokuapp.com", "fitbit.com"]
 }));
-app.use('/auth/fitbit', passport);
+
+
 app.use(cookieParser());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/auth/fitbit', passport);
+
 app.use(express.static(path.join(__dirname, 'client/build')));
+
+
+app.get('/parks',(req,res,next)=>{
+  const parkData =  fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8')
+  // const parkDataJson = parkData.json()
+  console.log(parkDataJson)
+  res.send(parkDataJson)
+})
 
 app.get('/places', (req, res, next)=>{
   knex('places')
@@ -49,9 +66,22 @@ app.get('/categories', (req,res,next)=>{
   });
 })
 
+app.get('/user-place', (req,res,next)=>{
+  knex('user-place')
+  .select('users.id as user_id','full_name')
+  .join('users','user_id','users.id')
+  .then(data => {
+    console.log(data);
+    res.send(data);
+  })
+  .catch(err => {
+    console.log('error');
+    next(err);
+  });
+})
+
 app.post('/places', (req,res,next)=>{
   let body = req.body;
-  console.log(body);
   let addPlaces = {
     description: body.title,
     user_id: 1,
@@ -132,7 +162,7 @@ app.post('/register', (req,res,next)=>{
         submissions_remaining: response[0].submissions_remaining
       };
       console.log(`${response[0].username} signed up!`);
-      response[0].url = '/mapplaces'
+      response[0].url = '/map'
       return res.send(response[0]);
     })
     .catch(function (err) {
@@ -155,7 +185,7 @@ app.post('/login', (req,res,next) => {
       let sgUserId = data[0].id
       res.cookie('sgUserId', sgUserId, {httpOnly: true});
       delete data[0].hashed_password;
-      data[0].url = '/mapplaces';
+      data[0].url = '/map';
       console.log(`${data[0].username} logged in.`);
       return res.send(data[0]);
     } else {
@@ -168,7 +198,20 @@ app.post('/login', (req,res,next) => {
     });
 });
 
-const port = process.env.PORT || 5000;
+app.post('/checkin', (req,res,next)=>{
+  console.log(req.body);
+  let newBody = {
+    place_id: parseInt(req.body.place_id),
+    user_id: parseInt(req.body.user_id),
+  }
+  knex('user-place')
+  .returning()
+  .insert(newBody)
+  .then(data=>{
+    res.send(data);
+  })
+})
+
 app.listen(port);
 
 console.log(`Listening on ${port}`);

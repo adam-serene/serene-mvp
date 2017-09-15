@@ -2,13 +2,78 @@ import React from 'react';
 import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import './styles/SubmitPlace.css'
+import './styles/SubmitPlace.css';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 const navGCPOptions = {
   enableHighAccuracy: true,
   timeout: 5000,
   maximumAge: 0
 };
+
+const theSpots = [
+  {
+    id: 1,
+    name: 'spot 1',
+    geometry: {
+      location: {
+        lat: 39.999488,
+        lng: -105.308945,
+      }
+    }
+  },
+  {
+    id: 2,
+    name: 'spot 2',
+    geometry: {
+      location: {
+        lat: 40.004286,
+        lng: -105.305981,
+      }
+    }
+  },
+  {
+    id: 3,
+    name: 'spot 3',
+    geometry: {
+      location: {
+        lat: 40.001731,
+        lng: -105.307875,
+      }
+    }
+  },
+  {
+    id: 4,
+    name: 'spot 4',
+    geometry: {
+      location: {
+        lat: 40.005359,
+        lng: -105.307865,
+      }
+    }
+  },
+  {
+    id: 5,
+    name: 'spot 5',
+    geometry: {
+      location: {
+        lat: 40.00365,
+        lng: -105.300807,
+      }
+    }
+  },
+  {
+    id: 6,
+    name: 'Galvanize',
+    geometry: {
+      location: {
+        lat: 40.0166305,
+        lng: -105.2817439,
+      }
+    }
+  },
+]
 
 export default class NewPlaceForm extends React.Component {
   constructor(props) {
@@ -18,7 +83,9 @@ export default class NewPlaceForm extends React.Component {
       title: '',
       category: 'GO BIG',
       lat: 0,
-      lng: 0
+      lng: 0,
+      value: null,
+      places: []
     };
     this.fetchCategories = this.fetchCategories.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,6 +135,7 @@ export default class NewPlaceForm extends React.Component {
       lat: crd.latitude,
       lng: crd.longitude
     });
+    this.getPlaces()
   }
 
   navGCPError=(err)=>{
@@ -79,33 +147,76 @@ export default class NewPlaceForm extends React.Component {
     navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
   }
 
+  async getPlaces(){
+    let placesArr = [];
+    const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+    const parkDataJson = await parkData.json()
+    const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+    const campgroundDataJson = await campgroundData.json()
+    const museumData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+    const museumDataJson = await museumData.json()
+    const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+    const amusementparkDataJson = await amusementparkData.json()
+    placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
+    console.log(placesArr);
+    placesArr = placesArr.map(placeTypeArr=>placeTypeArr.filter(place=>{
+      if(this.state.lat>=place.geometry.location.lat-.002 && this.state.lng>=place.geometry.location.lng-.002 && this.state.lng<=place.geometry.location.lng+.002 && this.state.lat<=place.geometry.location.lat+.002){
+        return place
+      }
+      else {
+        return
+      }
+    }))
+    this.setState({places: placesArr});
+    console.log(this.state.places);
+  }
+
+  handleChangeValue = (event, index, value) => this.setState({value});
+
+  async submitCheckIn() {
+    // console.log(document.cookie.split('=')[1]);
+    let reqBody = {
+      place_id: this.state.value,
+      user_id: document.cookie.split('=')[1]
+    }
+    console.log(reqBody);
+    const response = await fetch('http://localhost:5000/checkin',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: qs.stringify(reqBody)
+    })
+    console.log(response.json());
+  }
+
   render() {
     return (
       <div>
         <ToastContainer
-          position="top-right"
-          type="default"
+          position='top-right'
+          type='default'
           autoClose={5000}
           hideProgressBar={true}
           newestOnTop={false}
           closeOnClick
           pauseOnHover
         />
-        <form onSubmit={this.handleSubmit}>
-          <label>What should we call this New Place?</label>
-          <p><input name="title" type="text" value={this.state.title} onChange={this.handleChange} /></p>
-          <label>Categorize your New Place:</label>
-          <p><select name="category" onChange={this.handleChange}>
-            {this.state.categories.map(e =>
-              <option
-                key={e.id}
-                value={e.category}>
-              {e.category}
-              </option>
-            )}
-          </select></p>
-          <p><input type="submit" value="Submit" /></p>
-        </form>
+        <SelectField
+          floatingLabelText='Select Location'
+          value={this.state.value}
+          onChange={this.handleChangeValue}
+        >
+          {this.state.places.map(placeArr => placeArr.map(place =>(
+            <MenuItem
+              key={place.id}
+              value={place.id}
+              primaryText={place.name}
+            />
+          )))}
+        </SelectField>
+        <input type='submit' value='Submit' onClick={()=>this.submitCheckIn()}/>
       </div>
     );
   }

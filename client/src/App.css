@@ -9,48 +9,68 @@
 
 nav i {
   margin: 0px 15px;
-  animation: Home-logo-scale2 infinite 4s ease-in alternate;
+  /*animation: Home-logo-scale2 infinite 4s ease-in alternate;*/
 }
 
 nav img {
-  margin: 0px 15px;
-  animation: Home-logo-scale2 infinite 4s ease-in alternate;
+  /*margin: 0px 15px;*/
+  /*animation: Home-logo-scale2 infinite 4s ease-in alternate;*/
 }
 
-.Home-logo {
-  animation: Home-logo-scale infinite 2s linear alternate;
+.app-logo {
+  /*animation: Home-logo-scale infinite 2s linear alternate;*/
   height: 6vh;
-  padding-left: 12vh;
-  padding-right: 12vh;
+  float: left;
+  /*padding-left: 12vh;*/
+  /*padding-right: 12vh;*/
 }
 
-.Home-name{
-  animation: Home-logo-scale infinite 7s ease-out alternate ;
+.app-name{
+  display: inline;
+  float: left;
+  /*animation: Home-logo-scale infinite 7s ease-out alternate ;*/
   background-color: #c2c2c2;
-  margin-bottom: 0;
+  margin: 0;
+  padding: 2vh;
 }
 
 .fa-2x {
   color: #fdb
 }
 
-.Home-header {
+.app-header {
   background-color: #c2c2c2;
-  height: 13vh;
+  height: 8vh;
   color: #fdb;
-  text-align: center;
+  /*text-align: center;*/
+}
+
+.feature-links {
+  float: right;
+  /*text-align: center;*/
+  width: fit-content;
+  margin: auto;
+  padding: 2vh;
+}
+
+.feature-link {
+  padding: 5px;
 }
 
 .fa-user-plus {
-  animation: Home-logo-scale2 infinite 4s linear alternate ;
+  /*animation: Home-logo-scale2 infinite 4s linear alternate ;*/
 
 }
 
 .signup {
-  animation: Home-logo-scale1 infinite 9s ease-in-out alternate ;
+  /*animation: Home-logo-scale1 infinite 9s ease-in-out alternate ;*/
 }
 
-@keyframes move_eye {
+.app-body {
+  height: 92vh;
+}
+
+/*@keyframes move_eye {
   from { margin-left: -10%; }
   to { margin-left: 10%; }
 }
@@ -63,4 +83,26 @@ nav img {
 @keyframes Home-logo-scale2 {
   from { transform: scale(.8, .8); }
   to { transform: scale(1, 1); }
+}*/
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.leaderboard-table {
+  /*width: 100vw !important;*/
+}
+
+.leaderboard-row {
+  /*width: 100vw !important;*/
+}
+
+.leaderboard-col {
+  text-align: center !important;
+}
+
+.infowindow-img {
+  /*max-width: 100% !important;*/
 }

@@ -31,7 +31,7 @@ export default class Signup extends Component{
   async handleSubmit(event) {
     this.notify(`Creating new user: ${this.state.username}...`);
     event.preventDefault();
-    const response = await fetch('https://serene-green.herokuapp.com/register',
+    const response = await fetch('http://localhost:5000/register',
     {
       method: 'POST',
       headers: {
@@ -43,6 +43,7 @@ export default class Signup extends Component{
     const data = await response.json()
     this.notify(`Righteous. ${data.username}, welcome to the fun!`);
     let pathEnd = data.url;
+    document.cookie = `user=${data.id}`;
     setTimeout(()=>{
       this._reactInternalInstance._context.router.history.push(pathEnd, null);}
       , 1500);
