@@ -13,6 +13,10 @@ const passport = require('./routes/passport.js')
 const port = process.env.PORT || 5000;
 require('dotenv').config();
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
+
 app.use(cors({
   allowedOrigins: ["localhost:*", "serene-green.herokuapp.com", "fitbit.com"]
 }));
