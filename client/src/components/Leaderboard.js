@@ -18,7 +18,7 @@ export default class Leaderboard extends Component {
   }
 
   async componentDidMount(){
-    const leaderboardData = await fetch('http://localhost:5000/user-place');
+    const leaderboardData = await fetch('https://serengreen.herokuapp.com/user-place');
     const leaderboardDataJson = await leaderboardData.json();
     this.setLeaderboard(leaderboardDataJson);
   }
