@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000;
 require('dotenv').config();
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
+  app.use(express.static('./client/build'));
 }
 
 app.use(cors({
