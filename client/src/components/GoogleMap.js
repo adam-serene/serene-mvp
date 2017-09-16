@@ -96,7 +96,7 @@ export class MapContainer extends React.Component {
       selectedPlace: {},
       open:false,
     };
-    this.fetchPlaces = this.fetchPlaces.bind(this);
+    // this.fetchPlaces = this.fetchPlaces.bind(this);
   }
 
   navGCPSuccess=(pos)=>{
@@ -113,13 +113,13 @@ export class MapContainer extends React.Component {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
-  async fetchPlaces(mapProps, map){
-    const response = await fetch('https://serene-green.herokuapp.com/places');
-    const places = await response.json()
-    // this.setState({
-    //   places: places
-    // });
-  }
+  // async fetchPlaces(mapProps, map){
+  //   const response = await fetch('https://serene-green.herokuapp.com/places');
+  //   const places = await response.json()
+  //   // this.setState({
+  //   //   places: places
+  //   // });
+  // }
 
   mapClicked=(mapProps, map, clickEvent)=>{
     if (this.state.showingInfoWindow) {
@@ -157,9 +157,9 @@ export class MapContainer extends React.Component {
     this.setState({places: placesArr});
   }
 
-  checkIn = () => {
-    console.log('hittting');
-  }
+  // checkIn = () => {
+  //   console.log('hittting');
+  // }
 
   render() {
     const style = {

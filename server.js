@@ -31,14 +31,6 @@ app.use('/auth/fitbit', passport);
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-
-app.get('/parks',(req,res,next)=>{
-  const parkData =  fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8')
-  // const parkDataJson = parkData.json()
-  console.log(parkDataJson)
-  res.send(parkDataJson)
-})
-
 app.get('/places', (req, res, next)=>{
   knex('places')
   .join('photos', 'places.id', 'photos.place_id')
@@ -75,7 +67,6 @@ app.get('/user-place', (req,res,next)=>{
   .select('users.id as user_id','full_name')
   .join('users','user_id','users.id')
   .then(data => {
-    console.log(data);
     res.send(data);
   })
   .catch(err => {
@@ -203,7 +194,6 @@ app.post('/login', (req,res,next) => {
 });
 
 app.post('/checkin', (req,res,next)=>{
-  console.log(req.body);
   let newBody = {
     place_id: parseInt(req.body.place_id),
     user_id: parseInt(req.body.user_id),
