@@ -1,6 +1,8 @@
 import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import './styles/Map.css';
+import axios from 'axios';
+
 
 const navGCPOptions = {
   enableHighAccuracy: true,
@@ -169,8 +171,8 @@ export class MapContainer extends React.Component {
     //   }
     //   // body: qs.stringify(reqBody)
     // })
-    console.log(response.json());
-    const placesArr = await response.json
+    // console.log(response.json());
+    // const placesArr = await response.json
     this.setState({places: placesArr});
   }
 
