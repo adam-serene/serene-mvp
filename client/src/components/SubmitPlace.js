@@ -174,7 +174,6 @@ export default class NewPlaceForm extends React.Component {
   handleChangeValue = (event, index, value) => this.setState({value});
 
   async submitCheckIn() {
-    // console.log(document.cookie.split('=')[1]);
     let reqBody = {
       place_id: this.state.value,
       user_id: document.cookie.split('=')[1]
