@@ -163,7 +163,7 @@ export class MapContainer extends React.Component {
       // body: qs.stringify(reqBody)
     })
     console.log(response.json());
-    placesArr = await response.json
+    const placesArr = await response.json
     this.setState({places: placesArr});
   }
 
