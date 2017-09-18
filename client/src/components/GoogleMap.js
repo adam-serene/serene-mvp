@@ -149,7 +149,9 @@ export class MapContainer extends React.Component {
     let placesArr = [];
     // const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     // const parkDataJson = await parkData.json()
-    axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+    axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{
+             'Content-Type': 'application/x-www-form-urlencoded'
+       })
       .then(({ data }) => {
         console.log(data);
       })
