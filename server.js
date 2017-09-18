@@ -17,10 +17,8 @@ const myHeaders = new Headers();
 
 const myInit = { method: 'GET',
                headers: {
-                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-               },
-               mode: 'cors',
-               cache: 'default' };
+                 'Content-Type': 'Access-Control-Allow-Origin'
+               } };
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/build'));
