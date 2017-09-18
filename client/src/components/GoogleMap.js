@@ -11,7 +11,7 @@ const navGCPOptions = {
 };
 
 const config = {
-  'Access-Control-Request-Method': 'POST',
+  'Access-Control-Request-Method': 'GET',
   'Access-Control-Allow-Origin': 'serenegreen.herokuapp.com',
 };
 
