@@ -77,7 +77,7 @@ const App = () => (
       <Link to='/'>
         <img src={logo} className='app-logo' alt='logo' />
       </Link>
-      <h2 className='app-name'>Serene</h2>
+      <p className='app-name'>Serene</p>
       <div className='feature-links'>
         <Link to='/checkin' className='feature-link'>
           <i className='fa fa-map-marker fa-2x' aria-hidden='true'></i>

@@ -31,7 +31,7 @@ export default class Signup extends Component{
   async handleSubmit(event) {
     this.notify(`Creating new user: ${this.state.username}...`);
     event.preventDefault();
-    const response = await fetch('https://serengreen.herokuapp.com/register',
+    const response = await fetch('http://localhost:5000/register',
     {
       method: 'POST',
       headers: {

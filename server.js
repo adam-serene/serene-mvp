@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/auth/fitbit', passport);
+// app.use('/auth/fitbit', passport);
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 

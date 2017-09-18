@@ -1,5 +1,6 @@
 #React-body {
-  background-color: #c2c2c2;
+  /*background-color: #c2c2c2;*/
+  background-color: rgb(65,93,93);
 }
 
 .chicken {
@@ -19,29 +20,33 @@ nav img {
 
 .app-logo {
   /*animation: Home-logo-scale infinite 2s linear alternate;*/
-  height: 6vh;
+  height: 8vh;
   float: left;
-  /*padding-left: 12vh;*/
-  /*padding-right: 12vh;*/
+  /*padding: 2vh;*/
+  padding-left: 2vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
 }
 
 .app-name{
   display: inline;
   float: left;
+  font-size: 1.5em;
   /*animation: Home-logo-scale infinite 7s ease-out alternate ;*/
-  background-color: #c2c2c2;
+  /*background-color: #c2c2c2;*/
   margin: 0;
   padding: 2vh;
+  padding-left: 1vh;
 }
 
 .fa-2x {
-  color: #fdb
+  color: rgb(65,93,93);
 }
 
 .app-header {
-  background-color: #c2c2c2;
+  background-color: rgb(166,202,203);
   height: 8vh;
-  color: #fdb;
+  color: rgb(65,93,93);
   /*text-align: center;*/
 }
 
@@ -105,4 +110,8 @@ html, body {
 
 .infowindow-img {
   /*max-width: 100% !important;*/
+}
+
+.app {
+  background-color: rgb(166,202,203);
 }
