@@ -10,6 +10,10 @@ const navGCPOptions = {
   maximumAge: 0
 };
 
+const config = {
+  headers: {'Access-Control-Allow-Origin': '*'}
+};
+
 const theSpots = [
   {
     id: 1,
@@ -149,7 +153,7 @@ export class MapContainer extends React.Component {
     let placesArr = [];
     // const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     // const parkDataJson = await parkData.json()
-    axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{crossdomain: true})
+    axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
       .then(({ data }) => {
         console.log(data);
       })
