@@ -11,7 +11,7 @@ const navGCPOptions = {
 };
 
 const config = {
-  headers: {'Access-Control-Allow-Origin': '*'}
+  headers: {'Access-Control-Allow-Origin': 'serenegreen.herokuapp.com'}
 };
 
 const theSpots = [
