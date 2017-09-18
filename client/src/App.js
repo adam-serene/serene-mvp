@@ -3,7 +3,6 @@ import './App.css';
 import { Route, Link } from 'react-router-dom';
 import Auth from './components/Auth';
 import GoogleMap from './components/GoogleMap';
-// import Progress from './components/Progress';
 import Signup from './components/Signup';
 import NewPlaceForm from './components/SubmitPlace.js'
 import Leaderboard from './components/Leaderboard';

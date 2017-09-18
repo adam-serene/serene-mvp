@@ -16,7 +16,9 @@ require('dotenv').config();
 const myHeaders = new Headers();
 
 const myInit = { method: 'GET',
-               headers: myHeaders,
+               headers: {
+                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+               },
                mode: 'cors',
                cache: 'default' };
 
