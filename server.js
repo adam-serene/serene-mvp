@@ -34,28 +34,42 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/places',(req,res,next)=>{
+  let placesArr = [];
+  const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+  const parkDataJson = await parkData.json()
+  const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+  const campgroundDataJson = await campgroundData.json()
+  const museumData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+  const museumDataJson = await museumData.json()
+  const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+  const amusementparkDataJson = await amusementparkData.json()
+  placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
+  res.send({data:placesArr})
+})
+
 // app.use('/auth/fitbit', passport);
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('/places', (req, res, next)=>{
-  knex('places')
-  .join('photos', 'places.id', 'photos.place_id')
-  .select('*')
-  .then(data => {
-    let result = [...data];
-    data.map((place, index) =>{
-      result[index].position = {};
-      result[index].position.lat = place.lat;
-      (place.lng) ? result[index].position.lng = place.lng : result[index].position.lng = place.long;
-    })
-    res.send(result);
-  })
-  .catch(err => {
-    console.log('error');
-    next(err);
-  });
-})
+// app.get('/places', (req, res, next)=>{
+//   knex('places')
+//   .join('photos', 'places.id', 'photos.place_id')
+//   .select('*')
+//   .then(data => {
+//     let result = [...data];
+//     data.map((place, index) =>{
+//       result[index].position = {};
+//       result[index].position.lat = place.lat;
+//       (place.lng) ? result[index].position.lng = place.lng : result[index].position.lng = place.long;
+//     })
+//     res.send(result);
+//   })
+//   .catch(err => {
+//     console.log('error');
+//     next(err);
+//   });
+// })
 
 app.get('/categories', (req,res,next)=>{
   knex('categories')
