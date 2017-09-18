@@ -180,7 +180,7 @@ export default class NewPlaceForm extends React.Component {
       user_id: document.cookie.split('=')[1]
     }
     console.log(reqBody);
-    const response = await fetch('http://localhost:5000/checkin',
+    const response = await fetch('http://serenegreen.herokuapp.com/checkin',
     {
       method: 'POST',
       headers: {
