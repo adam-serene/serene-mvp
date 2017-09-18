@@ -150,7 +150,7 @@ export class MapContainer extends React.Component {
     // const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     // const parkDataJson = await parkData.json()
     axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{
-             'Content-Type': 'application/x-www-form-urlencoded'
+             'Access-Control-Allow-Origin': '*'
        })
       .then(({ data }) => {
         console.log(data);
