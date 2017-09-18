@@ -12,7 +12,7 @@ const navGCPOptions = {
 
 const config = {
   headers: {
-    'Access-Control-Allow-Origin': 'serenegreen.herokuapp.com',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
   }
 };
