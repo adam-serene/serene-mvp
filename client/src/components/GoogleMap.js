@@ -145,7 +145,10 @@ export class MapContainer extends React.Component {
   async componentWillMount(){
     navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
     let placesArr = [];
-    const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
+    const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{ method: 'GET',
+               headers: myHeaders,
+               mode: 'cors',
+               cache: 'default'})
     const parkDataJson = await parkData.json()
     const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     const campgroundDataJson = await campgroundData.json()
