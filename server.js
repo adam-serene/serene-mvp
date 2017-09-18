@@ -16,9 +16,10 @@ require('dotenv').config();
 const myHeaders = new Headers();
 
 const myInit = { method: 'GET',
-               headers: {
-                 'Content-Type': 'Access-Control-Allow-Origin'
-               } };
+                  headers: {
+                    'Content-Type': 'Access-Control-Allow-Origin'
+                  }
+             };
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/build'));
