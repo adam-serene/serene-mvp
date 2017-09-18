@@ -11,8 +11,10 @@ const navGCPOptions = {
 };
 
 const config = {
-  'Access-Control-Request-Method': 'GET',
-  'Access-Control-Allow-Origin': 'serenegreen.herokuapp.com',
+  headers: {
+    'Access-Control-Allow-Origin': 'serenegreen.herokuapp.com',
+    'Content-Type': 'application/json',
+  }
 };
 
 const theSpots = [
@@ -154,7 +156,7 @@ export class MapContainer extends React.Component {
     let placesArr = [];
     // const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     // const parkDataJson = await parkData.json()
-    axios.post('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
+    axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
       .then(({ data }) => {
         console.log(data);
       })
