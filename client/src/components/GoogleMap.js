@@ -158,7 +158,7 @@ export class MapContainer extends React.Component {
   async componentWillMount(){
     navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
     let placesArr = [];
-    const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myHeaders)
+    const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{headers:{  'mode': 'no-cors'}})
     const parkDataJson = await parkData.json()
     console.log(parkDataJson);
     // axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{headers:{'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com',
