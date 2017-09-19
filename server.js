@@ -11,6 +11,8 @@ const bcrypt = require ('bcrypt');
 const saltRounds = 10;
 const passport = require('./routes/passport.js')
 const port = process.env.PORT || 5000;
+import axios from 'axios';
+
 require('dotenv').config();
 
 const config = {

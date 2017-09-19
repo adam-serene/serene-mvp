@@ -10,14 +10,12 @@ const navGCPOptions = {
   maximumAge: 0
 };
 
-// const config = {
-//   headers: {
-//     // 'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com',
-//     // 'Content-Type': 'application/x-www-form-urlencoded',
-//     'Accept': '*/*',
-//     'Content-Type': 'text/plain'
-//   }
-// };
+const config = {
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/x-www-form-urlencoded',
+  }
+};
 
 const theSpots = [
   {
@@ -92,47 +90,6 @@ const theSpots = [
   },
 ]
 
-
-  var map;
-  var infowindow;
-
-  function initMap() {
-    var pyrmont = {lat: -33.867, lng: 151.195};
-
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: pyrmont,
-      zoom: 15
-    });
-
-    infowindow = new google.maps.InfoWindow();
-    var service = new google.maps.places.PlacesService(map);
-    service.nearbySearch({
-      location: pyrmont,
-      radius: 500,
-      type: ['store']
-    }, callback);
-  }
-
-  function callback(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for (var i = 0; i < results.length; i++) {
-        createMarker(results[i]);
-      }
-    }
-  }
-
-  function createMarker(place) {
-    var placeLoc = place.geometry.location;
-    var marker = new google.maps.Marker({
-      map: map,
-      position: place.geometry.location
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-      infowindow.setContent(place.name);
-      infowindow.open(map, this);
-    });
-  }
 
 export class MapContainer extends React.Component {
   constructor(props) {
@@ -215,9 +172,9 @@ export class MapContainer extends React.Component {
     // const amusementparkDataJson = await amusementparkData.json()
     // placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
     // placesArr.push(theSpots)
-    // const response = await fetch('https://serenegreen.herokuapp.com/places')
-    // console.log(response.json());
-    // placesArr.push(response.json())
+    const response = await fetch('https://serenegreen.herokuapp.com/places')
+    console.log(response.json());
+    placesArr.push(response.json())
 
     this.setState({places: placesArr});
   }
@@ -240,16 +197,57 @@ export class MapContainer extends React.Component {
     // }
 
     return (
-      <div>
-        <div id="map"></div>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs&libraries=places"></script>
-      </div>
+        <Map google={this.props.google}
+          onReady={this.fetchPlaces}
+          onClick={this.mapClicked}
+          onDragend={this.centerMoved}
+          style={style}
+          initialCenter={this.state.currentLocation}
+          zoom={13}
+          clickableIcons={false}
+          mapType={'hybrid'}
+        >
+
+        {this.state.places.map(placeArr =>
+          placeArr.map(place =>
+          <Marker
+            key={place.id}
+            title={place.name}
+            name={place.name}
+            rating={place.rating}
+            open={place.opening_hours?place.opening_hours.open_now:null}
+            position={place.geometry.location}
+            url={null}
+            onClick={this.onMarkerClick}
+          />
+        ))}
+
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}>
+            <div style={{width: '25vh'}}>
+              <h4 style={{textAlign: 'center'}}>
+                {this.state.selectedPlace.title}
+              </h4>
+              <h6 style={{textAlign: 'center'}}>
+                Open now: {this.state.selectedPlace.open?'Yes':'No'}
+              </h6>
+              <h6 style={{textAlign: 'center'}}>
+                Rating: {this.state.selectedPlace.rating}/5
+              </h6>
+              <img
+                className="infowindow-img"
+                style={{width: '100%'}}
+                src={''}
+                alt=""/>
+            </div>
+        </InfoWindow>
+      </Map>
     );
   }
 } //closes MapContainer
 
-export default MapContainer
-// GoogleApiWrapper({
-//   apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs'
-//
-// })(MapContainer)
+export default GoogleApiWrapper({
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs'
+
+})(MapContainer)
