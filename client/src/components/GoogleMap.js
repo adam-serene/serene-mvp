@@ -90,7 +90,8 @@ const theSpots = [
 
 const myHeaders = new Headers({
   // "Content-Type": "text/plain",
-  'Access-Control-Allow-Origin': '*'
+  // 'Access-Control-Allow-Origin': '*'
+  'mode': 'no-cors'
 })
 
 
