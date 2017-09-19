@@ -174,7 +174,7 @@ export class MapContainer extends React.Component {
     // const amusementparkDataJson = await amusementparkData.json()
     // placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
     // placesArr.push(theSpots)
-    // const response = await fetch('http://serenegreen.herokuapp.com/places')
+    // const response = await fetch('https://serenegreen.herokuapp.com/places')
     // console.log(response.json());
     // const placesArr = await response.json
     this.setState({places: placesArr});
