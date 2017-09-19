@@ -176,12 +176,12 @@ export class MapContainer extends React.Component {
     // const museumDataJson = await museumData.json()
     // const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     // const amusementparkDataJson = await amusementparkData.json()
-    // placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
-    placesArr.push(theSpots)
+    // placesArr.push(theSpots)
     const response = await fetch('https://serenegreen.herokuapp.com/places')
     // console.log(response);
-    // const responseJson = await response.json()
-    console.log(response);
+    const responseJson = await response.json()
+    // console.log(responseJson);
+    placesArr.push(responseJson.park.results, responseJson.campground.results, responseJson.museum.results, responseJson.amusement.results, theSpots)
     // placesArr.push(response.json().results)
 
     this.setState({places: placesArr});
