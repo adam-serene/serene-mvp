@@ -181,7 +181,7 @@ export class MapContainer extends React.Component {
     const response = await fetch('https://serenegreen.herokuapp.com/places')
     // console.log(response);
     responseJson = await response.json()
-    console.log(responseJson;
+    console.log(responseJson);
     // placesArr.push(response.json().results)
 
     this.setState({places: placesArr});
