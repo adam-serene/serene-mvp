@@ -45,13 +45,13 @@ app.use(function(req, res, next) {
 app.get('/places',(req,res,next)=>{
   let placesArr = [];
   axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-    .then(({ park }) => {
+    .then(( park ) => {
       axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-        .then(({ campground }) => {
+        .then(( campground ) => {
           axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-            .then(({ museum }) => {
+            .then(( museum ) => {
               axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-                .then(({ amusement }) => {
+                .then(( amusement ) => {
                   console.log(park,campground,museum,amusement);
                   res.send(park)
                 })
