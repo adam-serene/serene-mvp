@@ -159,13 +159,13 @@ export class MapContainer extends React.Component {
     // const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     // const parkDataJson = await parkData.json()
     // console.log(parkDataJson);
-    axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
-      .then(({ data }) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
+    //   .then(({ data }) => {
+    //     console.log(data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     // const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     // const campgroundDataJson = await campgroundData.json()
     // const museumData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
@@ -174,15 +174,8 @@ export class MapContainer extends React.Component {
     // const amusementparkDataJson = await amusementparkData.json()
     // placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
     // placesArr.push(theSpots)
-    // const response = await fetch('http://serenegreen.herokuapp.com/places',
-    // {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    //   }
-    //   // body: qs.stringify(reqBody)
-    // })
-    // console.log(response.json());
+    const response = await fetch('http://serenegreen.herokuapp.com/places')
+    console.log(response.json());
     // const placesArr = await response.json
     this.setState({places: placesArr});
   }

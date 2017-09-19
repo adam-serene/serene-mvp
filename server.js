@@ -13,6 +13,16 @@ const passport = require('./routes/passport.js')
 const port = process.env.PORT || 5000;
 require('dotenv').config();
 
+const config = {
+  headers: {
+    'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    // 'Accept': '*/*',
+    // 'Content-Type': 'text/plain'
+  }
+};
+
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/build'));
 }
@@ -26,8 +36,15 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.get('/places',(req,res,next)=>{
-//   let placesArr = [];
+app.get('/places',(req,res,next)=>{
+  let placesArr = [];
+  axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
+    .then(({ data }) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 //   const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
 //   const parkDataJson = await parkData.json()
 //   const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
@@ -37,8 +54,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
 //   const amusementparkDataJson = await amusementparkData.json()
 //   placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
-//   res.send({data:placesArr})
-// })
+  res.send({data})
+})
 
 // app.use('/auth/fitbit', passport);
 
