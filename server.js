@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/places',(req,res,next)=>{
   let placesArr = [];
-  axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
+  axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     .then(({ data }) => {
       console.log(data);
     })
