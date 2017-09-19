@@ -161,7 +161,6 @@ export default class NewPlaceForm extends React.Component {
       }
     }))
     this.setState({places: placesArr});
-    console.log(this.state.places);
   }
 
   handleChangeValue = (event, index, value) => this.setState({value});
