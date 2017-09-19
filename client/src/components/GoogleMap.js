@@ -240,7 +240,10 @@ export class MapContainer extends React.Component {
     // }
 
     return (
-      <div id="map"></div>
+      <div>
+        <div id="map"></div>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs&libraries=places"></script>
+      </div>
     );
   }
 } //closes MapContainer
