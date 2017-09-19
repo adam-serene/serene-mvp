@@ -152,7 +152,16 @@ export default class NewPlaceForm extends React.Component {
     const response = await fetch('https://serenegreen.herokuapp.com/places')
     const responseJson = await response.json()
     placesArr.push(responseJson.park.results, responseJson.campground.results, responseJson.museum.results, responseJson.amusement.results, theSpots)
+    placesArr = placesArr.map(placeTypeArr=>placeTypeArr.filter(place=>{
+      if(this.state.lat>=place.geometry.location.lat-.002 && this.state.lng>=place.geometry.location.lng-.002 && this.state.lng<=place.geometry.location.lng+.002 && this.state.lat<=place.geometry.location.lat+.002){
+        return place
+      }
+      else {
+        return
+      }
+    }))
     this.setState({places: placesArr});
+    console.log(this.state.places);
   }
 
   handleChangeValue = (event, index, value) => this.setState({value});
@@ -163,7 +172,7 @@ export default class NewPlaceForm extends React.Component {
       user_id: document.cookie.split('=')[1]
     }
     console.log(reqBody);
-    const response = await fetch('https://serenegreen.herokuapp.com/checkin',
+    const response = await fetch('http://serenegreen.herokuapp.com/checkin',
     {
       method: 'POST',
       headers: {
