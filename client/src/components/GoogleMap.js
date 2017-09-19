@@ -158,9 +158,9 @@ export class MapContainer extends React.Component {
   async componentWillMount(){
     navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
     let placesArr = [];
-    const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{headers:{  'Access-Control-Allow-Origin': '*'}})
-    const parkDataJson = await parkData.json()
-    console.log(parkDataJson);
+    // const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{headers:{  'Access-Control-Allow-Origin': '*'}})
+    // const parkDataJson = await parkData.json()
+    // console.log(parkDataJson);
     // axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{headers:{'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com',
     // 'Content-Type': 'application/x-www-form-urlencoded',}})
     //   .then(({ data }) => {
@@ -178,8 +178,8 @@ export class MapContainer extends React.Component {
     // const amusementparkDataJson = await amusementparkData.json()
     // placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
     placesArr.push(theSpots)
-    // const response = await fetch('https://serenegreen.herokuapp.com/places')
-    // console.log(response.json());
+    const response = await fetch('https://serenegreen.herokuapp.com/places')
+    console.log(response.json());
     // placesArr.push(response.json().results)
 
     this.setState({places: placesArr});
