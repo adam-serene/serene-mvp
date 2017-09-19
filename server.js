@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(cors({
-  allowedOrigins: ["localhost:*", "serene-green.herokuapp.com", "fitbit.com", "googleapis.com"]
+  allowedOrigins: ["localhost:*", "https://serenegreen.herokuapp.com", "fitbit.com", "googleapis.com"]
 }));
 
 app.use(cookieParser());

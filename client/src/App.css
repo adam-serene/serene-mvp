@@ -1,28 +1,14 @@
 #React-body {
-  /*background-color: #c2c2c2;*/
   background-color: rgb(65,93,93);
-}
-
-.chicken {
-  max-width: 80px;
-  max-height: 80px;
 }
 
 nav i {
   margin: 0px 15px;
-  /*animation: Home-logo-scale2 infinite 4s ease-in alternate;*/
-}
-
-nav img {
-  /*margin: 0px 15px;*/
-  /*animation: Home-logo-scale2 infinite 4s ease-in alternate;*/
 }
 
 .app-logo {
-  /*animation: Home-logo-scale infinite 2s linear alternate;*/
   height: 8vh;
   float: left;
-  /*padding: 2vh;*/
   padding-left: 2vh;
   padding-top: 2vh;
   padding-bottom: 2vh;
@@ -32,8 +18,6 @@ nav img {
   display: inline;
   float: left;
   font-size: 1.5em;
-  /*animation: Home-logo-scale infinite 7s ease-out alternate ;*/
-  /*background-color: #c2c2c2;*/
   margin: 0;
   padding: 2vh;
   padding-left: 1vh;
@@ -43,11 +27,14 @@ nav img {
   color: rgb(65,93,93);
 }
 
+.fa-user-plus {
+  color: white;
+}
+
 .app-header {
   background-color: rgb(166,202,203);
   height: 8vh;
   color: rgb(65,93,93);
-  /*text-align: center;*/
 }
 
 .feature-links {
@@ -62,33 +49,12 @@ nav img {
   padding: 5px;
 }
 
-.fa-user-plus {
-  /*animation: Home-logo-scale2 infinite 4s linear alternate ;*/
-
-}
-
-.signup {
-  /*animation: Home-logo-scale1 infinite 9s ease-in-out alternate ;*/
-}
-
 .app-body {
   height: 92vh;
+  background-image: url('./landing.background.png');
+  background-size: 100vw;
+  background-size: 140vh;
 }
-
-/*@keyframes move_eye {
-  from { margin-left: -10%; }
-  to { margin-left: 10%; }
-}
-
-@keyframes Home-logo-scale {
-  from { transform: scale(1.5, 1.5); }
-  to { transform: scale(1.2, 1.2); }
-}
-
-@keyframes Home-logo-scale2 {
-  from { transform: scale(.8, .8); }
-  to { transform: scale(1, 1); }
-}*/
 
 html, body {
   margin: 0;
@@ -96,22 +62,20 @@ html, body {
   overflow: hidden;
 }
 
-.leaderboard-table {
-  /*width: 100vw !important;*/
-}
-
-.leaderboard-row {
-  /*width: 100vw !important;*/
-}
-
 .leaderboard-col {
   text-align: center !important;
 }
 
-.infowindow-img {
-  /*max-width: 100% !important;*/
-}
-
 .app {
   background-color: rgb(166,202,203);
+}
+
+.login-body {
+  text-align: center;
+  color: white;
+  padding: 10vh;
+}
+
+.signup {
+  color: white;
 }

@@ -49,8 +49,8 @@ export default class Auth extends React.Component{
     return(
       <div>
         <ToastContainer
-          position="top-right"
-          type="default"
+          position='top-right'
+          type='default'
           autoClose={5000}
           hideProgressBar={true}
           newestOnTop={false}
@@ -58,12 +58,12 @@ export default class Auth extends React.Component{
           pauseOnHover
         />
         <form onSubmit={this.handleSubmit}>
-          <h2>Login</h2>
+          <h4>Login</h4>
           <label>Username:</label>
-            <p><input name="username" type="text" value={this.state.username} onChange={this.handleChange} /></p>
+            <p><input name='username' type='text' value={this.state.username} onChange={this.handleChange} /></p>
           <label>Password:</label>
-            <p><input name="password" type="password" value={this.state.password} onChange={this.handleChange} /></p>
-          <p><input type="submit" value="Submit" /></p>
+            <p><input name='password' type='password' value={this.state.password} onChange={this.handleChange} /></p>
+          <p><input type='submit' value='Submit' style={{color:'white',background:'rgb(65,93,93)'}} /></p>
         </form>
       </div>
     );

@@ -8,13 +8,17 @@ import NewPlaceForm from './components/SubmitPlace.js'
 import Leaderboard from './components/Leaderboard';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import logo from './logo.symbol.png'
+import backgroundHero from './landing.background.png'
 
 const Login = ({match}) => (
-  <div>
+  <div className='login-body'>
+    <h3>
+    EMPLOYEE ENGAEMENT SOFTWARE
+    </h3>
     <Auth />
     <Link to='/signup'>
       <i className='fa fa-user-plus fa-2x' aria-hidden='true'></i>
-      <p className='signup'>or... Signup here!</p>
+      <p className='signup'>Signup!</p>
     </Link>
     <Route
       path={match.url + '/signup'}
@@ -77,6 +81,7 @@ const App = () => (
         <img src={logo} className='app-logo' alt='logo' />
       </Link>
       <p className='app-name'>Serene</p>
+      {document.cookie?
       <div className='feature-links'>
         <Link to='/checkin' className='feature-link'>
           <i className='fa fa-map-marker fa-2x' aria-hidden='true'></i>
@@ -87,7 +92,7 @@ const App = () => (
         <Link to='/leaderboard' className='feature-link'>
           <i className='fa fa-trophy fa-2x' aria-hidden='true'></i>
         </Link>
-      </div>
+      </div>:null}
     </div>
 
     <div className='app-body'  style={{display:'inline-block',width:'100vw'}}>

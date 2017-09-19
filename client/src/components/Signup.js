@@ -51,7 +51,7 @@ export default class Signup extends Component{
 
   render(){
     return(
-      <div>
+      <div style={{textAlign:'center',color:'white'}}>
         <ToastContainer
           position="top-right"
           type="default"

@@ -192,7 +192,7 @@ export default class NewPlaceForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{textAlign:'center', color:'white'}}>
         <ToastContainer
           position='top-right'
           type='default'
@@ -202,8 +202,8 @@ export default class NewPlaceForm extends React.Component {
           closeOnClick
           pauseOnHover
         />
+        <h3>Select Location</h3>
         <SelectField
-          floatingLabelText='Select Location'
           value={this.state.value}
           onChange={this.handleChangeValue}
         >
@@ -215,7 +215,7 @@ export default class NewPlaceForm extends React.Component {
             />
           )))}
         </SelectField>
-        <input type='submit' value='Submit' onClick={()=>this.submitCheckIn()}/>
+        <input type='submit' value='Submit' onClick={()=>this.submitCheckIn()} style={{color:'white'}}/>
       </div>
     );
   }
