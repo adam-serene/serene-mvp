@@ -34,26 +34,26 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.get('/places',(req,res,next)=>{
-//   let placesArr = [];
-//   axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
-//     .then(({ data }) => {
-//       console.log(data);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// //   const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
-// //   const parkDataJson = await parkData.json()
-// //   const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
-// //   const campgroundDataJson = await campgroundData.json()
-// //   const museumData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
-// //   const museumDataJson = await museumData.json()
-// //   const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
-// //   const amusementparkDataJson = await amusementparkData.json()
-// //   placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
-//   res.send({data})
-// })
+app.get('/places',(req,res,next)=>{
+  let placesArr = [];
+  axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',config)
+    .then(({ data }) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+//   const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
+//   const parkDataJson = await parkData.json()
+//   const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
+//   const campgroundDataJson = await campgroundData.json()
+//   const museumData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
+//   const museumDataJson = await museumData.json()
+//   const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
+//   const amusementparkDataJson = await amusementparkData.json()
+//   placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
+  res.send({data})
+})
 
 // app.use('/auth/fitbit', passport);
 
