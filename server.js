@@ -44,7 +44,7 @@ app.use(function(req, res, next) {
 
 app.get('/places',(req,res,next)=>{
   let placesArr = [];
-  axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`)
+  axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8`)
     .then(( {park} ) => {
       console.log(park);
       res.send(park)
