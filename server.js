@@ -47,6 +47,7 @@ app.get('/places',(req,res,next)=>{
   axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     .then(({ data }) => {
       console.log(data);
+      res.send({data})
     })
     .catch((error) => {
       console.log(error);
@@ -60,7 +61,7 @@ app.get('/places',(req,res,next)=>{
 //   const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
 //   const amusementparkDataJson = await amusementparkData.json()
 //   placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
-  res.send({data})
+  // res.send({data})
 })
 
 // app.use('/auth/fitbit', passport);
