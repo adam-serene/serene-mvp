@@ -15,7 +15,7 @@ require('dotenv').config();
 
 const config = {
   headers: {
-    'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/x-www-form-urlencoded',
     // 'Accept': '*/*',
     // 'Content-Type': 'text/plain'
@@ -27,9 +27,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/build'));
 }
 
-app.use(cors({
-  allowedOrigins: ["localhost:*", "https://serenegreen.herokuapp.com", "fitbit.com", "googleapis.com"]
-}));
+app.use(cors());
 
 app.use(cookieParser());
 

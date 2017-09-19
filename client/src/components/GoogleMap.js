@@ -10,14 +10,14 @@ const navGCPOptions = {
   maximumAge: 0
 };
 
-const config = {
-  headers: {
-    // 'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com',
-    // 'Content-Type': 'application/x-www-form-urlencoded',
-    'Accept': '*/*',
-    'Content-Type': 'text/plain'
-  }
-};
+// const config = {
+//   headers: {
+//     // 'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com',
+//     // 'Content-Type': 'application/x-www-form-urlencoded',
+//     'Accept': '*/*',
+//     'Content-Type': 'text/plain'
+//   }
+// };
 
 const theSpots = [
   {
