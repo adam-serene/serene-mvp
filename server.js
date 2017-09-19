@@ -46,16 +46,13 @@ app.get('/places',(req,res,next)=>{
   let placesArr = [];
   axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
     .then(({ park }) => {
-      // res.send(data)
       axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
         .then(({ campground }) => {
-          // res.send(data)
           axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
             .then(({ museum }) => {
-              // res.send(data)
               axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
                 .then(({ amusement }) => {
-                  res.send({park,campground,museum,amusement})
+                  res.send({1:park,2:campground,3:museum,4:amusement})
                 })
                 .catch((error) => {
                   console.log(error);
