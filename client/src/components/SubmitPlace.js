@@ -149,26 +149,10 @@ export default class NewPlaceForm extends React.Component {
 
   async getPlaces(){
     let placesArr = [];
-    // const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-    // const parkDataJson = await parkData.json()
-    // const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-    // const campgroundDataJson = await campgroundData.json()
-    // const museumData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-    // const museumDataJson = await museumData.json()
-    // const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-    // const amusementparkDataJson = await amusementparkData.json()
-    // placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
-    // console.log(placesArr);
-    // placesArr = placesArr.map(placeTypeArr=>placeTypeArr.filter(place=>{
-    //   if(this.state.lat>=place.geometry.location.lat-.002 && this.state.lng>=place.geometry.location.lng-.002 && this.state.lng<=place.geometry.location.lng+.002 && this.state.lat<=place.geometry.location.lat+.002){
-    //     return place
-    //   }
-    //   else {
-    //     return
-    //   }
-    // }))
+    const response = await fetch('https://serenegreen.herokuapp.com/places')
+    const responseJson = await response.json()
+    placesArr.push(responseJson.park.results, responseJson.campground.results, responseJson.museum.results, responseJson.amusement.results, theSpots)
     this.setState({places: placesArr});
-    console.log(this.state.places);
   }
 
   handleChangeValue = (event, index, value) => this.setState({value});

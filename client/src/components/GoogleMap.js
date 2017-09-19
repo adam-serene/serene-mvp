@@ -158,51 +158,17 @@ export class MapContainer extends React.Component {
   async componentWillMount(){
     navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
     let placesArr = [];
-    // const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{headers:{  'Access-Control-Allow-Origin': '*'}})
-    // const parkDataJson = await parkData.json()
-    // console.log(parkDataJson);
-    // axios('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',{headers:{'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com',
-    // 'Content-Type': 'application/x-www-form-urlencoded',}})
-    //   .then(({ data }) => {
-    //     console.log(data);
-    //     placesArr.push(data)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-    // const campgroundDataJson = await campgroundData.json()
-    // const museumData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-    // const museumDataJson = await museumData.json()
-    // const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs')
-    // const amusementparkDataJson = await amusementparkData.json()
-    // placesArr.push(theSpots)
     const response = await fetch('https://serenegreen.herokuapp.com/places')
-    // console.log(response);
     const responseJson = await response.json()
-    // console.log(responseJson);
     placesArr.push(responseJson.park.results, responseJson.campground.results, responseJson.museum.results, responseJson.amusement.results, theSpots)
-    // placesArr.push(response.json().results)
-
     this.setState({places: placesArr});
   }
-
-  // checkIn = () => {
-  //   console.log('hittting');
-  // }
 
   render() {
     const style = {
       width: '100vw',
       height: '92vh'
     };
-
-    // async function getPhoto(ref) {
-    //   console.log(ref);
-    //   const photo = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${ref}&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs`)
-    //   const photoJson = await photo.json()
-    //   console.log(photo);
-    // }
 
     return (
         <Map google={this.props.google}
