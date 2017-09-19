@@ -27,7 +27,7 @@ export default class Auth extends React.Component{
   async handleSubmit(event) {
     event.preventDefault();
     this.notify(`Hey, ${this.state.username}. You down? We'll see....`);
-    const response = await fetch('http://serenegreen.herokuapp.com/login',
+    const response = await fetch('https://serenegreen.herokuapp.com/login',
     {
       method: 'POST',
       headers: {
