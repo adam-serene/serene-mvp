@@ -6,8 +6,6 @@ import {
   Marker,
   GoogleApiWrapper,
 } from 'google-maps-react';
-import './styles/Map.css';
-import axios from 'axios';
 
 
 const navGCPOptions = {
@@ -15,12 +13,6 @@ const navGCPOptions = {
   timeout: 5000,
   maximumAge: 0
 };
-
-const config = {
-    'Access-Control-Allow-Origin': 'https://serenegreen.herokuapp.com/',
-    'Content-Type': 'application/x-www-form-urlencoded',
-};
-
 const theSpots = [
   {
     id: 1,
@@ -94,13 +86,6 @@ const theSpots = [
   },
 ]
 
-const myHeaders = new Headers({
-  // "Content-Type": "text/plain",
-  // 'Access-Control-Allow-Origin': '*'
-  'mode': 'no-cors'
-})
-
-
 export class MapContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -115,7 +100,6 @@ export class MapContainer extends React.Component {
       selectedPlace: {},
       open:false,
     };
-    // this.fetchPlaces = this.fetchPlaces.bind(this);
   }
 
   navGCPSuccess=(pos)=>{
@@ -131,14 +115,6 @@ export class MapContainer extends React.Component {
   navGCPError=(err)=>{
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
-
-  // async fetchPlaces(mapProps, map){
-  //   const response = await fetch('https://serene-green.herokuapp.com/places');
-  //   const places = await response.json()
-  //   // this.setState({
-  //   //   places: places
-  //   // });
-  // }
 
   mapClicked=(mapProps, map, clickEvent)=>{
     if (this.state.showingInfoWindow) {

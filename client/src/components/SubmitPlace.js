@@ -2,7 +2,6 @@ import React from 'react';
 import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import './styles/SubmitPlace.css';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
@@ -87,17 +86,7 @@ export default class NewPlaceForm extends React.Component {
       value: null,
       places: []
     };
-    // this.fetchCategories = this.fetchCategories.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  // async fetchCategories(){
-  //   const response = await fetch('https://serene-green.herokuapp.com/categories');
-  //   const categories = await response.json()
-  //   this.setState({
-  //     categories: categories
-  //   });
-  // }
 
   handleChange=(event)=>{
     const value = event.target.value;
@@ -106,28 +95,6 @@ export default class NewPlaceForm extends React.Component {
       [name]: value
      });
    }
-
-  notify=(message)=>toast(message);
-
-  // async handleSubmit(event){
-  //   event.preventDefault();
-  //   this.notify(`Noice! Let's add ${this.state.title} to the map.`);
-  //   const response = await fetch('https://serene-green.herokuapp.com/places',
-  //     {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-  //       },
-  //       body: qs.stringify(this.state)
-  //     })
-  //   if (response.status !== 200) return this.notify(`Could not add: ${this.state.title} to the map...`);
-  //   const data = await response.json()
-  //   this.notify(`Thanks! Others are really gonna enjoy ${data.description}!`);
-  //   let pathEnd = data.url;
-  //   setTimeout(()=>{
-  //     this._reactInternalInstance._context.router.history.push(pathEnd, null);}
-  //     , 1500);
-  // }
 
   navGCPSuccess=(pos)=>{
     let crd = pos.coords;
@@ -143,7 +110,6 @@ export default class NewPlaceForm extends React.Component {
   }
 
   componentWillMount(){
-    // this.fetchCategories();
     navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
   }
 

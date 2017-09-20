@@ -2,7 +2,6 @@ import React from 'react';
 import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import './styles/Auth.css'
 
 export default class Auth extends React.Component{
   constructor(props) {

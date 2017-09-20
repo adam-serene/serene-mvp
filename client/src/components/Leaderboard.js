@@ -7,7 +7,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import './styles/Progress.css';
 
 export default class Leaderboard extends Component {
   constructor(props){
