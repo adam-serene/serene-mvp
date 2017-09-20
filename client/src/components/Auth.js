@@ -1,21 +1,22 @@
-import React from 'react';
+import React, {Component} from 'react';
 import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
+import logo from '../logo.symbol.png'
 import 'react-toastify/dist/ReactToastify.min.css';
 
-export default class Auth extends React.Component{
+export default class Auth extends Component{
   constructor(props) {
    super(props);
    this.state = {
-     username: '',
-     password: '',
-     newusername: '',
-     newpassword: '',
-     full_name: '',
-     email: '',
      birthday: new Date((Date.now()-662695446000)).toUTCString(),
+     email: '',
+     full_name: '',
      loginView: false,
+     newpassword: '',
+     newusername: '',
+     password: '',
      signupView: false,
+     username: '',
    };
    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
    this.handleSignupSubmit = this.handleSignupSubmit.bind(this);
@@ -38,7 +39,7 @@ export default class Auth extends React.Component{
       username:this.state.username,
       password:this.state.password,
     }
-    this.notify(`Hey, ${this.state.username}. You down? We'll see....`);
+    // this.notify(`Hey, ${this.state.username}. You down? We'll see....`);
     const response = await fetch('https://serenegreen.herokuapp.com/login',
     {
       method: 'POST',
@@ -108,7 +109,7 @@ export default class Auth extends React.Component{
         style={{
           textAlign: 'center',
           color: 'white',
-          padding: '13%',
+          padding: '10%',
         }}
       >
         <ToastContainer
@@ -120,6 +121,7 @@ export default class Auth extends React.Component{
           closeOnClick
           pauseOnHover
         />
+        <img src={logo} style={{height:'20%',width:'20%'}}/>
         {
           this.state.loginView || this.state.signupView
           ?
