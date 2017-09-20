@@ -44,13 +44,13 @@ app.use(function(req, res, next) {
 
 app.get('/places',(req,res,next)=>{
   let placesArr = [];
-  axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8`)
+  axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs`)
     .then((park) => {
-      axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8`)
+      axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs`)
         .then(( campground ) => {
-          axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8`)
+          axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs`)
             .then(( museum ) => {
-              axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA3CgIdPGgKcOe9JAax8ZtChsomwWYSzu8`)
+              axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs`)
                 .then(( amusement ) => {
                   console.log(park.data);
                   res.send({
