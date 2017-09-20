@@ -28,42 +28,6 @@ const Login = ({match}) => (
   </div>
 )
 
-// const NewUser = () => (
-//   <div>
-//     <Signup />
-//   </div>
-// )
-
-// const MapPlaces = () => (
-//   <div>
-//     <GoogleMap />
-//   </div>
-// )
-
-
-// const Fitness = () => (
-//   <div>
-//     <nav>
-//     <Link to='/addpoint'><i className='fa fa-map-marker fa-2x' aria-hidden='true'></i></Link>
-//     <Link to='/mapplaces'><i className='fa fa-map-o fa-2x' aria-hidden='true'></i></Link>
-//     <Link to='/fitness'><i className='fa fa-trophy fa-3x' aria-hidden='true'></i></Link>
-//     </nav>
-//     <Progress />
-//   </div>
-// )
-
-// const AddPoint = () => (
-//   <div>
-//     <nav>
-//     <Link to='/addpoint'><i className='fa fa-map-marker fa-3x' aria-hidden='true'></i></Link>
-//     <Link to='/mapplaces'><i className='fa fa-map-o fa-2x' aria-hidden='true'></i></Link>
-//     <Link to='/fitness'><i className='fa fa-trophy fa-2x' aria-hidden='true'></i></Link>
-//     </nav>
-//     <NewPlaceForm />
-//   </div>
-// )
-
-
 const LeaderboardComp = () => (
   <MuiThemeProvider >
       <Leaderboard />
@@ -78,12 +42,6 @@ const CheckinComp = () => (
 
 const logout = () => {
   document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-  console.log(document.cookie);
-  // axios('http://localhost:5000/logout')
-  //   .then(console.log('loggedout'))
-  //   .catch(error=>{
-  //     console.log(error);
-  //   })
 }
 
 const App = () => (
