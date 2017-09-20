@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import theSpots from './theSpots.js'
+import Nav from './Nav.js'
+import Auth from './Auth.js'
 
 const navGCPOptions = {
   enableHighAccuracy: true,
@@ -12,92 +15,24 @@ const navGCPOptions = {
   maximumAge: 0
 };
 
-const theSpots = [
-  {
-    id: 1,
-    name: 'spot 1',
-    geometry: {
-      location: {
-        lat: 39.999488,
-        lng: -105.308945,
-      }
-    }
-  },
-  {
-    id: 2,
-    name: 'spot 2',
-    geometry: {
-      location: {
-        lat: 40.004286,
-        lng: -105.305981,
-      }
-    }
-  },
-  {
-    id: 3,
-    name: 'spot 3',
-    geometry: {
-      location: {
-        lat: 40.001731,
-        lng: -105.307875,
-      }
-    }
-  },
-  {
-    id: 4,
-    name: 'spot 4',
-    geometry: {
-      location: {
-        lat: 40.005359,
-        lng: -105.307865,
-      }
-    }
-  },
-  {
-    id: 5,
-    name: 'spot 5',
-    geometry: {
-      location: {
-        lat: 40.00365,
-        lng: -105.300807,
-      }
-    }
-  },
-  {
-    id: 6,
-    name: 'Galvanize',
-    geometry: {
-      location: {
-        lat: 40.0166305,
-        lng: -105.2817439,
-      }
-    }
-  },
-]
-
-export default class NewPlaceForm extends React.Component {
+export default class NewPlaceForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categories: [],
-      title: '',
-      category: 'GO BIG',
+      avail: false,
       lat: 0,
       lng: 0,
-      value: null,
-      places: [],
       loading: true,
-      avail: false,
+      places: [],
+      value: null,
     };
   }
 
-  handleChange=(event)=>{
-    const value = event.target.value;
-    const name = event.target.name;
-    this.setState({
-      [name]: value
-     });
-   }
+  componentWillMount(){
+    navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
+  }
+
+  notify=(message)=>toast(message);
 
   navGCPSuccess=(pos)=>{
     let crd = pos.coords;
@@ -112,9 +47,6 @@ export default class NewPlaceForm extends React.Component {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
-  componentWillMount(){
-    navigator.geolocation.getCurrentPosition(this.navGCPSuccess, this.navGCPError, navGCPOptions);
-  }
 
   async getPlaces(){
     let placesArr = [];
@@ -133,7 +65,9 @@ export default class NewPlaceForm extends React.Component {
     this.checkAvail()
   }
 
-  handleChangeValue = (event, index, value) => this.setState({value});
+  handleChangeValue = (e, index, value) => {
+    this.setState({value})
+  };
 
   async submitCheckIn() {
     let reqBody = {
@@ -147,6 +81,10 @@ export default class NewPlaceForm extends React.Component {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
       body: qs.stringify(reqBody)
+    }).then(()=>{
+      this.notify( `Woo, you checked-in!`)
+      setTimeout(() => {
+        this._reactInternalInstance._context.router.history.push('/leaderboard', null);}, 2000);
     })
   }
 
@@ -165,65 +103,80 @@ export default class NewPlaceForm extends React.Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-      {this.state.loading?
-        <h4
-          style={{
-            color: 'white',
-            textAlign: 'center',
-          }}
-        >
-          Loading...
-        </h4>
-        :
-        <div
-          style={{
-            textAlign:'center',
-            color:'white',
-            padding: '10%',
-          }}
-        >
-          <ToastContainer
-            position='top-right'
-            type='default'
-            autoClose={5000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeOnClick
-            pauseOnHover
-          />
-          {this.state.avail
-          ?
-          <div>
-            <h3>Select Location</h3>
-            <SelectField
-              value={this.state.value}
-              onChange={this.handleChangeValue}
-            >
-              {this.state.places.map(placeArr => placeArr.map(place =>(
-                <MenuItem
-                  key={place.id}
-                  value={place.id}
-                  primaryText={place.name}
-                />
-              )))}
-            </SelectField>
-            <br/>
-            <input
-              type='submit'
-              value='Submit'
-              onClick={()=>this.submitCheckIn()}
-              style={{
-                color: 'white',
-                background: 'rgb(65,93,93)'
-              }}
-            />
-          </div>
+      <div>
+        {
+        document.cookie
+        ?
+        <div>
+        <Nav />
+        <h1 style={{color:'white',textAlign:'center'}}>Hangouts</h1>
+        <MuiThemeProvider>
+        {this.state.loading?
+          <h4
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              marginTop: '75vh',
+            }}
+          >
+            Loading...
+          </h4>
           :
-          <h4>Sorry no nearby hangouts :(</h4>
-          }
-        </div>}
-      </MuiThemeProvider>
+          <div
+            style={{
+              textAlign:'center',
+              color:'white',
+              padding: '3%',
+            }}
+          >
+            <ToastContainer
+              position='top-right'
+              type='default'
+              autoClose={5000}
+              hideProgressBar={true}
+              newestOnTop={false}
+              closeOnClick
+              pauseOnHover
+            />
+            {this.state.avail
+            ?
+            <div>
+              <h3>Select Location</h3>
+              <SelectField
+                value={this.state.value}
+                onChange={this.handleChangeValue}
+                style={{background:'white'}}
+              >
+                {this.state.places.map(placeArr => placeArr.map(place =>(
+                  <MenuItem
+                    key={place.id}
+                    value={place.id}
+                    primaryText={place.name}
+                    style={{textColor:'black'}}
+                  />
+                )))}
+              </SelectField>
+              <br/>
+              <input
+                type='submit'
+                value='Submit'
+                onClick={()=>this.submitCheckIn()}
+                style={{
+                  color: 'white',
+                  background: 'rgb(65,93,93)'
+                }}
+              />
+            </div>
+            :
+            <h4>Sorry no nearby hangouts :(</h4>
+            }
+          </div>}
+        </MuiThemeProvider>
+        </div>
+        :
+        <Auth />
+      }
+      </div>
     );
   }
 }

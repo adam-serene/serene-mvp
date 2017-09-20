@@ -8,7 +8,8 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import Nav from './Nav.js'
+import Auth from './Auth.js'
 
 export default class Leaderboard extends Component {
   constructor(props){
@@ -65,73 +66,83 @@ export default class Leaderboard extends Component {
 
   render(){
     return(
-      <MuiThemeProvider >
-        <Table
-          className='leaderboard-table'
-        >
-          <TableHeader
-            displaySelectAll={false}
-            adjustForCheckbox={false}
-            className='leaderboard-header'
+      <div>
+      {document.cookie?
+        <div>
+        <Nav />
+        <h1 style={{color:'white',textAlign:'center'}}>Leaderboards</h1>
+        <MuiThemeProvider >
+          <Table
+            className='leaderboard-table'
           >
-            <TableRow
-              className='leaderboard-row'
+            <TableHeader
+              displaySelectAll={false}
+              adjustForCheckbox={false}
+              className='leaderboard-header'
             >
-              <TableHeaderColumn
-                className='leaderboard-col'
-                style={{
-                  width: '20%',
-                  padding: '2%',
-                }}
+              <TableRow
+                className='leaderboard-row'
               >
-                RANK
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                className='leaderboard-col'
-              >
-                NAME
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                className='leaderboard-col'
-              >
-                # of CHECK INS
-              </TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
+                <TableHeaderColumn
+                  className='leaderboard-col'
+                  style={{
+                    width: '20%',
+                    padding: '2%',
+                  }}
+                >
+                  RANK
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className='leaderboard-col'
+                >
+                  NAME
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className='leaderboard-col'
+                >
+                  # of CHECK INS
+                </TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
 
-          <TableBody
-            displayRowCheckbox={false}
-            className='leaderboard-body'
-          >
-            {this.state.stats.map( (row, index) => (
-            <TableRow
-              key={index}
-              className='leaderboard-row'
+            <TableBody
+              displayRowCheckbox={false}
+              className='leaderboard-body'
             >
-              <TableRowColumn
-                className='leaderboard-col'
-                style={{
-                  width: '20%',
-                  padding: '2%',
-                }}
+              {this.state.stats.map( (row, index) => (
+              <TableRow
+                key={index}
+                className='leaderboard-row'
               >
-                {index+1}
-              </TableRowColumn>
-              <TableRowColumn
-                className='leaderboard-col'
-              >
-                {row.user}
-              </TableRowColumn>
-              <TableRowColumn
-                className='leaderboard-col'
-              >
-                {row.score}
-              </TableRowColumn>
-            </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </MuiThemeProvider>
+                <TableRowColumn
+                  className='leaderboard-col'
+                  style={{
+                    width: '20%',
+                    padding: '2%',
+                  }}
+                >
+                  {index+1}
+                </TableRowColumn>
+                <TableRowColumn
+                  className='leaderboard-col'
+                >
+                  {row.user}
+                </TableRowColumn>
+                <TableRowColumn
+                  className='leaderboard-col'
+                >
+                  {row.score}
+                </TableRowColumn>
+              </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </MuiThemeProvider>
+        </div>
+        :
+        <Auth />
+      }
+      </div>
     );
   }
 }
