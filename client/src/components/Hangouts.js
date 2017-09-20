@@ -113,7 +113,7 @@ export default class NewPlaceForm extends Component {
             style={{
               color: 'white',
               textAlign: 'center',
-              marginTop: '75vh',
+              marginTop: '35vh',
             }}
           >
             Loading...
