@@ -6,7 +6,6 @@ import {
   GoogleApiWrapper,
 } from 'google-maps-react';
 
-
 const navGCPOptions = {
   enableHighAccuracy: true,
   timeout: 5000,
@@ -152,7 +151,8 @@ export class MapContainer extends React.Component {
     };
 
     return (
-        <Map google={this.props.google}
+        <Map
+          google={this.props.google}
           onReady={this.fetchPlaces}
           onClick={this.mapClicked}
           onDragend={this.centerMoved}
@@ -169,7 +169,7 @@ export class MapContainer extends React.Component {
             title={place.name}
             name={place.name}
             rating={place.rating}
-            open={place.opening_hours?place.opening_hours.open_now:null}
+            open={place.opening_hours ? place.opening_hours.open_now : null}
             position={place.geometry.location}
             url={null}
             onClick={this.onMarkerClick}
@@ -178,7 +178,7 @@ export class MapContainer extends React.Component {
       </Map>
     );
   }
-} //closes MapContainer
+}
 
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs'
