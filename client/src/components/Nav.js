@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import { Link, Route } from 'react-router-dom';
 import logo from '../logo.symbol.png'
-import { Route, Link } from 'react-router-dom';
 
 export default class Nav extends Component {
   constructor(props){

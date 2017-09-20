@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
+import Auth from './Auth.js'
 import {
-  Map,
-  InfoWindow,
-  Marker,
   GoogleApiWrapper,
+  InfoWindow,
+  Map,
+  Marker,
 } from 'google-maps-react';
 import Nav from './Nav.js'
-import Auth from './Auth.js'
 import theSpots from './theSpots.js'
 
 const navGCPOptions = {

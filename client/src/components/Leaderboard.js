@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import Auth from './Auth.js'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Nav from './Nav.js'
 import {
   Table,
   TableBody,
@@ -7,9 +10,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Nav from './Nav.js'
-import Auth from './Auth.js'
 
 export default class Leaderboard extends Component {
   constructor(props){

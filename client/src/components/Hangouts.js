@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import qs from 'qs';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
-import SelectField from 'material-ui/SelectField';
+import Auth from './Auth.js'
 import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import theSpots from './theSpots.js'
 import Nav from './Nav.js'
-import Auth from './Auth.js'
+import qs from 'qs';
+import 'react-toastify/dist/ReactToastify.min.css';
+import SelectField from 'material-ui/SelectField';
+import theSpots from './theSpots.js'
+import { ToastContainer, toast } from 'react-toastify';
 
 const navGCPOptions = {
   enableHighAccuracy: true,

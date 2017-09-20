@@ -1,11 +1,9 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
 import Auth from './components/Auth';
-import backgroundHero from './landing.background.png'
-import Hangouts from './components/Hangouts.js'
 import GoogleMap from './components/GoogleMap';
+import Hangouts from './components/Hangouts.js'
 import Leaderboard from './components/Leaderboard';
-import logo from './logo.symbol.png'
+import { Link, Route } from 'react-router-dom';
 import './App.css';
 
 const App = () => (

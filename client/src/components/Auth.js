@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import qs from 'qs';
-import { ToastContainer, toast } from 'react-toastify';
 import logo from '../logo.symbol.png'
+import qs from 'qs';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default class Auth extends Component{
   constructor(props) {
