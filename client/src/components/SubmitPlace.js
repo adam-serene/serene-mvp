@@ -158,20 +158,29 @@ export default class NewPlaceForm extends React.Component {
           closeOnClick
           pauseOnHover
         />
-        <h3>Select Location</h3>
-        <SelectField
-          value={this.state.value}
-          onChange={this.handleChangeValue}
-        >
-          {this.state.places.map(placeArr => placeArr.map(place =>(
-            <MenuItem
-              key={place.id}
-              value={place.id}
-              primaryText={place.name}
-            />
-          )))}
-        </SelectField>
-        <input type='submit' value='Submit' onClick={()=>this.submitCheckIn()} style={{color:'white'}}/>
+        {this.state.places.forEach(arr=>{
+          arr.length>0
+        })
+        ?
+        <div>
+          <h3>Select Location</h3>
+          <SelectField
+            value={this.state.value}
+            onChange={this.handleChangeValue}
+          >
+            {this.state.places.map(placeArr => placeArr.map(place =>(
+              <MenuItem
+                key={place.id}
+                value={place.id}
+                primaryText={place.name}
+              />
+            )))}
+          </SelectField>
+          <input type='submit' value='Submit' onClick={()=>this.submitCheckIn()} style={{color:'white'}}/>
+        </div>
+        :
+        <h4>Sorry no nearby hangouts :(</h4>
+        }
       </div>
     );
   }

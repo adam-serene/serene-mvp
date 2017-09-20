@@ -1,30 +1,17 @@
 import React from 'react';
-import './App.css';
 import { Route, Link } from 'react-router-dom';
 import Auth from './components/Auth';
-import GoogleMap from './components/GoogleMap';
-import Signup from './components/Signup';
-import NewPlaceForm from './components/SubmitPlace.js'
-import Leaderboard from './components/Leaderboard';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import logo from './logo.symbol.png'
 import backgroundHero from './landing.background.png'
-import axios from 'axios'
+import Checkin from './components/SubmitPlace.js'
+import GoogleMap from './components/GoogleMap';
+import Leaderboard from './components/Leaderboard';
+import logo from './logo.symbol.png'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import './App.css';
 
 const Login = ({match}) => (
   <div className='login-body'>
-    <h3>
-    EMPLOYEE ENGAGEMENT SOFTWARE
-    </h3>
     <Auth />
-    <Link to='/signup'>
-      <i className='fa fa-user-plus fa-2x' aria-hidden='true'></i>
-      <p className='signup'>Signup!</p>
-    </Link>
-    <Route
-      path={match.url + '/signup'}
-      component={Signup}
-    />
   </div>
 )
 
@@ -36,7 +23,7 @@ const LeaderboardComp = () => (
 
 const CheckinComp = () => (
   <MuiThemeProvider>
-    <NewPlaceForm />
+    <Checkin />
   </MuiThemeProvider>
 )
 
@@ -70,9 +57,7 @@ const App = () => (
 
     <div className='app-body'  style={{display:'inline-block',width:'100vw'}}>
       <Route exact path='/' component={document.cookie?GoogleMap:Login}/>
-      <Route path='/map' component={GoogleMap}/>
       <Route path='/leaderboard' component={LeaderboardComp}/>
-      <Route path='/signup' component={Signup}/>
       <Route path='/checkin' component={CheckinComp}/>
     </div>
   </div>

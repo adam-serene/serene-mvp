@@ -1,18 +1,20 @@
 'use strict';
 
 const express = require('express');
-const app = express();
-const path = require('path');
-const cors = require('express-cors')
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const knex = require('./knex');
-const bcrypt = require ('bcrypt');
-const saltRounds = 10;
-const port = process.env.PORT || 5000;
 const axios = require('axios');
+const bcrypt = require ('bcrypt');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('express-cors')
+const knex = require('./knex');
+const path = require('path');
+const port = process.env.PORT || 5000;
+const saltRounds = 10;
+
+const app = express();
 
 require('dotenv').config();
+
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/build'));
@@ -130,19 +132,14 @@ app.post('/login', (req,res,next) => {
   .where('username', username)
   .then((data) => {
     if(data.length === 0){
-      console.log('if');
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
     } else if (bcrypt.compareSync(password, data[0].hashed_password)){
-      console.log('else if');
-      let sgUserId = data[0].id
-      console.log(data[0].id);
       delete data[0].hashed_password;
-      data[0].url = '/map';
+      data[0].url = '/';
       console.log(`${data[0].username} logged in.`);
       return res.send(data[0]);
     } else {
-      console.log('else');
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
     }

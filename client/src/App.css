@@ -72,9 +72,13 @@ html, body {
 .login-body {
   text-align: center;
   color: white;
-  padding: 10vh;
+  padding: 13%;
 }
 
 .signup {
   color: white;
+}
+
+input {
+  color: black;
 }
