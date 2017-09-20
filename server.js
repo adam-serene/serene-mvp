@@ -115,7 +115,7 @@ app.post('/register', (req,res,next)=>{
         submissions_remaining: response[0].submissions_remaining
       };
       console.log(`${response[0].username} signed up!`);
-      response[0].url = '/'
+      response[0].url = '/home'
       return res.send(response[0]);
     })
     .catch(function (err) {

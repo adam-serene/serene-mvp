@@ -134,7 +134,20 @@ export default class Auth extends React.Component{
               ?
               <button
                 onClick={() => this.handleResetBrowser('/')}
+                style={{
+                  background: 'transparent',
+                  border: 'transparent',
+                }}
               >
+                <i
+                  className='fa fa-sign-out fa-2x'
+                  aria-hidden='true'
+                  style={{
+                    color:'white'
+                  }}
+                >
+                </i>
+                <br/>
                 Logout
               </button>
               :
@@ -257,18 +270,18 @@ export default class Auth extends React.Component{
             <label>Username</label>
             <p>
               <input
-                name="username"
+                name="newusername"
                 type="text"
-                value={this.state.username}
+                value={this.state.newusername}
                 onChange={this.handleChange}
               />
             </p>
               <label>Password</label>
             <p>
               <input
-                name="password"
+                name="newpassword"
                 type="text"
-                value={this.state.password}
+                value={this.state.newpassword}
                 onChange={this.handleChange}
               />
             </p>
