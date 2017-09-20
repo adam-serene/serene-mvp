@@ -85,6 +85,13 @@ export default class Auth extends React.Component{
       , 1500);
    }
 
+   handleResetBrowser = (pathEnd) => {
+     this.notify('Logged Out!');
+     document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+     setTimeout(() => {
+       this._reactInternalInstance._context.router.history.push(pathEnd, null);}, 100);
+   }
+
   handleLoginView = () => {
     let newView = !this.state.loginView
     this.setState({loginView: newView, signupView: false})
@@ -97,17 +104,24 @@ export default class Auth extends React.Component{
 
   render(){
     return(
-      <div>
+      <div
+        style={{
+          textAlign: 'center',
+          color: 'white',
+          padding: '13%',
+        }}
+      >
         <ToastContainer
           position='top-right'
           type='default'
-          autoClose={5000}
+          autoClose={3000}
           hideProgressBar={true}
           newestOnTop={false}
           closeOnClick
           pauseOnHover
         />
-        {this.state.loginView||this.state.signupView
+        {
+          this.state.loginView || this.state.signupView
           ?
           null
           :
@@ -115,45 +129,55 @@ export default class Auth extends React.Component{
             <h2>
             EMPLOYEE ENGAGEMENT SOFTWARE
             </h2>
-            <div style={{padding:'5%'}}>
+            {
+              document.cookie
+              ?
               <button
-                onClick={()=>this.handleLoginView()}
-                style={{
-                  background: 'transparent',
-                  border: 'transparent',
-                }}
+                onClick={() => this.handleResetBrowser('/')}
               >
-                <i
-                  className='fa fa-sign-in fa-2x'
-                  aria-hidden='true'
+                Logout
+              </button>
+              :
+              <div style={{padding:'5%'}}>
+                <button
+                  onClick={()=>this.handleLoginView()}
                   style={{
-                    color:'white',
+                    background: 'transparent',
+                    border: 'transparent',
                   }}
                 >
-                </i>
-                <br/>
-                LOGIN
-              </button>
-               {' or '}
-              <button
-                onClick={()=>this.handleSignupView()}
-                style={{
-                  background: 'transparent',
-                  border: 'transparent',
-                }}
-              >
-                <i
-                  className='fa fa-user-plus fa-2x'
-                  aria-hidden='true'
+                  <i
+                    className='fa fa-sign-in fa-2x'
+                    aria-hidden='true'
+                    style={{
+                      color:'white',
+                    }}
+                  >
+                  </i>
+                  <br/>
+                  LOGIN
+                </button>
+                 {' or '}
+                <button
+                  onClick={()=>this.handleSignupView()}
                   style={{
-                    color:'white',
+                    background: 'transparent',
+                    border: 'transparent',
                   }}
                 >
-                </i>
-                <br/>
-                SIGNUP
-              </button>
-            </div>
+                  <i
+                    className='fa fa-user-plus fa-2x'
+                    aria-hidden='true'
+                    style={{
+                      color:'white',
+                    }}
+                  >
+                  </i>
+                  <br/>
+                  SIGNUP
+                </button>
+              </div>
+            }
             <h4>
             Wellness platform for increasing workplace productivity through a healthy lifestyle.
             </h4>

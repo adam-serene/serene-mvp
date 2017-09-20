@@ -136,7 +136,7 @@ app.post('/login', (req,res,next) => {
       return res.status(400).send('Bad username or password');
     } else if (bcrypt.compareSync(password, data[0].hashed_password)){
       delete data[0].hashed_password;
-      data[0].url = '/';
+      data[0].url = '/home';
       console.log(`${data[0].username} logged in.`);
       return res.send(data[0]);
     } else {

@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const navGCPOptions = {
   enableHighAccuracy: true,
@@ -84,7 +85,9 @@ export default class NewPlaceForm extends React.Component {
       lat: 0,
       lng: 0,
       value: null,
-      places: []
+      places: [],
+      loading: true,
+      avail: false,
     };
   }
 
@@ -127,6 +130,7 @@ export default class NewPlaceForm extends React.Component {
       }
     }))
     this.setState({places: placesArr});
+    this.checkAvail()
   }
 
   handleChangeValue = (event, index, value) => this.setState({value});
@@ -146,42 +150,80 @@ export default class NewPlaceForm extends React.Component {
     })
   }
 
+  checkAvail = () => {
+    const available = this.state.places.map(innerArr => {
+      if(innerArr.length>0){
+        return innerArr
+      }
+    })
+    let result = available.length > 0
+    this.setState({
+      avail: result,
+      loading: false
+    })
+  }
+
   render() {
     return (
-      <div style={{textAlign:'center', color:'white'}}>
-        <ToastContainer
-          position='top-right'
-          type='default'
-          autoClose={5000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          pauseOnHover
-        />
-        {this.state.places.forEach(arr=>{
-          arr.length>0
-        })
-        ?
-        <div>
-          <h3>Select Location</h3>
-          <SelectField
-            value={this.state.value}
-            onChange={this.handleChangeValue}
-          >
-            {this.state.places.map(placeArr => placeArr.map(place =>(
-              <MenuItem
-                key={place.id}
-                value={place.id}
-                primaryText={place.name}
-              />
-            )))}
-          </SelectField>
-          <input type='submit' value='Submit' onClick={()=>this.submitCheckIn()} style={{color:'white'}}/>
-        </div>
+      <MuiThemeProvider>
+      {this.state.loading?
+        <h4
+          style={{
+            color: 'white',
+            textAlign: 'center',
+          }}
+        >
+          Loading...
+        </h4>
         :
-        <h4>Sorry no nearby hangouts :(</h4>
-        }
-      </div>
+        <div
+          style={{
+            textAlign:'center',
+            color:'white',
+            padding: '10%',
+          }}
+        >
+          <ToastContainer
+            position='top-right'
+            type='default'
+            autoClose={5000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick
+            pauseOnHover
+          />
+          {this.state.avail
+          ?
+          <div>
+            <h3>Select Location</h3>
+            <SelectField
+              value={this.state.value}
+              onChange={this.handleChangeValue}
+            >
+              {this.state.places.map(placeArr => placeArr.map(place =>(
+                <MenuItem
+                  key={place.id}
+                  value={place.id}
+                  primaryText={place.name}
+                />
+              )))}
+            </SelectField>
+            <br/>
+            <input
+              type='submit'
+              value='Submit'
+              onClick={()=>this.submitCheckIn()}
+              style={{
+                color: 'white',
+                background: 'rgb(65,93,93)'
+              }}
+            />
+          </div>
+          :
+          <h4>Sorry no nearby hangouts :(</h4>
+          }
+        </div>}
+      </MuiThemeProvider>
     );
   }
 }

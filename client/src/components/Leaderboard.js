@@ -7,6 +7,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 export default class Leaderboard extends Component {
@@ -64,52 +65,73 @@ export default class Leaderboard extends Component {
 
   render(){
     return(
-      <Table
-        className='leaderboard-table'>
-        <TableHeader
-          displaySelectAll={false}
-          adjustForCheckbox={false}
-          className='leaderboard-header'>
-          <TableRow
-            className='leaderboard-row'>
-            <TableHeaderColumn
-              className='leaderboard-col'>
-              RANK
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              className='leaderboard-col'>
-              NAME
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              className='leaderboard-col'>
-              # of CHECK INS
-            </TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
+      <MuiThemeProvider >
+        <Table
+          className='leaderboard-table'
+        >
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}
+            className='leaderboard-header'
+          >
+            <TableRow
+              className='leaderboard-row'
+            >
+              <TableHeaderColumn
+                className='leaderboard-col'
+                style={{
+                  width: '20%',
+                  padding: '2%',
+                }}
+              >
+                RANK
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                className='leaderboard-col'
+              >
+                NAME
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                className='leaderboard-col'
+              >
+                # of CHECK INS
+              </TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
 
-        <TableBody
-          displayRowCheckbox={false}
-          className='leaderboard-body'>
-          {this.state.stats.map( (row, index) => (
-          <TableRow
-            key={index}
-            className='leaderboard-row'>
-            <TableRowColumn
-              className='leaderboard-col'>
-              {index+1}
-            </TableRowColumn>
-            <TableRowColumn
-              className='leaderboard-col'>
-              {row.user}
-            </TableRowColumn>
-            <TableRowColumn
-              className='leaderboard-col'>
-              {row.score}
-            </TableRowColumn>
-          </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          <TableBody
+            displayRowCheckbox={false}
+            className='leaderboard-body'
+          >
+            {this.state.stats.map( (row, index) => (
+            <TableRow
+              key={index}
+              className='leaderboard-row'
+            >
+              <TableRowColumn
+                className='leaderboard-col'
+                style={{
+                  width: '20%',
+                  padding: '2%',
+                }}
+              >
+                {index+1}
+              </TableRowColumn>
+              <TableRowColumn
+                className='leaderboard-col'
+              >
+                {row.user}
+              </TableRowColumn>
+              <TableRowColumn
+                className='leaderboard-col'
+              >
+                {row.score}
+              </TableRowColumn>
+            </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </MuiThemeProvider>
     );
   }
 }
