@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Map,
   InfoWindow,
-  OverlayView,
   Marker,
   GoogleApiWrapper,
 } from 'google-maps-react';
@@ -163,7 +162,6 @@ export class MapContainer extends React.Component {
           clickableIcons={false}
           mapType={'hybrid'}
         >
-
         {this.state.places.map(placeArr =>
           placeArr.map(place =>
           <Marker
@@ -177,27 +175,6 @@ export class MapContainer extends React.Component {
             onClick={this.onMarkerClick}
           />
         ))}
-
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}>
-            <div style={{width: '25vh'}}>
-              <h4 style={{textAlign: 'center'}}>
-                {this.state.selectedPlace.title}
-              </h4>
-              <h6 style={{textAlign: 'center'}}>
-                Open now: {this.state.selectedPlace.open?'Yes':'No'}
-              </h6>
-              <h6 style={{textAlign: 'center'}}>
-                Rating: {this.state.selectedPlace.rating}/5
-              </h6>
-              <img
-                className="infowindow-img"
-                style={{width: '100%'}}
-                src={''}
-                alt=""/>
-            </div>
-        </InfoWindow>
       </Map>
     );
   }
