@@ -52,8 +52,7 @@ nav i {
 .app-body {
   height: 92vh;
   background-image: url('./landing.background.png');
-  background-size: 100vw;
-  background-size: 140vh;
+  background-size: 100vw 140vh;
 }
 
 html, body {
