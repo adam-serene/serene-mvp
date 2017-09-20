@@ -170,7 +170,6 @@ export default class NewPlaceForm extends React.Component {
       place_id: this.state.value,
       user_id: document.cookie.split('=')[1]
     }
-    console.log(reqBody);
     const response = await fetch('https://serenegreen.herokuapp.com/checkin',
     {
       method: 'POST',
@@ -179,7 +178,6 @@ export default class NewPlaceForm extends React.Component {
       },
       body: qs.stringify(reqBody)
     })
-    console.log(response.json());
   }
 
   render() {
