@@ -15,16 +15,6 @@ const axios = require('axios');
 
 require('dotenv').config();
 
-const config = {
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/x-www-form-urlencoded',
-    // 'Accept': '*/*',
-    // 'Content-Type': 'text/plain'
-  }
-};
-
-
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/build'));
 }
@@ -42,10 +32,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/logout',(req,res,next)=>{
-  console.log('req.cookies');
-  res.send('connected')
-})
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/places',(req,res,next)=>{
   let placesArr = [];
@@ -80,51 +67,6 @@ app.get('/places',(req,res,next)=>{
     .catch((error) => {
       console.log(error);
     });
-//   const parkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
-//   const parkDataJson = await parkData.json()
-//   const campgroundData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=campground+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
-//   const campgroundDataJson = await campgroundData.json()
-//   const museumData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=museum+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
-//   const museumDataJson = await museumData.json()
-//   const amusementparkData = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyA-c7nBnaF1rAjzLZxQoSN4wWfgiFyTeFs',myInit)
-//   const amusementparkDataJson = await amusementparkData.json()
-//   placesArr.push(parkDataJson.results, campgroundDataJson.results, museumDataJson.results, amusementparkDataJson.results, theSpots)
-  // res.send({data})
-})
-
-// app.use('/auth/fitbit', passport);
-
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-// app.get('/places', (req, res, next)=>{
-//   knex('places')
-//   .join('photos', 'places.id', 'photos.place_id')
-//   .select('*')
-//   .then(data => {
-//     let result = [...data];
-//     data.map((place, index) =>{
-//       result[index].position = {};
-//       result[index].position.lat = place.lat;
-//       (place.lng) ? result[index].position.lng = place.lng : result[index].position.lng = place.long;
-//     })
-//     res.send(result);
-//   })
-//   .catch(err => {
-//     console.log('error');
-//     next(err);
-//   });
-// })
-
-app.get('/categories', (req,res,next)=>{
-  knex('categories')
-  .select('*')
-  .then(data => {
-    res.send(data);
-  })
-  .catch(err => {
-    console.log('error');
-    next(err);
-  });
 })
 
 app.get('/user-place', (req,res,next)=>{
@@ -140,55 +82,6 @@ app.get('/user-place', (req,res,next)=>{
   });
 })
 
-app.post('/places', (req,res,next)=>{
-  let body = req.body;
-  let addPlaces = {
-    description: body.title,
-    user_id: 1,
-    //^^replace with user_id: req.cookies.sgUserId,
-    lat: body.lat,
-    lng: body.lng,
-    visits_this_month: 1
-  };
-
-  let catId;
-  body.categories.forEach(catObj=>{
-    if (body.category === catObj.category) return catId = catObj.id;
-  })
-  knex.insert(addPlaces)
-  .into('places')
-  .returning('*')
-  .then(response => {
-    let addPlaceCategory = {
-      place_id: response[0].id,
-      category_id: catId
-    }
-    knex.insert(addPlaceCategory)
-    .into('place-category')
-    .then(throwaway=>{
-      response[0].url = '/mapplaces'
-      res.send(response[0]);
-    })
-    .catch(err => {
-      console.log('error in post /place-category', err);
-      next(err);
-    });
-  })
-  .catch(err => {
-    console.log('error in post /places', err);
-    next(err);
-  });
-})
-
-app.get('/fitness', (req, res, next)=>{
-  let fitness = {
-    username: 'Shotgun',
-    currentSteps: 8756,
-    currentGoal: 12500
-  }
-  res.send(fitness)
-})
-
 app.get('/users', (req, res, next)=>{
   knex('users')
   .select('users.id', 'users.fitbitToken')
@@ -202,7 +95,6 @@ app.get('/users', (req, res, next)=>{
 
 app.post('/register', (req,res,next)=>{
   let body = req.body;
-
   bcrypt.hash(body.password, saltRounds, (err, hash)=>{
     knex.insert({
       username: body.username,
@@ -222,7 +114,7 @@ app.post('/register', (req,res,next)=>{
         submissions_remaining: response[0].submissions_remaining
       };
       console.log(`${response[0].username} signed up!`);
-      response[0].url = '/map'
+      response[0].url = '/'
       return res.send(response[0]);
     })
     .catch(function (err) {
@@ -246,8 +138,6 @@ app.post('/login', (req,res,next) => {
       console.log('else if');
       let sgUserId = data[0].id
       console.log(data[0].id);
-      // res.cookie('user_id', data[0].id);
-      // res.cookie('user', data[0].id,{domain:'http://localhost:3000/'});
       delete data[0].hashed_password;
       data[0].url = '/map';
       console.log(`${data[0].username} logged in.`);
