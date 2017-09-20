@@ -13,7 +13,7 @@ import backgroundHero from './landing.background.png'
 const Login = ({match}) => (
   <div className='login-body'>
     <h3>
-    EMPLOYEE ENGAEMENT SOFTWARE
+    EMPLOYEE ENGAGEMENT SOFTWARE
     </h3>
     <Auth />
     <Link to='/signup'>
