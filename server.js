@@ -42,6 +42,11 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/logout',(req,res,next)=>{
+  console.log('req.cookies');
+  res.send('connected')
+})
+
 app.get('/places',(req,res,next)=>{
   let placesArr = [];
   axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=park+in+boulder&key=AIzaSyB-vE7I0CRFBQ2t6uI5IFMc4Du6M-EEDQs`)
@@ -234,16 +239,21 @@ app.post('/login', (req,res,next) => {
   .where('username', username)
   .then((data) => {
     if(data.length === 0){
+      console.log('if');
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
     } else if (bcrypt.compareSync(password, data[0].hashed_password)){
+      console.log('else if');
       let sgUserId = data[0].id
-      res.cookie('sgUserId', sgUserId, {httpOnly: true});
+      console.log(data[0].id);
+      // res.cookie('user_id', data[0].id);
+      // res.cookie('user', data[0].id,{domain:'http://localhost:3000/'});
       delete data[0].hashed_password;
       data[0].url = '/map';
       console.log(`${data[0].username} logged in.`);
       return res.send(data[0]);
     } else {
+      console.log('else');
       res.setHeader('content-type', 'text/plain');
       return res.status(400).send('Bad username or password');
     }

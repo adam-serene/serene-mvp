@@ -1,5 +1,11 @@
 import React from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {
+  Map,
+  InfoWindow,
+  OverlayView,
+  Marker,
+  GoogleApiWrapper,
+} from 'google-maps-react';
 import './styles/Map.css';
 import axios from 'axios';
 

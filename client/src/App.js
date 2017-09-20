@@ -9,6 +9,7 @@ import Leaderboard from './components/Leaderboard';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import logo from './logo.symbol.png'
 import backgroundHero from './landing.background.png'
+import axios from 'axios'
 
 const Login = ({match}) => (
   <div className='login-body'>
@@ -62,6 +63,7 @@ const Login = ({match}) => (
 //   </div>
 // )
 
+
 const LeaderboardComp = () => (
   <MuiThemeProvider >
       <Leaderboard />
@@ -73,6 +75,16 @@ const CheckinComp = () => (
     <NewPlaceForm />
   </MuiThemeProvider>
 )
+
+const logout = () => {
+  document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+  console.log(document.cookie);
+  // axios('http://localhost:5000/logout')
+  //   .then(console.log('loggedout'))
+  //   .catch(error=>{
+  //     console.log(error);
+  //   })
+}
 
 const App = () => (
   <div className='app'>
@@ -86,17 +98,20 @@ const App = () => (
         <Link to='/checkin' className='feature-link'>
           <i className='fa fa-map-marker fa-2x' aria-hidden='true'></i>
         </Link>
-        <Link to='/map' className='feature-link'>
+        <Link to='/' className='feature-link'>
           <i className='fa fa-map-o fa-2x' aria-hidden='true'></i>
         </Link>
         <Link to='/leaderboard' className='feature-link'>
           <i className='fa fa-trophy fa-2x' aria-hidden='true'></i>
         </Link>
+        <Link to='/' className='feature-link' onClick={()=>logout()}>
+          <i className='fa fa-sign-out -o fa-2x' aria-hidden='true'></i>
+        </Link>
       </div>:null}
     </div>
 
     <div className='app-body'  style={{display:'inline-block',width:'100vw'}}>
-      <Route exact path='/' component={Login}/>
+      <Route exact path='/' component={document.cookie?GoogleMap:Login}/>
       <Route path='/map' component={GoogleMap}/>
       <Route path='/leaderboard' component={LeaderboardComp}/>
       <Route path='/signup' component={Signup}/>
