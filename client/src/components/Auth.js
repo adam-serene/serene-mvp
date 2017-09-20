@@ -39,7 +39,7 @@ export default class Auth extends React.Component{
       password:this.state.password,
     }
     this.notify(`Hey, ${this.state.username}. You down? We'll see....`);
-    const response = await fetch('http://localhost:5000/login',
+    const response = await fetch('https://serenegreen.herokuapp.com/login',
     {
       method: 'POST',
       headers: {

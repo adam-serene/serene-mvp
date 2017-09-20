@@ -8,6 +8,7 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
+
 export default class Leaderboard extends Component {
   constructor(props){
     super(props);
