@@ -9,7 +9,6 @@ const bodyParser = require('body-parser');
 const knex = require('./knex');
 const bcrypt = require ('bcrypt');
 const saltRounds = 10;
-const passport = require('./routes/passport.js')
 const port = process.env.PORT || 5000;
 const axios = require('axios');
 
