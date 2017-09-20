@@ -162,7 +162,7 @@ export class MapContainer extends React.Component {
     const responseJson = await response.json()
     placesArr.push(responseJson.park.results, responseJson.campground.results, responseJson.museum.results, responseJson.amusement.results, theSpots)
     this.setState({places: placesArr});
-    console.log(this.state.placesArr);
+    console.log(this.state.places);
   }
 
   render() {
