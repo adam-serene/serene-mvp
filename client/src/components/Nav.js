@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../logo.symbol.png'
 
 export default class Nav extends Component {
@@ -75,7 +75,6 @@ export default class Nav extends Component {
               </i>
             </Link>
           </div>
-
       </div>
     );
   }

@@ -121,7 +121,7 @@ export default class Auth extends Component{
           closeOnClick
           pauseOnHover
         />
-        <img src={logo} style={{height:'20%',width:'20%'}}/>
+        <img src={logo} alt='' style={{height:'20%',width:'20%'}}/>
         {
           this.state.loginView || this.state.signupView
           ?

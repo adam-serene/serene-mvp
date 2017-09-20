@@ -3,7 +3,7 @@ import Auth from './components/Auth';
 import GoogleMap from './components/GoogleMap';
 import Hangouts from './components/Hangouts.js'
 import Leaderboard from './components/Leaderboard';
-import { Link, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import './App.css';
 
 const App = () => (

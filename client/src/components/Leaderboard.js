@@ -46,98 +46,101 @@ export default class Leaderboard extends Component {
     for (var j = 0; j < keyArr.length; j++) {
       leaderboardArr.push(leaderboardObj[keyArr[j]])
     }
-    function bubbleSort(arr) {
-      let done = false,
-          i;
-      while (!done) {
-        done = true;
-        for (i = 1; i < arr.length; i++) {
-          if (arr[i-1].score < arr[i].score) {
-            done = false;
-            [arr[i-1], arr[i]] = [arr[i], arr[i-1]]
-          }
+    leaderboardArr = this.bubbleSort(leaderboardArr)
+    this.setState({stats: leaderboardArr})
+  }
+
+  bubbleSort = (arr) => {
+    let done = false,
+        i;
+    while (!done) {
+      done = true;
+      for (i = 1; i < arr.length; i++) {
+        if (arr[i-1].score < arr[i].score) {
+          done = false;
+          [arr[i-1], arr[i]] = [arr[i], arr[i-1]]
         }
       }
-      return arr;
     }
-    leaderboardArr = bubbleSort(leaderboardArr)
-    this.setState({stats: leaderboardArr})
+    return arr;
   }
 
   render(){
     return(
       <div>
-      {document.cookie?
+      {
+        document.cookie
+        ?
         <div>
-        <Nav />
-        <h1 style={{color:'white',textAlign:'center'}}>Leaderboards</h1>
-        <MuiThemeProvider >
-          <Table
-            className='leaderboard-table'
-          >
-            <TableHeader
-              displaySelectAll={false}
-              adjustForCheckbox={false}
-              className='leaderboard-header'
+          <Nav />
+          <h1 style={{color:'white',textAlign:'center'}}>Leaderboards</h1>
+          <MuiThemeProvider >
+            <Table
+              className='leaderboard-table'
             >
-              <TableRow
-                className='leaderboard-row'
+              <TableHeader
+                displaySelectAll={false}
+                adjustForCheckbox={false}
+                className='leaderboard-header'
               >
-                <TableHeaderColumn
-                  className='leaderboard-col'
-                  style={{
-                    width: '20%',
-                    padding: '2%',
-                  }}
+                <TableRow
+                  className='leaderboard-row'
                 >
-                  RANK
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  className='leaderboard-col'
-                >
-                  NAME
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  className='leaderboard-col'
-                >
-                  # of CHECK INS
-                </TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
+                  <TableHeaderColumn
+                    className='leaderboard-col'
+                    style={{
+                      width: '20%',
+                      padding: '2%',
+                    }}
+                  >
+                    RANK
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className='leaderboard-col'
+                  >
+                    NAME
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className='leaderboard-col'
+                  >
+                    # of CHECK INS
+                  </TableHeaderColumn>
+                </TableRow>
+              </TableHeader>
 
-            <TableBody
-              displayRowCheckbox={false}
-              className='leaderboard-body'
-            >
-              {this.state.stats.map( (row, index) => (
-              <TableRow
-                key={index}
-                className='leaderboard-row'
+              <TableBody
+                displayRowCheckbox={false}
+                className='leaderboard-body'
               >
-                <TableRowColumn
-                  className='leaderboard-col'
-                  style={{
-                    width: '20%',
-                    padding: '2%',
-                  }}
+                {this.state.stats.map( (row, index) => (
+                <TableRow
+                  key={index}
+                  className='leaderboard-row'
                 >
-                  {index+1}
-                </TableRowColumn>
-                <TableRowColumn
-                  className='leaderboard-col'
-                >
-                  {row.user}
-                </TableRowColumn>
-                <TableRowColumn
-                  className='leaderboard-col'
-                >
-                  {row.score}
-                </TableRowColumn>
-              </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </MuiThemeProvider>
+                  <TableRowColumn
+                    className='leaderboard-col'
+                    style={{
+                      width: '20%',
+                      padding: '2%',
+                    }}
+                  >
+                    {index+1}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    className='leaderboard-col'
+                  >
+                    {row.user}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    className='leaderboard-col'
+                  >
+                    {row.score}
+                  </TableRowColumn>
+                </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </MuiThemeProvider>
         </div>
         :
         <Auth />

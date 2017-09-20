@@ -57,9 +57,6 @@ export default class NewPlaceForm extends Component {
       if(this.state.lat>=place.geometry.location.lat-.002 && this.state.lng>=place.geometry.location.lng-.002 && this.state.lng<=place.geometry.location.lng+.002 && this.state.lat<=place.geometry.location.lat+.002){
         return place
       }
-      else {
-        return
-      }
     }))
     this.setState({places: placesArr});
     this.checkAvail()
@@ -74,7 +71,7 @@ export default class NewPlaceForm extends Component {
       place_id: this.state.value,
       user_id: document.cookie.split('=')[1]
     }
-    const response = await fetch('https://serenegreen.herokuapp.com/checkin',
+    await fetch('https://serenegreen.herokuapp.com/checkin',
     {
       method: 'POST',
       headers: {
