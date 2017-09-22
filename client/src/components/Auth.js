@@ -93,6 +93,11 @@ export default class Auth extends Component{
        this._reactInternalInstance._context.router.history.push(pathEnd, null);}, 100);
    }
 
+   handleHome = (pathEnd) => {
+     setTimeout(() => {
+       this._reactInternalInstance._context.router.history.push(pathEnd, null);}, 100);
+   }
+
   handleLoginView = () => {
     let newView = !this.state.loginView
     this.setState({loginView: newView, signupView: false})
@@ -134,6 +139,61 @@ export default class Auth extends Component{
             {
               document.cookie
               ?
+              <div>
+              <button
+                onClick={() => this.handleHome('/hangouts')}
+                style={{
+                  background: 'transparent',
+                  border: 'transparent',
+                }}
+              >
+                <i
+                  className='fa home fa-map-marker fa-2x'
+                  aria-hidden='true'
+                  style={{
+                    color:'white'
+                  }}
+                >
+                </i>
+                <br/>
+                Hangouts
+              </button>
+              <button
+                onClick={() => this.handleHome('/home')}
+                style={{
+                  background: 'transparent',
+                  border: 'transparent',
+                }}
+              >
+                <i
+                  className='fa home fa-map-o fa-2x'
+                  aria-hidden='true'
+                  style={{
+                    color:'white'
+                  }}
+                >
+                </i>
+                <br/>
+                Home
+              </button>
+              <button
+                onClick={() => this.handleHome('/leaderboard')}
+                style={{
+                  background: 'transparent',
+                  border: 'transparent',
+                }}
+              >
+                <i
+                  className='fa fa-trophy fa-2x'
+                  aria-hidden='true'
+                  style={{
+                    color:'white'
+                  }}
+                >
+                </i>
+                <br/>
+                Leaderboard
+              </button>
               <button
                 onClick={() => this.handleResetBrowser('/')}
                 style={{
@@ -152,6 +212,7 @@ export default class Auth extends Component{
                 <br/>
                 Logout
               </button>
+              </div>
               :
               <div style={{padding:'5%'}}>
                 <button
