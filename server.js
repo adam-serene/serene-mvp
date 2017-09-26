@@ -45,7 +45,6 @@ app.get('/places',(req,res,next)=>{
             .then(( museum ) => {
               axios(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=amusement_park+in+boulder&key=AIzaSyB-vE7I0CRFBQ2t6uI5IFMc4Du6M-EEDQs`)
                 .then(( amusement ) => {
-                  console.log(park.data);
                   res.send({
                     park:park.data,
                     campground:campground.data,

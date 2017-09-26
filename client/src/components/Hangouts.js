@@ -57,6 +57,7 @@ export default class NewPlaceForm extends Component {
       if(this.state.lat>=place.geometry.location.lat-.002 && this.state.lng>=place.geometry.location.lng-.002 && this.state.lng<=place.geometry.location.lng+.002 && this.state.lat<=place.geometry.location.lat+.002){
         return place
       }
+      return null
     }))
     this.setState({places: placesArr});
     this.checkAvail()
@@ -87,9 +88,10 @@ export default class NewPlaceForm extends Component {
 
   checkAvail = () => {
     const available = this.state.places.map(innerArr => {
-      if(innerArr.length>0){
+      if(innerArr.length > 0){
         return innerArr
       }
+      return null
     })
     let result = available.length > 0
     this.setState({

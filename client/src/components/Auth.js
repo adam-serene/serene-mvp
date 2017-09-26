@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
+import DatePicker from 'material-ui/DatePicker';
 import logo from '../logo.symbol.png'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import qs from 'qs';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer, toast } from 'react-toastify';
+import moment from 'moment'
 
 export default class Auth extends Component{
   constructor(props) {
    super(props);
    this.state = {
-     birthday: new Date((Date.now()-662695446000)).toUTCString(),
+     birthday: null,
      email: '',
-     full_name: '',
+     fullname: '',
      loginView: false,
      newpassword: '',
      newusername: '',
@@ -31,6 +34,12 @@ export default class Auth extends Component{
      });
    }
 
+   handleChangeBirthday = (a, b) => {
+     if(moment(b).isSameOrBefore(moment().subtract(21, 'years'), 'day')){
+       this.setState({birthday: moment(b).format('YYYY-MM-DD')})
+     }
+   }
+
   notify=(message)=>toast(message);
 
   async handleLoginSubmit(event) {
@@ -39,7 +48,6 @@ export default class Auth extends Component{
       username:this.state.username,
       password:this.state.password,
     }
-    // this.notify(`Hey, ${this.state.username}. You down? We'll see....`);
     const response = await fetch('https://serenegreen.herokuapp.com/login',
     {
       method: 'POST',
@@ -54,11 +62,32 @@ export default class Auth extends Component{
     let pathEnd = data.url;
     document.cookie = `user=${data.id}`;
     setTimeout(()=>{
-      this._reactInternalInstance._context.router.history.push(pathEnd, null);}
-      , 1500);
+      this._reactInternalInstance._context.router.history.push(pathEnd, null);
+    }, 1500);
   }
 
   async handleSignupSubmit(event) {
+    event.preventDefault();
+    if(this.state.birthday === null){
+      this.notify('Sorry you must be atleast 21 years old to enter')
+      return
+    }
+    if(this.state.newusername === ''){
+      this.notify('Please enter a username')
+      return
+    }
+    if(this.state.newpassword === ''){
+      this.notify('Please enter a password')
+      return
+    }
+    if(this.state.fullname === ''){
+      this.notify('Please enter your full name')
+      return
+    }
+    if(this.state.email === ''){
+      this.notify('Please enter an email address')
+      return
+    }
     let reqBody = {
       username:this.state.newusername,
       password:this.state.newpassword,
@@ -66,8 +95,6 @@ export default class Auth extends Component{
       email:this.state.email,
       birthday:this.state.birthday
     }
-    this.notify(`Creating new user: ${this.state.newusername}...`);
-    event.preventDefault();
     const response = await fetch('https://serenegreen.herokuapp.com/register',
     {
       method: 'POST',
@@ -78,7 +105,7 @@ export default class Auth extends Component{
     })
     if (response.status !== 200) return this.notify(`Could not create user: ${this.state.newusername}`);
     const data = await response.json()
-    this.notify(`Righteous. ${data.newusername}, welcome to the fun!`);
+    this.notify(`Righteous! Welcome to the fun ${data.username}!`);
     let pathEnd = data.url;
     document.cookie = `user=${data.id}`;
     setTimeout(()=>{
@@ -114,7 +141,7 @@ export default class Auth extends Component{
         style={{
           textAlign: 'center',
           color: 'white',
-          padding: '10%',
+          padding: '5%',
         }}
       >
         <ToastContainer
@@ -328,6 +355,7 @@ export default class Auth extends Component{
           />
           <form
             onSubmit={this.handleSignupSubmit}
+            style={{width: '145px', margin: 'auto',}}
           >
             <h2>Register</h2>
             <label>Username</label>
@@ -351,7 +379,7 @@ export default class Auth extends Component{
             <label>Full Name</label>
             <p>
               <input
-                name="full_name"
+                name="fullname"
                 type="text"
                 value={this.state.full_name}
                 onChange={this.handleChange}
@@ -367,14 +395,19 @@ export default class Auth extends Component{
               />
             </p>
             <label>Birthday</label>
-            <p>
-              <input
-                name="username"
-                type="text"
-                value={this.state.birthday}
-                onChange={this.handleChange}
+            <MuiThemeProvider >
+              <DatePicker
+                hintText="Enter a birthday"
+                openToYearSelection={true}
+                onChange={this.handleChangeBirthday}
+                inputStyle={{
+                  background: 'white',
+                }}
+                textFieldStyle={{width: '150px', height: '30px'}}
+                underlineStyle={{display: 'none'}}
               />
-            </p>
+            </MuiThemeProvider>
+            <br/>
             <input
             type='submit'
             value='Submit'
